@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "lint-staged": {
+    "*.{ts,js,json,md,yml}": "prettier --write",
     "*.ts": [
       "eslint --fix",
       "jest --bail --findRelatedTests"
