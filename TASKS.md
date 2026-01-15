@@ -1,3 +1,6 @@
+
+Before updating tasks, re evaluate probot, jules and gemini. This seems like an error. 
+
 # Task Backlog
 
 ## 1. Project Setup & Quality Assurance (Strict Guardrails)
@@ -16,9 +19,8 @@
 - [ ] Containerize application with Docker
     - [ ] Refine Dockerfile for production-ready builds.
     - [ ] Set up docker-compose for local development.
-- [ ] Link shared libraries (State, Gemini, Jules, GitHub)
     - [ ] Ensure local `file:` dependencies are correctly resolved in build pipeline.
-
+- [ ] rethink architecture and update all documents including agents.md, tasks.md, constitution.md
 ## 2. Architecture & Data Modeling (Type-Safe & Modular)
 - [ ] Define Domain Entities (Strict Interfaces)
     - [ ] `Candidate` (with strict enums for Status/Role).
