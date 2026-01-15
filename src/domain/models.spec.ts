@@ -1,4 +1,4 @@
-import { Candidate, Episode, Vote } from "./models";
+import { Banishment, Candidate, Episode, Murder, Vote } from "./models";
 import { Role, Status } from "./enums";
 
 describe("Domain Models", () => {
@@ -38,5 +38,22 @@ describe("Domain Models", () => {
       episode: 1,
     };
     expect(vote).toBeDefined();
+  });
+
+  it("should allow creation of a Banishment object", () => {
+    const banishment: Banishment = {
+      banishedId: 1,
+      episode: 1,
+      round: 1,
+    };
+    expect(banishment).toBeDefined();
+  });
+
+  it("should allow creation of a Murder object", () => {
+    const murder: Murder = {
+      murderedId: 2,
+      episode: 1,
+    };
+    expect(murder).toBeDefined();
   });
 });
