@@ -24,11 +24,12 @@ const mockedAxiosInstance = {
 
 // Mock axios.isAxiosError to identify our test error objects
 mockedAxios.isAxiosError.mockImplementation(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (payload: any): payload is any => payload && payload.isAxiosError === true,
 );
 
 // Mock axios.create() to return our mocked instance
-mockedAxios.create.mockReturnValue(mockedAxiosInstance as any);
+mockedAxios.create.mockReturnValue(mockedAxiosInstance as unknown as jest.Mocked<typeof mockedAxios>);
 
 describe('WikipediaFetcher', () => {
   let fetcher: WikipediaFetcher;
