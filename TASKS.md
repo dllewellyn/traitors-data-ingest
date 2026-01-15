@@ -5,11 +5,6 @@
     - [ ] Ensure local `file:` dependencies are correctly resolved in build pipeline.
 
 ## 2. Architecture & Data Modeling (Type-Safe & Modular)
-- [ ] Define Domain Entities (Strict Interfaces)
-    - [ ] `Candidate` (with strict enums for Status/Role).
-    - [ ] `Episode`, `Round`, `Vote`, `Banishment`, `Murder`.
-- [ ] Design CSV Schema
-    - [ ] Define strict column mappings for `candidates.csv`, `votes.csv`, etc.
 - [ ] Implement Utility Layer (Pure Functions)
     - [ ] Data normalizers (dates, names).
     - [ ] Type guards for parsing untrusted external data.
@@ -70,3 +65,10 @@
 - [x] Containerize application with Docker
     - [x] Refine Dockerfile for production-ready builds.
     - [x] Set up docker-compose for local development.
+
+## Architecture & Data Modeling
+- [x] Define Domain Entities (Strict Interfaces)
+    - [x] `Candidate` (with strict enums for Status/Role).
+    - [x] `Episode`, `Round`, `Vote`, `Banishment`, `Murder`.
+- [x] Design CSV Schema
+    - [x] Define strict column mappings for `candidates.csv`, `votes.csv`, etc.
