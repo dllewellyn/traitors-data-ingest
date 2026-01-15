@@ -57,11 +57,6 @@
 - [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
 - [ ] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
 
-## 6. Financial Services & Integrations
-- [ ] Expand Direct Debit filtering for additional high-volume merchants.
-- [ ] Implement manual override/override list for transaction sync filtering.
-- [ ] Implement automated scheduling and alerting for sync failures.
-
 # Completed Work
 
 ## Project Initialization
@@ -76,14 +71,3 @@
     - [x] Install and configure ESLint with strict rules (e.g., no `any`, explicit return types).
     - [x] Install and configure Prettier.
     - [x] Ensure `npm run lint` fails on *any* warning or error.
-- [x] Implement Probot application framework and server endpoints
-    - [x] Set up `src/index.ts` and `src/server.ts`.
-    - [x] Implement core handlers (Enforcer, Strategist).
-    - [x] Implement internal services (Heartbeat, Planner, Troubleshooter).
-
-## Feature: Recurring Direct Debit Ingestion
-- [x] Create feature specifications and BDD tests (`bdd/recurring_direct_debits.feature`)
-- [x] Implement `DirectDebitRepository.list` method for fetching active mandates
-- [x] Implement transaction filtering logic in `MonzoService.syncTransactions` to ignore known merchants
-- [x] Enable recurring sync in `scheduledMonzoSync` by integrating `syncTransactions`
-- [x] Verify implementation with build and integration tests

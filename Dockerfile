@@ -1,12 +1,15 @@
-# Stage 1: Builder
-FROM node:lts-alpine AS builder
+# Stage 1: Development
+FROM node:lts-alpine AS development
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+
+# Stage 2: Builder
+FROM development AS builder
 RUN npm run build
 
-# Stage 2: Production
+# Stage 3: Production
 FROM node:lts-alpine AS production
 WORKDIR /app
 COPY package*.json ./

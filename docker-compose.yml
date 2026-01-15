@@ -1,9 +1,9 @@
 version: '3.8'
 services:
-  app:
+  monolith:
     build:
       context: .
-      target: builder
+      target: development
     volumes:
       - .:/app
       - /app/node_modules
