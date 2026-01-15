@@ -2,7 +2,7 @@
 
 ## 1. Project Setup & Quality Assurance (Strict Guardrails)
 
-- [ ] Configure Strict Linting & Formatting
+- [ ] Configure Strict Linting & Formatting and enforce
     - [ ] Install and configure ESLint with strict rules (e.g., no `any`, explicit return types).
     - [ ] Install and configure Prettier.
     - [ ] Ensure `npm run lint` fails on *any* warning or error.
