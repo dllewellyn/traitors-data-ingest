@@ -5,3 +5,4 @@
 - **2026-01-15**: Explicitly document the status of ongoing objectives in GOALS.md to provide clear visibility into in-progress versus completed scope.
 - **2026-01-15**: Enforce consistent formatting in documentation files, such as ensuring trailing newlines, to maintain clean version control diffs.
 - **2026-01-15**: Avoid committing internal planning notes or scratchpad text to project documentation files like TASKS.md to maintain clarity and focus.
+- **2026-01-15**: Periodically re-evaluate tool integrations (Probot, Jules, Gemini) and architectural strategies before updating task backlogs to ensure they remain valid.
