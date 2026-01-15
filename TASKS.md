@@ -2,17 +2,17 @@
 
 ## 1. Project Setup & Quality Assurance (Strict Guardrails)
 
-- [ ] Set up Testing Infrastructure
-    - [ ] Install Jest or Vitest.
-    - [ ] Configure coverage reporting to fail if global coverage < 90%.
-    - [ ] Set up Playwright for E2E scraper tests.
-- [ ] Configure Git Hooks (Husky + lint-staged)
-    - [ ] Pre-commit: Run Prettier and ESLint.
-    - [ ] Pre-commit: Run unit tests related to changed files.
-    - [ ] Commit-msg: Install `commitlint` to enforce Conventional Commits.
-- [ ] Create GitHub Actions CI Workflow
-    - [ ] Pipeline must run Lint, Build, and Test steps.
-    - [ ] Pipeline must fail if any step fails or coverage is unmet.
+- [x] Set up Testing Infrastructure
+    - [x] Install Jest or Vitest.
+    - [x] Configure coverage reporting to fail if global coverage < 90%.
+    - [x] Set up Playwright for E2E scraper tests.
+- [x] Configure Git Hooks (Husky + lint-staged)
+    - [x] Pre-commit: Run Prettier and ESLint.
+    - [x] Pre-commit: Run unit tests related to changed files.
+    - [x] Commit-msg: Install `commitlint` to enforce Conventional Commits.
+- [x] Create GitHub Actions CI Workflow
+    - [x] Pipeline must run Lint, Build, and Test steps.
+    - [x] Pipeline must fail if any step fails or coverage is unmet.
 - [ ] Containerize application with Docker
     - [ ] Refine Dockerfile for production-ready builds.
     - [ ] Set up docker-compose for local development.
