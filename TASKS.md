@@ -1,6 +1,9 @@
 # Task Backlog
 
 ## 1. Project Setup & Quality Assurance (Strict Guardrails)
+
+Setup 
+
 - [ ] Initialize Node.js/TypeScript project
     - [ ] `npm init`
     - [ ] Configure `tsconfig.json` with `strict: true`, `noImplicitAny: true`, and `noEmitOnError: true`.
