@@ -1,21 +1,6 @@
 # Task Backlog
 
 ## 1. Project Setup & Quality Assurance (Strict Guardrails)
-
-- [x] Set up Testing Infrastructure
-    - [x] Install Jest or Vitest.
-    - [x] Configure coverage reporting to fail if global coverage < 90%.
-    - [x] Set up Playwright for E2E scraper tests.
-- [x] Configure Git Hooks (Husky + lint-staged)
-    - [x] Pre-commit: Run Prettier and ESLint.
-    - [x] Pre-commit: Run unit tests related to changed files.
-    - [x] Commit-msg: Install `commitlint` to enforce Conventional Commits.
-- [x] Create GitHub Actions CI Workflow
-    - [x] Pipeline must run Lint, Build, and Test steps.
-    - [x] Pipeline must fail if any step fails or coverage is unmet.
-- [x] Containerize application with Docker
-    - [x] Refine Dockerfile for production-ready builds.
-    - [x] Set up docker-compose for local development.
 - [ ] Link shared libraries (State, Gemini, Jules, GitHub)
     - [ ] Ensure local `file:` dependencies are correctly resolved in build pipeline.
 
@@ -71,3 +56,17 @@
     - [x] Install and configure ESLint with strict rules (e.g., no `any`, explicit return types).
     - [x] Install and configure Prettier.
     - [x] Ensure `npm run lint` fails on *any* warning or error.
+- [x] Set up Testing Infrastructure
+    - [x] Install Jest or Vitest.
+    - [x] Configure coverage reporting to fail if global coverage < 90%.
+    - [x] Set up Playwright for E2E scraper tests.
+- [x] Configure Git Hooks (Husky + lint-staged)
+    - [x] Pre-commit: Run Prettier and ESLint.
+    - [x] Pre-commit: Run unit tests related to changed files.
+    - [x] Commit-msg: Install `commitlint` to enforce Conventional Commits.
+- [x] Create GitHub Actions CI Workflow
+    - [x] Pipeline must run Lint, Build, and Test steps.
+    - [x] Pipeline must fail if any step fails or coverage is unmet.
+- [x] Containerize application with Docker
+    - [x] Refine Dockerfile for production-ready builds.
+    - [x] Set up docker-compose for local development.
