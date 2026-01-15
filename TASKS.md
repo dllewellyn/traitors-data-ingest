@@ -62,3 +62,4 @@
 
 ## Project Initialization
 - [x] Initialize Repository Documentation (Goals, Tasks, Constitution, Context Map)
+- [x] Update scope description in GOALS.md
