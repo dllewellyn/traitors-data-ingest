@@ -2,18 +2,14 @@
 
 ## 1. Project Setup & Quality Assurance (Strict Guardrails)
 
-- [ ] Configure Strict Linting & Formatting and enforce
-    - [ ] Install and configure ESLint with strict rules (e.g., no `any`, explicit return types).
-    - [ ] Install and configure Prettier.
-    - [ ] Ensure `npm run lint` fails on *any* warning or error.
-- [ ] Configure Git Hooks (Husky + lint-staged)
-    - [ ] Pre-commit: Run Prettier and ESLint.
-    - [ ] Pre-commit: Run unit tests related to changed files.
-    - [ ] Commit-msg: Install `commitlint` to enforce Conventional Commits.
 - [ ] Set up Testing Infrastructure
     - [ ] Install Jest or Vitest.
     - [ ] Configure coverage reporting to fail if global coverage < 90%.
     - [ ] Set up Playwright for E2E scraper tests.
+- [ ] Configure Git Hooks (Husky + lint-staged)
+    - [ ] Pre-commit: Run Prettier and ESLint.
+    - [ ] Pre-commit: Run unit tests related to changed files.
+    - [ ] Commit-msg: Install `commitlint` to enforce Conventional Commits.
 - [ ] Create GitHub Actions CI Workflow
     - [ ] Pipeline must run Lint, Build, and Test steps.
     - [ ] Pipeline must fail if any step fails or coverage is unmet.
@@ -61,6 +57,11 @@
 - [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
 - [ ] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
 
+## 6. Financial Services & Integrations
+- [ ] Expand Direct Debit filtering for additional high-volume merchants.
+- [ ] Implement manual override/override list for transaction sync filtering.
+- [ ] Implement automated scheduling and alerting for sync failures.
+
 # Completed Work
 
 ## Project Initialization
@@ -71,7 +72,18 @@
 - [x] Initialize Node.js/TypeScript project
     - [x] `npm init`
     - [x] Configure `tsconfig.json` with `strict: true`, `noImplicitAny: true`, and `noEmitOnError: true`.
+- [x] Configure Strict Linting & Formatting and enforce
+    - [x] Install and configure ESLint with strict rules (e.g., no `any`, explicit return types).
+    - [x] Install and configure Prettier.
+    - [x] Ensure `npm run lint` fails on *any* warning or error.
 - [x] Implement Probot application framework and server endpoints
     - [x] Set up `src/index.ts` and `src/server.ts`.
     - [x] Implement core handlers (Enforcer, Strategist).
     - [x] Implement internal services (Heartbeat, Planner, Troubleshooter).
+
+## Feature: Recurring Direct Debit Ingestion
+- [x] Create feature specifications and BDD tests (`bdd/recurring_direct_debits.feature`)
+- [x] Implement `DirectDebitRepository.list` method for fetching active mandates
+- [x] Implement transaction filtering logic in `MonzoService.syncTransactions` to ignore known merchants
+- [x] Enable recurring sync in `scheduledMonzoSync` by integrating `syncTransactions`
+- [x] Verify implementation with build and integration tests
