@@ -5,7 +5,7 @@
 - [x] Set up Testing Infrastructure
     - [x] Install Jest or Vitest.
     - [x] Configure coverage reporting to fail if global coverage < 90%.
-    - [ ] Set up Playwright for E2E scraper tests.
+    - [x] Set up Playwright for E2E scraper tests.
 - [x] Configure Git Hooks (Husky + lint-staged)
     - [x] Pre-commit: Run Prettier and ESLint.
     - [x] Pre-commit: Run unit tests related to changed files.
