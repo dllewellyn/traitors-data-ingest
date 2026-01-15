@@ -2,10 +2,10 @@
 
 ## 1. Project Setup & Quality Assurance (Strict Guardrails)
 
-- [ ] Set up Testing Infrastructure
-    - [ ] Install Jest or Vitest.
-    - [ ] Configure coverage reporting to fail if global coverage < 90%.
-    - [ ] Set up Playwright for E2E scraper tests.
+- [x] Set up Testing Infrastructure
+    - [x] Install Jest or Vitest.
+    - [x] Configure coverage reporting to fail if global coverage < 90%.
+    - [x] Set up Playwright for E2E scraper tests.
 - [ ] Configure Git Hooks (Husky + lint-staged)
     - [ ] Pre-commit: Run Prettier and ESLint.
     - [ ] Pre-commit: Run unit tests related to changed files.
