@@ -1,10 +1,12 @@
-
 Before updating tasks, re evaluate probot, jules and gemini. This seems like an error. 
 
 # Task Backlog
 
-## 1. Project Setup & Quality Assurance (Strict Guardrails)
+## 1. Strategic Review & Architecture
+- [ ] Rethink architecture and update all documents including `AGENTS.md`, `TASKS.md`, `CONSTITUTION.md`.
+    - *Context: Re-evaluate dependency on Probot, Jules, and Gemini shared libraries.*
 
+## 2. Project Setup & Quality Assurance (Strict Guardrails)
 - [x] Set up Testing Infrastructure
     - [x] Install Jest or Vitest.
     - [x] Configure coverage reporting to fail if global coverage < 90%.
@@ -20,8 +22,8 @@ Before updating tasks, re evaluate probot, jules and gemini. This seems like an 
     - [ ] Refine Dockerfile for production-ready builds.
     - [ ] Set up docker-compose for local development.
     - [ ] Ensure local `file:` dependencies are correctly resolved in build pipeline.
-- [ ] rethink architecture and update all documents including agents.md, tasks.md, constitution.md
-## 2. Architecture & Data Modeling (Type-Safe & Modular)
+
+## 3. Architecture & Data Modeling (Type-Safe & Modular)
 - [ ] Define Domain Entities (Strict Interfaces)
     - [ ] `Candidate` (with strict enums for Status/Role).
     - [ ] `Episode`, `Round`, `Vote`, `Banishment`, `Murder`.
@@ -31,7 +33,7 @@ Before updating tasks, re evaluate probot, jules and gemini. This seems like an 
     - [ ] Data normalizers (dates, names).
     - [ ] Type guards for parsing untrusted external data.
 
-## 3. Core Scraper Implementation (Robust & Separated)
+## 4. Core Scraper Implementation (Robust & Separated)
 - [ ] Infrastructure Layer
     - [ ] `WikipediaFetcher`: Service for HTTP requests with retry logic and error handling.
     - [ ] `HtmlParser`: Generic interface for parsing HTML (decoupled from fetching).
@@ -40,7 +42,7 @@ Before updating tasks, re evaluate probot, jules and gemini. This seems like an 
 - [ ] Persistence Layer
     - [ ] `CsvWriter`: Service to safely write typed objects to CSV rows.
 
-## 4. Series Implementation
+## 5. Series Implementation
 - [ ] **Series 1**:
     - [ ] Scrape Candidate Table.
     - [ ] Scrape Progress/Voting Table.
@@ -53,13 +55,13 @@ Before updating tasks, re evaluate probot, jules and gemini. This seems like an 
 - [ ] **Series 4**:
     - [ ] Scrape Candidate & Progress Tables.
 
-## 5. Data Aggregation & Final Polish
+## 6. Data Aggregation & Final Polish
 - [ ] Implement `DataMerger` to combine series data into master CSVs.
 - [ ] Build CLI Entrypoint (e.g., `npm run ingest`).
 - [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
 - [ ] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
 
-## 6. Financial Services & Integrations
+## 7. Financial Services & Integrations
 - [ ] Expand Direct Debit filtering for additional high-volume merchants.
 - [ ] Implement manual override/override list for transaction sync filtering.
 - [ ] Implement automated scheduling and alerting for sync failures.
