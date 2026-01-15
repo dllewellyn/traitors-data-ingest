@@ -1,19 +1,3 @@
-I will start by reading the current `TASKS.md` and the configuration files `package.json` and `tsconfig.json` to determine which tasks have been completed and if any new tasks are necessary.
-
-I will list the files in the current directory to verify the existence of `TASKS.md` and then check the last git commit to identify the completed task.
-
-I will use `list_directory` to check for the existence of `TASKS.md` and `list_commits` to identify the most recent changes and the completed task.
-
-I will read `src/index.ts` to understand the current state of the project and verify if it aligns with the tasks listed in the provided `TASKS.md`.
-
-I will read `src/handlers/strategist.ts` to see if it contains any logic related to the tasks in `TASKS.md` and to understand the overall purpose of the current code.
-
-I will read `GOALS.md` to clarify the project's objectives and ensure the `TASKS.md` update accurately reflects the work being done.
-
-I will use `glob` to find all Markdown files in the root directory and gain a better understanding of the project's documentation.
-
-I will read `README.md` to see if it provides any clues about the recently completed task or the overall project status.
-
 # Task Backlog
 
 ## 1. Project Setup & Quality Assurance (Strict Guardrails)
