@@ -19,3 +19,7 @@
 - **2026-01-16**: Wrap external libraries (e.g., HTML parsers) behind domain-specific interfaces and type aliases to decouple the application code from specific implementation details.
 - **2026-01-16**: Implement exponential backoff retry strategies for external network calls to handle transient failures gracefully and avoid overwhelming remote servers.
 - **2026-01-16**: Use custom error classes to wrap low-level infrastructure errors (e.g., network failures), providing semantic meaning to exceptions for better upstream handling.
+- **2026-01-16**: Implement fault-tolerant parsing logic that skips malformed data rows (logging warnings) rather than aborting the entire process, ensuring maximum data recovery.
+- **2026-01-16**: Locate HTML tables relative to semantic headings (e.g., finding an `h2` and selecting the next `table`) to improve resilience against minor layout changes compared to absolute CSS selectors.
+- **2026-01-16**: When a dedicated logging infrastructure is missing, use standard console methods with explicit linting suppressions (`eslint-disable-next-line no-console`) to maintain visibility into non-fatal errors during development.
+- **2026-01-16**: Define generic interfaces (e.g., `TableParser<T>`) for common parsing operations to promote consistency and interchangeability of implementations.
