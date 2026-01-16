@@ -11,3 +11,5 @@
 - **2026-01-15**: When modeling entities with temporal state changes, encapsulate state history within the entity (e.g., `roundStates`) to enable historical analysis.
 - **2026-01-16**: Implement comprehensive type guards for parsing and validating untrusted external data, ensuring data integrity and system stability.
 - **2026-01-16**: Thoroughly test utility functions, especially type guards, to guarantee their correctness and robustness across various data types and edge cases.
+- **2026-01-16**: Develop dedicated, well-tested utility functions for common data transformations (e.g., normalization) to ensure data consistency and reduce redundancy across the codebase.
+- **2026-01-16**: Implement robust data normalization logic to handle variations in input data, such as removing extraneous information (e.g., annotations like '[a]', '[b]' from names) and standardizing formats (e.g., ISO 8601 for dates).
