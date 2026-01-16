@@ -17,7 +17,7 @@ export class CsvWriter {
   public async write<T extends object>(
     data: T[],
     filePath: string,
-    headers?: (keyof T)[],
+    headers?: (keyof T)[]
   ): Promise<void> {
     if (data.length === 0) {
       await fs.writeFile(filePath, "");

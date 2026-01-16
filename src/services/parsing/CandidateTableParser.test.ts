@@ -79,7 +79,7 @@ describe("CandidateTableParser", () => {
     `;
 
     expect(() => parser.parse(html)).toThrow(
-      "Could not find the 'Contestants' table.",
+      "Could not find the 'Contestants' table."
     );
   });
 
@@ -128,13 +128,13 @@ describe("CandidateTableParser", () => {
 
     expect(consoleWarnSpy).toHaveBeenCalledTimes(3);
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "Skipping row 1: Expected at least 4 cells, but found 0.",
+      "Skipping row 1: Expected at least 4 cells, but found 0."
     );
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      'Skipping row 3: Failed validation. Name: "Meryl Williams", Age: "invalid age".',
+      'Skipping row 3: Failed validation. Name: "Meryl Williams", Age: "invalid age".'
     );
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      'Skipping row 4: Failed validation. Name: "", Age: "28".',
+      'Skipping row 4: Failed validation. Name: "", Age: "28".'
     );
 
     consoleWarnSpy.mockRestore();
