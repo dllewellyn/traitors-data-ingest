@@ -9,7 +9,9 @@ describe("CandidateTableParser", () => {
 
   beforeEach(() => {
     parser = new CandidateTableParser(new HtmlParser());
-    consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+    consoleWarnSpy = jest
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
   });
 
   afterEach(() => {

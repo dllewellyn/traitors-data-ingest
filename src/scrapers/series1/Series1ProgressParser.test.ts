@@ -5,7 +5,9 @@ describe("Series1ProgressParser", () => {
   let consoleWarnSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+    consoleWarnSpy = jest
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
   });
 
   afterEach(() => {
