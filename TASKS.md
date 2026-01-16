@@ -7,7 +7,7 @@
 ## 2. Architecture & Data Modeling (Type-Safe & Modular)
 - [ ] Implement Utility Layer (Pure Functions)
     - [ ] Data normalizers (dates, names).
-    - [ ] Type guards for parsing untrusted external data.
+    - [x] Type guards for parsing untrusted external data.
 
 ## 3. Core Scraper Implementation (Robust & Separated)
 - [ ] Infrastructure Layer
