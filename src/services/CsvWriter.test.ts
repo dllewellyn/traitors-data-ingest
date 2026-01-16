@@ -1,6 +1,7 @@
-import { CsvWriter } from "./CsvWriter";
 import { promises as fs } from "fs";
 import * as path from "path";
+
+import { CsvWriter } from "./CsvWriter";
 
 describe("CsvWriter", () => {
   const outputDir = path.join(__dirname, "test-output");

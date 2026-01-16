@@ -1,6 +1,7 @@
-import { stringify } from "csv-stringify/sync";
 import { promises as fs } from "fs";
 import * as path from "path";
+
+import { stringify } from "csv-stringify/sync";
 
 /**
  * A service for writing data to CSV files.
