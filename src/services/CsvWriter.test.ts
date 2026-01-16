@@ -42,9 +42,9 @@ describe("CsvWriter", () => {
     const filePath = path.join(outputDir, "special-chars.csv");
     const data = [
       {
-        field1: 'value with, a comma',
+        field1: "value with, a comma",
         field2: 'value with "a quote"',
-        field3: 'value with\na newline',
+        field3: "value with\na newline",
       },
     ];
 
@@ -52,7 +52,7 @@ describe("CsvWriter", () => {
 
     const content = await fs.readFile(filePath, "utf-8");
     const expected =
-      'field1,field2,field3\n' +
+      "field1,field2,field3\n" +
       '"value with, a comma","value with ""a quote""","value with\na newline"\n';
     expect(content).toBe(expected);
   });

@@ -33,3 +33,29 @@ export const normalizeDate = (dateStr: string): string => {
     return "";
   }
 };
+
+/**
+ * Normalizes a game status string from the Game History table.
+ *
+ * @param status - The raw status string.
+ * @returns The normalized status string.
+ */
+export const normalizeGameStatus = (status: string): string => {
+  if (!status) {
+    return "";
+  }
+  // Remove references like [a], [1] and trim
+  const clean = status.replace(/\[.*?\]/g, "").trim();
+
+  if (/^safe/i.test(clean)) return "Safe";
+  if (/^banished/i.test(clean)) return "Banished";
+  if (/^murdered/i.test(clean)) return "Murdered";
+  if (/^traitor/i.test(clean)) return "Traitor";
+  if (/^faithful/i.test(clean)) return "Faithful";
+  if (/^winner/i.test(clean)) return "Winner";
+  if (/^runner-up/i.test(clean)) return "RunnerUp";
+  if (/^eliminated/i.test(clean)) return "Banished"; // Treat eliminated as banished
+  if (/^no\s*vote/i.test(clean)) return "Safe"; // No vote means they were present/safe
+
+  return clean;
+};

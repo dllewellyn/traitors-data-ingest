@@ -25,9 +25,9 @@ export class CandidateTableParser implements TableParser<Candidate> {
         // A proper logger isn't yet available. Console is used for now to provide visibility into recoverable parsing errors.
         // eslint-disable-next-line no-console
         console.warn(
-          `Skipping row ${
-            index + 1
-          }: Expected at least 4 cells, but found ${cells.length}.`,
+          `Skipping row ${index + 1}: Expected at least 4 cells, but found ${
+            cells.length
+          }.`
         );
         return;
       }
@@ -45,7 +45,7 @@ export class CandidateTableParser implements TableParser<Candidate> {
         console.warn(
           `Skipping row ${
             index + 1
-          }: Failed validation. Name: "${name}", Age: "${ageText}".`,
+          }: Failed validation. Name: "${name}", Age: "${ageText}".`
         );
         return;
       }
