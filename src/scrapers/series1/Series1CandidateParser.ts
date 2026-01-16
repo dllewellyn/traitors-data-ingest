@@ -43,9 +43,21 @@ export class Series1CandidateParser implements TableParser<Candidate> {
         const affiliationText = $(columns[4]).text().trim();
         const finishText = $(columns[5]).text().trim();
 
+        let originalRole: Role;
+        if (affiliationText === "Traitor") {
+          originalRole = Role.Traitor;
+        } else if (affiliationText === "Faithful") {
+          originalRole = Role.Faithful;
+        } else {
+          console.warn(`Skipping row with unknown role: ${affiliationText}`);
+          return;
+        }
+
         const parsedFinish = parseFinishText(finishText);
-        const originalRole =
-          affiliationText === "Traitor" ? Role.Traitor : Role.Faithful;
+        if (!parsedFinish && finishText) {
+          console.warn(`Skipping row with unhandled status: ${finishText}`);
+          return;
+        }
 
         const roundStates: RoundState[] = [];
         if (parsedFinish) {

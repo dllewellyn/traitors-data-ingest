@@ -192,4 +192,72 @@ describe("Series1CandidateParser", () => {
 
     expect(result).toHaveLength(0);
   });
+
+  it("should skip a row with an unknown role", () => {
+    const html = `
+      <html>
+        <body>
+          <h2><span id="Contestants">Contestants</span></h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>Contestant</th>
+                <th>Age</th>
+                <th>Residence</th>
+                <th>Occupation</th>
+                <th>Affiliation</th>
+                <th>Finish</th>
+              </tr>
+              <tr>
+                <td>Bad Data</td>
+                <td>30</td>
+                <td>Someplace</td>
+                <td>Some Job</td>
+                <td>Unknown Role</td>
+                <td>Banished (Episode 1)</td>
+              </tr>
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `;
+
+    const result = parser.parse(html);
+
+    expect(result).toHaveLength(0);
+  });
+
+  it("should skip a row with an unhandled status", () => {
+    const html = `
+      <html>
+        <body>
+          <h2><span id="Contestants">Contestants</span></h2>
+          <table>
+            <tbody>
+              <tr>
+                <th>Contestant</th>
+                <th>Age</th>
+                <th>Residence</th>
+                <th>Occupation</th>
+                <th>Affiliation</th>
+                <th>Finish</th>
+              </tr>
+              <tr>
+                <td>More Bad Data</td>
+                <td>40</td>
+                <td>Another Place</td>
+                <td>Another Job</td>
+                <td>Faithful</td>
+                <td>Withdrew (Episode 2)</td>
+              </tr>
+            </tbody>
+          </table>
+        </body>
+      </html>
+    `;
+
+    const result = parser.parse(html);
+
+    expect(result).toHaveLength(0);
+  });
 });
