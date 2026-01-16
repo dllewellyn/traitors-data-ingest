@@ -8,8 +8,12 @@ export const normalizeName = (name: string): string => {
   if (!name) {
     return "";
   }
-  // Remove annotations like [a], [b], etc., and trim whitespace.
-  return name.replace(/\[[a-z]\]/g, "").trim();
+  // Remove annotations like [a], [b], etc., nicknames in quotes, and trim whitespace.
+  return name
+    .replace(/\[[a-z]\]/g, "")
+    .replace(/"[^"]*"/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
 };
 
 /**
