@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "lint": "eslint --ext .ts",
+    "lint": "eslint . --ext .ts",
     "prebuild": "node scripts/build-packages.js",
     "build": "tsc",
     "e2e": "playwright test",
@@ -51,6 +51,7 @@
     "@gcp-adl/state": "file:packages/state",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
+    "domhandler": "^5.0.3",
     "express": "^5.2.1"
   }
 }

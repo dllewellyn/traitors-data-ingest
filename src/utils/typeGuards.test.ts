@@ -112,7 +112,7 @@ describe("Domain Entity Type Guards", () => {
     it("should return false for an invalid RoundState", () => {
       expect(isRoundState({ ...validRoundState, episode: "1" })).toBe(false);
       expect(isRoundState({ ...validRoundState, role: "NotARole" })).toBe(
-        false,
+        false
       );
     });
   });
@@ -125,9 +125,7 @@ describe("Domain Entity Type Guards", () => {
       job: "Tester",
       location: "Testville",
       originalRole: Role.Faithful,
-      roundStates: [
-        { episode: 1, role: Role.Faithful, status: Status.Active },
-      ],
+      roundStates: [{ episode: 1, role: Role.Faithful, status: Status.Active }],
     };
     it("should return true for a valid Candidate", () => {
       expect(isCandidate(validCandidate)).toBe(true);
@@ -178,9 +176,7 @@ describe("Domain Entity Type Guards", () => {
       expect(isBanishment(validBanishment)).toBe(true);
     });
     it("should return false for an invalid Banishment", () => {
-      expect(isBanishment({ ...validBanishment, banishedId: "1" })).toBe(
-        false,
-      );
+      expect(isBanishment({ ...validBanishment, banishedId: "1" })).toBe(false);
     });
   });
 

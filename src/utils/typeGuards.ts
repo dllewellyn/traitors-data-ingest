@@ -41,7 +41,7 @@ export const isBoolean = (value: unknown): value is boolean =>
  */
 export const isArrayOf = <T>(
   arr: unknown,
-  guard: (item: unknown) => item is T,
+  guard: (item: unknown) => item is T
 ): arr is T[] => Array.isArray(arr) && arr.every(guard);
 
 /**
