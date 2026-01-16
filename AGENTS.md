@@ -27,3 +27,7 @@
 - **2026-01-16**: When implementing file writers, always ensure the target directory exists (`fs.mkdir({ recursive: true })`) before attempting to write to avoid `ENOENT` errors.
 - **2026-01-16**: Verify file system operations with integration tests that cover edge cases like deep directory structures, empty datasets, and special character escaping.
 - **2026-01-16**: Isolate file system tests by using dedicated temporary directories and ensuring cleanup (`fs.rm({ recursive: true, force: true })`) to prevent state leakage.
+- **2026-01-16**: Utilize regular expressions with non-greedy captures and optional groups to robustly extract structured data from composite strings.
+- **2026-01-16**: Design parsing utilities to return `null` for unparseable inputs instead of throwing exceptions, forcing the consumer to explicitly handle invalid data.
+- **2026-01-16**: Provide safe default values (e.g., `0`) when parsing optional numeric fields to maintain type safety when source data is missing.
+- **2026-01-16**: Use explicit linting suppressions (`@typescript-eslint/no-explicit-any`) in tests when verifying runtime resilience against invalid types.
