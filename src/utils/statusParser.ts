@@ -1,12 +1,21 @@
 import { Status } from "../domain/enums";
-import { RoundState } from "../domain/models";
 
 /**
- * Parses the "Finish" text from the Wikipedia table into a RoundState object.
- * @param finishText The text to parse (e.g., "Murdered (Episode 2)").
- * @returns A RoundState object or null if the text cannot be parsed.
+ * Represents the parsed result from the "Finish" text.
  */
-export const parseFinishText = (finishText: string): RoundState | null => {
+export interface ParsedFinishText {
+  status: Status;
+  episode: number;
+}
+
+/**
+ * Parses the "Finish" text from the Wikipedia table.
+ * @param finishText The text to parse (e.g., "Murdered (Episode 2)").
+ * @returns A ParsedFinishText object or null if the text cannot be parsed.
+ */
+export const parseFinishText = (
+  finishText: string
+): ParsedFinishText | null => {
   if (!finishText) {
     return null;
   }
@@ -34,11 +43,8 @@ export const parseFinishText = (finishText: string): RoundState | null => {
       return null;
   }
 
-  // The role is not available in the finish text, so we'll have to handle it later.
-  // For now, we'll leave it as a placeholder.
   return {
     episode,
     status,
-    role: null as any,
   };
 };

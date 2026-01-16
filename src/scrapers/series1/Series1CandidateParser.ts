@@ -35,12 +35,16 @@ export class Series1CandidateParser implements TableParser<Candidate> {
         const affiliationText = $(columns[4]).text().trim();
         const finishText = $(columns[5]).text().trim();
 
-        const roundState = parseFinishText(finishText);
+        const parsedFinish = parseFinishText(finishText);
         const originalRole =
           affiliationText === "Traitor" ? Role.Traitor : Role.Faithful;
 
-        if (roundState) {
-          roundState.role = originalRole;
+        const roundStates = [];
+        if (parsedFinish) {
+          roundStates.push({
+            ...parsedFinish,
+            role: originalRole,
+          });
         }
 
         candidates.push({
@@ -50,7 +54,7 @@ export class Series1CandidateParser implements TableParser<Candidate> {
           job: occupation,
           location: hometown,
           originalRole,
-          roundStates: roundState ? [roundState] : [],
+          roundStates,
         });
       });
 
