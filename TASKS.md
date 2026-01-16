@@ -1,10 +1,6 @@
 # Task Backlog
 
-## 1. Core Scraper Implementation (Robust & Separated)
-- [x] Persistence Layer
-    - [x] `CsvWriter`: Service to safely write typed objects to CSV rows.
-
-## 2. Series Implementation
+## 1. Series Implementation
 - [ ] **Series 1**:
     - [ ] Scrape Candidate Table.
     - [ ] Scrape Progress/Voting Table.
@@ -17,7 +13,7 @@
 - [ ] **Series 4**:
     - [ ] Scrape Candidate & Progress Tables.
 
-## 3. Data Aggregation & Final Polish
+## 2. Data Aggregation & Final Polish
 - [ ] Implement `DataMerger` to combine series data into master CSVs.
 - [ ] Build CLI Entrypoint (e.g., `npm run ingest`).
 - [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
@@ -70,3 +66,5 @@
     - [x] `HtmlParser`: Generic interface for parsing HTML (decoupled from fetching).
 - [x] Logic Layer
     - [x] `TableParser`: Strategy pattern for extracting data from different table structures.
+- [x] Persistence Layer
+    - [x] `CsvWriter`: Service to safely write typed objects to CSV rows.
