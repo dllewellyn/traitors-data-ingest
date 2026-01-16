@@ -49,7 +49,7 @@ describe("statusParser", () => {
 
   it("should return null for empty or invalid input", () => {
     expect(parseFinishText("")).toBeNull();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- This is a deliberate test case for null input
     expect(parseFinishText(null as any)).toBeNull();
     expect(parseFinishText("Invalid Text")).toBeNull();
   });
