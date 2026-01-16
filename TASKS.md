@@ -1,8 +1,6 @@
 # Task Backlog
 
 ## 1. Core Scraper Implementation (Robust & Separated)
-- [ ] Logic Layer
-    - [ ] `TableParser`: Strategy pattern for extracting data from different table structures.
 - [ ] Persistence Layer
     - [ ] `CsvWriter`: Service to safely write typed objects to CSV rows.
 
@@ -70,3 +68,5 @@
 - [x] Infrastructure Layer
     - [x] `WikipediaFetcher`: Service for HTTP requests with retry logic and error handling.
     - [x] `HtmlParser`: Generic interface for parsing HTML (decoupled from fetching).
+- [x] Logic Layer
+    - [x] `TableParser`: Strategy pattern for extracting data from different table structures.
