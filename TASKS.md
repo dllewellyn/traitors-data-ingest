@@ -2,7 +2,6 @@
 
 ## 1. Series Implementation
 - [ ] **Series 1**:
-    - [ ] Scrape Candidate Table.
     - [ ] Scrape Progress/Voting Table.
     - [ ] Integration Test: Verify S1 output matches expected snapshot.
 - [ ] **Series 2**:
@@ -68,3 +67,6 @@
     - [x] `TableParser`: Strategy pattern for extracting data from different table structures.
 - [x] Persistence Layer
     - [x] `CsvWriter`: Service to safely write typed objects to CSV rows.
+
+## Series 1 Implementation
+- [x] Scrape Candidate Table.
