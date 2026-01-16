@@ -1,6 +1,6 @@
-import { HtmlParser } from './HtmlParser';
+import { HtmlParser } from "./HtmlParser";
 
-describe('HtmlParser', () => {
+describe("HtmlParser", () => {
   const html = `
     <html>
       <head>
@@ -20,51 +20,51 @@ describe('HtmlParser', () => {
     </html>
   `;
 
-  it('should parse HTML and find elements by ID', () => {
+  it("should parse HTML and find elements by ID", () => {
     const parser = new HtmlParser();
     const doc = parser.parse(html);
-    const mainDiv = doc('#main');
+    const mainDiv = doc("#main");
 
     expect(mainDiv).toHaveLength(1);
-    expect(mainDiv.text()).toContain('First paragraph');
+    expect(mainDiv.text()).toContain("First paragraph");
   });
 
-  it('should parse HTML and find elements by class', () => {
+  it("should parse HTML and find elements by class", () => {
     const parser = new HtmlParser();
     const doc = parser.parse(html);
-    const paragraphs = doc('.content');
+    const paragraphs = doc(".content");
 
     expect(paragraphs).toHaveLength(2);
-    expect(paragraphs.first().text()).toBe('First paragraph');
-    expect(paragraphs.last().text()).toBe('Second paragraph');
+    expect(paragraphs.first().text()).toBe("First paragraph");
+    expect(paragraphs.last().text()).toBe("Second paragraph");
   });
 
-  it('should parse HTML and find elements by tag', () => {
+  it("should parse HTML and find elements by tag", () => {
     const parser = new HtmlParser();
     const doc = parser.parse(html);
-    const listItems = doc('li');
+    const listItems = doc("li");
 
     expect(listItems).toHaveLength(2);
-    expect(listItems.first().text()).toBe('Item 1');
+    expect(listItems.first().text()).toBe("Item 1");
   });
 
-  it('should handle malformed HTML without crashing', () => {
+  it("should handle malformed HTML without crashing", () => {
     const parser = new HtmlParser();
-    const malformedHtml = '<div><p>Unclosed paragraph';
+    const malformedHtml = "<div><p>Unclosed paragraph";
 
     expect(() => parser.parse(malformedHtml)).not.toThrow();
 
     const doc = parser.parse(malformedHtml);
-    const p = doc('p');
+    const p = doc("p");
     expect(p).toHaveLength(1);
-    expect(p.text()).toBe('Unclosed paragraph');
+    expect(p.text()).toBe("Unclosed paragraph");
   });
 
-  it('should return an attribute of an element', () => {
+  it("should return an attribute of an element", () => {
     const parser = new HtmlParser();
     const doc = parser.parse(html);
-    const mainDiv = doc('#main');
+    const mainDiv = doc("#main");
 
-    expect(mainDiv.attr('id')).toBe('main');
+    expect(mainDiv.attr("id")).toBe("main");
   });
 });
