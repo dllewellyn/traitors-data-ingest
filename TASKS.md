@@ -7,7 +7,6 @@
 ## 2. Architecture & Data Modeling (Type-Safe & Modular)
 - [ ] Implement Utility Layer (Pure Functions)
     - [ ] Data normalizers (dates, names).
-    - [x] Type guards for parsing untrusted external data.
 
 ## 3. Core Scraper Implementation (Robust & Separated)
 - [ ] Infrastructure Layer
@@ -43,32 +42,37 @@
 - [x] Initialize Repository Documentation (Goals, Tasks, Constitution, Context Map)
 - [x] Update scope description in GOALS.md
 
-## Setup
-- [x] Initialize Node.js/TypeScript project
-    - [x] `npm init`
-    - [x] Configure `tsconfig.json` with `strict: true`, `noImplicitAny: true`, and `noEmitOnError: true`.
-- [x] Configure Strict Linting & Formatting and enforce
-    - [x] Install and configure ESLint with strict rules (e.g., no `any`, explicit return types).
+<h2>Setup</h2>
+<ul>
+<li>[x] Initialize Node.js/TypeScript project
+    - [x] <code>npm init</code>
+    - [x] Configure <code>tsconfig.json</code> with <code>strict: true</code>, <code>noImplicitAny: true</code>, and <code>noEmitOnError: true</code>.</li>
+<li>[x] Configure Strict Linting &amp; Formatting and enforce
+    - [x] Install and configure ESLint with strict rules (e.g., no <code>any</code>, explicit return types).
     - [x] Install and configure Prettier.
-    - [x] Ensure `npm run lint` fails on *any* warning or error.
-- [x] Set up Testing Infrastructure
+    - [x] Ensure <code>npm run lint</code> fails on <em>any</em> warning or error.</li>
+<li>[x] Set up Testing Infrastructure
     - [x] Install Jest or Vitest.
-    - [x] Configure coverage reporting to fail if global coverage < 90%.
-    - [x] Set up Playwright for E2E scraper tests.
-- [x] Configure Git Hooks (Husky + lint-staged)
+    - [x] Configure coverage reporting to fail if global coverage &lt; 90%.
+    - [x] Set up Playwright for E2E scraper tests.</li>
+<li>[x] Configure Git Hooks (Husky + lint-staged)
     - [x] Pre-commit: Run Prettier and ESLint.
     - [x] Pre-commit: Run unit tests related to changed files.
-    - [x] Commit-msg: Install `commitlint` to enforce Conventional Commits.
-- [x] Create GitHub Actions CI Workflow
+    - [x] Commit-msg: Install <code>commitlint</code> to enforce Conventional Commits.</li>
+<li>[x] Create GitHub Actions CI Workflow
     - [x] Pipeline must run Lint, Build, and Test steps.
-    - [x] Pipeline must fail if any step fails or coverage is unmet.
-- [x] Containerize application with Docker
+    - [x] Pipeline must fail if any step fails or coverage is unmet.</li>
+<li>[x] Containerize application with Docker
     - [x] Refine Dockerfile for production-ready builds.
-    - [x] Set up docker-compose for local development.
-
-## Architecture & Data Modeling
-- [x] Define Domain Entities (Strict Interfaces)
-    - [x] `Candidate` (with strict enums for Status/Role).
-    - [x] `Episode`, `Round`, `Vote`, `Banishment`, `Murder`.
-- [x] Design CSV Schema
-    - [x] Define strict column mappings for `candidates.csv`, `votes.csv`, etc.
+    - [x] Set up docker-compose for local development.</li>
+</ul>
+<h2>Architecture &amp; Data Modeling</h2>
+<ul>
+<li>[x] Define Domain Entities (Strict Interfaces)
+    - [x] <code>Candidate</code> (with strict enums for Status/Role).
+    - [x] <code>Episode</code>, <code>Round</code>, <code>Vote</code>, <code>Banishment</code>, <code>Murder</code>.</li>
+<li>[x] Design CSV Schema
+    - [x] Define strict column mappings for <code>candidates.csv</code>, <code>votes.csv</code>, etc.</li>
+<li>[x] Implement Utility Layer (Pure Functions)
+    - [x] Type guards for parsing untrusted external data.</li>
+</ul>
