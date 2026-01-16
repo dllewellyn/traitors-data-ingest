@@ -2,6 +2,15 @@ import { Series1ProgressParser } from "./Series1ProgressParser";
 
 describe("Series1ProgressParser", () => {
   const parser = new Series1ProgressParser();
+  let consoleWarnSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    consoleWarnSpy.mockRestore();
+  });
 
   it("should parse the Elimination history table correctly with rowspans", () => {
     const html = `

@@ -3,6 +3,17 @@ import { Role } from "../../domain/enums";
 
 describe("Series1CandidateParser", () => {
   const parser = new Series1CandidateParser();
+  let consoleWarnSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    consoleWarnSpy = jest
+      .spyOn(console, "warn")
+      .mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    consoleWarnSpy.mockRestore();
+  });
 
   it("should parse a standard row correctly", () => {
     const html = `

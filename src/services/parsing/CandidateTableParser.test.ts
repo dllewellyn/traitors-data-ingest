@@ -5,9 +5,15 @@ import { Role } from "../../domain/enums";
 
 describe("CandidateTableParser", () => {
   let parser: CandidateTableParser;
+  let consoleWarnSpy: jest.SpyInstance;
 
   beforeEach(() => {
     parser = new CandidateTableParser(new HtmlParser());
+    consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    consoleWarnSpy.mockRestore();
   });
 
   it("should parse a table of contestants and return an array of candidates", () => {
@@ -84,10 +90,6 @@ describe("CandidateTableParser", () => {
   });
 
   it("should handle malformed rows gracefully and log a warning", () => {
-    const consoleWarnSpy = jest
-      .spyOn(console, "warn")
-      .mockImplementation(() => undefined);
-
     const html = `
       <div>
         <h2>Contestants</h2>
@@ -136,7 +138,5 @@ describe("CandidateTableParser", () => {
     expect(consoleWarnSpy).toHaveBeenCalledWith(
       'Skipping row 4: Failed validation. Name: "", Age: "28".'
     );
-
-    consoleWarnSpy.mockRestore();
   });
 });
