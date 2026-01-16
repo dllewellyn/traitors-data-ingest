@@ -5,9 +5,7 @@ describe("Series1ProgressParser", () => {
   let consoleWarnSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    consoleWarnSpy = jest
-      .spyOn(console, "warn")
-      .mockImplementation(() => undefined);
+    consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => undefined);
   });
 
   afterEach(() => {
@@ -149,5 +147,37 @@ describe("Series1ProgressParser", () => {
       2: "Murdered",
       3: "Murdered",
     });
+  });
+
+  it("should return empty array and warn if table not found", () => {
+    const html = "<html><body></body></html>";
+    const result = parser.parse(html);
+    expect(result).toEqual([]);
+    expect(consoleWarnSpy).toHaveBeenCalledWith("Could not find the Elimination history table.");
+  });
+
+  it("should return empty array and warn if episode headers not found", () => {
+     const html = `
+            <html>
+                <body>
+                    <h2><span id="Elimination_history">Elimination history</span></h2>
+                    <table>
+                        <tbody>
+                             <tr>
+                                <th>Not Episode</th>
+                                <th>A</th>
+                            </tr>
+                            <tr>
+                                <th scope="row">Alice</th>
+                                <td>Safe</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </body>
+            </html>
+        `;
+    const result = parser.parse(html);
+    expect(result).toEqual([]);
+    expect(consoleWarnSpy).toHaveBeenCalledWith("Could not find episode headers.");
   });
 });
