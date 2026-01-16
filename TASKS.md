@@ -6,7 +6,6 @@
 
 ## 2. Architecture & Data Modeling (Type-Safe & Modular)
 - [ ] Implement Utility Layer (Pure Functions)
-    - [ ] Data normalizers (dates, names).
 
 ## 3. Core Scraper Implementation (Robust & Separated)
 - [ ] Infrastructure Layer
@@ -74,5 +73,6 @@
 <li>[x] Design CSV Schema
     - [x] Define strict column mappings for <code>candidates.csv</code>, <code>votes.csv</code>, etc.</li>
 <li>[x] Implement Utility Layer (Pure Functions)
-    - [x] Type guards for parsing untrusted external data.</li>
+    - [x] Type guards for parsing untrusted external data.
+    - [x] Data normalizers (dates, names).</li>
 </ul>
