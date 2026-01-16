@@ -16,3 +16,6 @@
 - **2026-01-16**: Structure the project as a monorepo with local packages linked via `file:` protocol to enforce modularity and separation of concerns.
 - **2026-01-16**: Automate the build process for local packages using a custom script invoked via the `prebuild` hook to ensure dependencies are compiled before the main application.
 - **2026-01-16**: Verify the integration of local packages using dedicated test suites to ensure correct dependency resolution and module exports.
+- **2026-01-16**: Wrap external libraries (e.g., HTML parsers) behind domain-specific interfaces and type aliases to decouple the application code from specific implementation details.
+- **2026-01-16**: Implement exponential backoff retry strategies for external network calls to handle transient failures gracefully and avoid overwhelming remote servers.
+- **2026-01-16**: Use custom error classes to wrap low-level infrastructure errors (e.g., network failures), providing semantic meaning to exceptions for better upstream handling.
