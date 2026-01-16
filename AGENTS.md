@@ -23,3 +23,7 @@
 - **2026-01-16**: Locate HTML tables relative to semantic headings (e.g., finding an `h2` and selecting the next `table`) to improve resilience against minor layout changes compared to absolute CSS selectors.
 - **2026-01-16**: When a dedicated logging infrastructure is missing, use standard console methods with explicit linting suppressions (`eslint-disable-next-line no-console`) to maintain visibility into non-fatal errors during development.
 - **2026-01-16**: Define generic interfaces (e.g., `TableParser<T>`) for common parsing operations to promote consistency and interchangeability of implementations.
+- **2026-01-16**: Utilize `csv-stringify` for robust CSV generation, ensuring proper handling of special characters (quotes, newlines) and header management.
+- **2026-01-16**: When implementing file writers, always ensure the target directory exists (`fs.mkdir({ recursive: true })`) before attempting to write to avoid `ENOENT` errors.
+- **2026-01-16**: Verify file system operations with integration tests that cover edge cases like deep directory structures, empty datasets, and special character escaping.
+- **2026-01-16**: Isolate file system tests by using dedicated temporary directories and ensuring cleanup (`fs.rm({ recursive: true, force: true })`) to prevent state leakage.
