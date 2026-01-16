@@ -1,1 +1,1 @@
-export const gemini = 'gemini';
+export const gemini = "gemini";

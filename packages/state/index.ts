@@ -1,1 +1,1 @@
-export const state = 'state';
+export const state = "state";

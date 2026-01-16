@@ -6,10 +6,10 @@
  */
 export const normalizeName = (name: string): string => {
   if (!name) {
-    return '';
+    return "";
   }
   // Remove annotations like [a], [b], etc., and trim whitespace.
-  return name.replace(/\[[a-z]\]/g, '').trim();
+  return name.replace(/\[[a-z]\]/g, "").trim();
 };
 
 /**
@@ -20,16 +20,16 @@ export const normalizeName = (name: string): string => {
  */
 export const normalizeDate = (dateStr: string): string => {
   if (!dateStr) {
-    return '';
+    return "";
   }
   try {
     const date = new Date(dateStr);
     // Check if the date is valid
     if (isNaN(date.getTime())) {
-      return '';
+      return "";
     }
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   } catch (error) {
-    return '';
+    return "";
   }
 };

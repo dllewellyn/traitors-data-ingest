@@ -45,10 +45,13 @@
     "typescript": "^4.0.0"
   },
   "dependencies": {
+    "@gcp-adl/gemini": "file:packages/gemini",
     "@gcp-adl/github": "file:packages/github",
     "@gcp-adl/jules": "file:packages/jules",
-    "@gcp-adl/gemini": "file:packages/gemini",
     "@gcp-adl/state": "file:packages/state",
+    "axios": "^1.7.2",
+    "cheerio": "^1.0.0-rc.12",
+    "domhandler": "^5.0.3",
     "express": "^5.2.1"
   }
 }
