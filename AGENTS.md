@@ -13,3 +13,6 @@
 - **2026-01-16**: Thoroughly test utility functions, especially type guards, to guarantee their correctness and robustness across various data types and edge cases.
 - **2026-01-16**: Develop dedicated, well-tested utility functions for common data transformations (e.g., normalization) to ensure data consistency and reduce redundancy across the codebase.
 - **2026-01-16**: Implement robust data normalization logic to handle variations in input data, such as removing extraneous information (e.g., annotations like '[a]', '[b]' from names) and standardizing formats (e.g., ISO 8601 for dates).
+- **2026-01-16**: Structure the project as a monorepo with local packages linked via `file:` protocol to enforce modularity and separation of concerns.
+- **2026-01-16**: Automate the build process for local packages using a custom script invoked via the `prebuild` hook to ensure dependencies are compiled before the main application.
+- **2026-01-16**: Verify the integration of local packages using dedicated test suites to ensure correct dependency resolution and module exports.
