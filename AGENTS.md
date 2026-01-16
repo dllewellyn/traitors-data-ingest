@@ -30,4 +30,7 @@
 - **2026-01-16**: Utilize regular expressions with non-greedy captures and optional groups to robustly extract structured data from composite strings.
 - **2026-01-16**: Design parsing utilities to return `null` for unparseable inputs instead of throwing exceptions, forcing the consumer to explicitly handle invalid data.
 - **2026-01-16**: Provide safe default values (e.g., `0`) when parsing optional numeric fields to maintain type safety when source data is missing.
-- **2026-01-16**: Use explicit linting suppressions (`@typescript-eslint/no-explicit-any`) in tests when verifying runtime resilience against invalid types.
+- **2026-01-16**: Use explicit linting suppressions (` @typescript-eslint/no-explicit-any`) in tests when verifying runtime resilience against invalid types.
+- **2026-01-16**: When parsing complex HTML tables with merged cells, implement explicit state tracking for `rowspan` and `colspan` (e.g., using a `pendingSpans` buffer) to correctly map values to the underlying grid.
+- **2026-01-16**: Employ heuristic filtering with keyword blocklists to distinguish valid data rows from embedded metadata or sub-headers within loosely structured HTML tables.
+- **2026-01-16**: Centralize domain status mapping in normalizers to handle synonyms and infer default states from ambiguous cell content (e.g., treating voting records as "Safe").
