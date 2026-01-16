@@ -39,6 +39,9 @@ export const parseFinishText = (
     case "Winner":
       status = Status.Winner;
       break;
+    case "Runner-up":
+      status = Status.RunnerUp;
+      break;
     default:
       return null;
   }
