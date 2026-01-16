@@ -10,7 +10,7 @@ export class CandidateTableParser implements TableParser<Candidate> {
     const document = this.htmlParser.parse(html);
     const contestantsTable = this.findContestantsTable(document);
     if (!contestantsTable.length) {
-      return [];
+      throw new Error("Could not find the 'Contestants' table.");
     }
 
     const rows = contestantsTable.find("tbody tr");
@@ -22,6 +22,7 @@ export class CandidateTableParser implements TableParser<Candidate> {
 
       // Skip header rows or rows that don't have enough cells
       if (cells.length < 4) {
+        // A proper logger isn't yet available. Console is used for now to provide visibility into recoverable parsing errors.
         // eslint-disable-next-line no-console
         console.warn(
           `Skipping row ${
@@ -39,6 +40,7 @@ export class CandidateTableParser implements TableParser<Candidate> {
       // Simple validation to ensure we're parsing a valid row
       const age = parseInt(ageText, 10);
       if (!name || isNaN(age)) {
+        // A proper logger isn't yet available. Console is used for now to provide visibility into recoverable parsing errors.
         // eslint-disable-next-line no-console
         console.warn(
           `Skipping row ${

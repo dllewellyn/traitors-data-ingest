@@ -64,7 +64,7 @@ describe("CandidateTableParser", () => {
     });
   });
 
-  it("should return an empty array if the contestants table is not found", () => {
+  it("should throw an error if the contestants table is not found", () => {
     const html = `
       <div>
         <h2>Some other heading</h2>
@@ -78,8 +78,9 @@ describe("CandidateTableParser", () => {
       </div>
     `;
 
-    const result = parser.parse(html);
-    expect(result).toEqual([]);
+    expect(() => parser.parse(html)).toThrow(
+      "Could not find the 'Contestants' table.",
+    );
   });
 
   it("should handle malformed rows gracefully and log a warning", () => {
