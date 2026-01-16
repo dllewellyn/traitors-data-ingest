@@ -8,6 +8,7 @@
 # Build
 /dist
 /build
+packages/*/dist
 
 # IDE
 .idea/
