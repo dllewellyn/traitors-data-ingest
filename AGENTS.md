@@ -9,3 +9,5 @@
 - **2026-01-15**: Adopt multi-stage Docker builds to ensure lightweight production images while maintaining a full-featured development environment.
 - **2026-01-15**: Maintain a strict separation between data transfer objects (e.g., CSV row interfaces) and core domain models to facilitate clean data transformation and validation logic.
 - **2026-01-15**: When modeling entities with temporal state changes, encapsulate state history within the entity (e.g., `roundStates`) to enable historical analysis.
+- **2026-01-16**: Implement comprehensive type guards for parsing and validating untrusted external data, ensuring data integrity and system stability.
+- **2026-01-16**: Thoroughly test utility functions, especially type guards, to guarantee their correctness and robustness across various data types and edge cases.
