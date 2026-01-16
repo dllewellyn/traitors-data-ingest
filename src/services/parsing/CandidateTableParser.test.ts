@@ -82,7 +82,11 @@ describe("CandidateTableParser", () => {
     expect(result).toEqual([]);
   });
 
-  it("should handle malformed rows gracefully", () => {
+  it("should handle malformed rows gracefully and log a warning", () => {
+    const consoleWarnSpy = jest
+      .spyOn(console, "warn")
+      .mockImplementation(() => {});
+
     const html = `
       <div>
         <h2>Contestants</h2>
@@ -120,5 +124,18 @@ describe("CandidateTableParser", () => {
     const result = parser.parse(html);
     expect(result.length).toBe(1);
     expect(result[0].name).toBe("Aaron Evans");
+
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(3);
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      "Skipping row 1: Expected at least 4 cells, but found 0.",
+    );
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      'Skipping row 3: Failed validation. Name: "Meryl Williams", Age: "invalid age".',
+    );
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      'Skipping row 4: Failed validation. Name: "", Age: "28".',
+    );
+
+    consoleWarnSpy.mockRestore();
   });
 });

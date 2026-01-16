@@ -16,12 +16,18 @@ export class CandidateTableParser implements TableParser<Candidate> {
     const rows = contestantsTable.find("tbody tr");
     const candidates: Candidate[] = [];
 
-    rows.each((_, rowElement) => {
+    rows.each((index, rowElement) => {
       const row = document(rowElement);
       const cells = row.find("td");
 
       // Skip header rows or rows that don't have enough cells
       if (cells.length < 4) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Skipping row ${
+            index + 1
+          }: Expected at least 4 cells, but found ${cells.length}.`,
+        );
         return;
       }
 
@@ -33,6 +39,12 @@ export class CandidateTableParser implements TableParser<Candidate> {
       // Simple validation to ensure we're parsing a valid row
       const age = parseInt(ageText, 10);
       if (!name || isNaN(age)) {
+        // eslint-disable-next-line no-console
+        console.warn(
+          `Skipping row ${
+            index + 1
+          }: Failed validation. Name: "${name}", Age: "${ageText}".`,
+        );
         return;
       }
 
