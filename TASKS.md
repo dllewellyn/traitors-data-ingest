@@ -2,7 +2,6 @@
 
 ## 1. Series Implementation
 - [ ] **Series 1**:
-    - [ ] Scrape Progress/Voting Table.
     - [ ] Integration Test: Verify S1 output matches expected snapshot.
 - [ ] **Series 2**:
     - [ ] Adapt `TableParser` for S2 variations.
@@ -70,3 +69,4 @@
 
 ## Series 1 Implementation
 - [x] Scrape Candidate Table.
+- [x] Scrape Progress/Voting Table.
