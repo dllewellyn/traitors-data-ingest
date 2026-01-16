@@ -1,13 +1,9 @@
 # Task Backlog
 
-## 1. Project Setup & Quality Assurance (Strict Guardrails)
-- [ ] Link shared libraries (State, Gemini, Jules, GitHub)
-    - [ ] Ensure local `file:` dependencies are correctly resolved in build pipeline.
-
-## 2. Architecture & Data Modeling (Type-Safe & Modular)
+## 1. Architecture & Data Modeling (Type-Safe & Modular)
 - [ ] Implement Utility Layer (Pure Functions)
 
-## 3. Core Scraper Implementation (Robust & Separated)
+## 2. Core Scraper Implementation (Robust & Separated)
 - [ ] Infrastructure Layer
     - [ ] `WikipediaFetcher`: Service for HTTP requests with retry logic and error handling.
     - [ ] `HtmlParser`: Generic interface for parsing HTML (decoupled from fetching).
@@ -16,7 +12,7 @@
 - [ ] Persistence Layer
     - [ ] `CsvWriter`: Service to safely write typed objects to CSV rows.
 
-## 4. Series Implementation
+## 3. Series Implementation
 - [ ] **Series 1**:
     - [ ] Scrape Candidate Table.
     - [ ] Scrape Progress/Voting Table.
@@ -29,7 +25,7 @@
 - [ ] **Series 4**:
     - [ ] Scrape Candidate & Progress Tables.
 
-## 5. Data Aggregation & Final Polish
+## 4. Data Aggregation & Final Polish
 - [ ] Implement `DataMerger` to combine series data into master CSVs.
 - [ ] Build CLI Entrypoint (e.g., `npm run ingest`).
 - [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
@@ -64,6 +60,8 @@
 <li>[x] Containerize application with Docker
     - [x] Refine Dockerfile for production-ready builds.
     - [x] Set up docker-compose for local development.</li>
+<li>[x] Link shared libraries (State, Gemini, Jules, GitHub)
+    - [x] Ensure local <code>file:</code> dependencies are correctly resolved in build pipeline.</li>
 </ul>
 <h2>Architecture &amp; Data Modeling</h2>
 <ul>
