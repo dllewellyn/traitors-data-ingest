@@ -1,6 +1,6 @@
 import * as cheerio from "cheerio";
 import { TableParser } from "../../types";
-import { Candidate } from "../../domain/models";
+import { Candidate, RoundState } from "../../domain/models";
 import { Role } from "../../domain/enums";
 import { normalizeName } from "../../utils/dataNormalizers";
 import { parseFinishText } from "../../utils/statusParser";
@@ -47,7 +47,7 @@ export class Series1CandidateParser implements TableParser<Candidate> {
         const originalRole =
           affiliationText === "Traitor" ? Role.Traitor : Role.Faithful;
 
-        const roundStates = [];
+        const roundStates: RoundState[] = [];
         if (parsedFinish) {
           roundStates.push({
             ...parsedFinish,
