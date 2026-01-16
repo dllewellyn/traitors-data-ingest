@@ -30,7 +30,7 @@ describe("CsvWriter", () => {
 
   it("should handle an empty array by creating an empty file", async () => {
     const filePath = path.join(outputDir, "empty.csv");
-    const data: any[] = [];
+    const data: Record<string, unknown>[] = [];
 
     await writer.write(data, filePath);
 

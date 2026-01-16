@@ -1,8 +1,8 @@
 # Task Backlog
 
 ## 1. Core Scraper Implementation (Robust & Separated)
-- [ ] Persistence Layer
-    - [ ] `CsvWriter`: Service to safely write typed objects to CSV rows.
+- [x] Persistence Layer
+    - [x] `CsvWriter`: Service to safely write typed objects to CSV rows.
 
 ## 2. Series Implementation
 - [ ] **Series 1**:
