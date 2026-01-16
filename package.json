@@ -7,7 +7,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .ts",
-    "prebuild": "for d in packages/*; do (cd \"$d\" && npm run build); done",
+    "prebuild": "node scripts/build-packages.js",
     "build": "tsc",
     "e2e": "playwright test",
     "dev": "nodemon src/index.ts"
