@@ -3,7 +3,8 @@ import { Series3Scraper } from "../../src/scrapers/Series3Scraper";
 
 describe("Series 3 Scraper Integration", () => {
   const fetcher = new FileBasedFetcher();
-  const url = "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_3";
+  const url =
+    "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_3";
   const scraper = new Series3Scraper();
 
   it("should parse candidates correctly", async () => {

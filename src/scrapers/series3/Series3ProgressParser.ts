@@ -124,7 +124,7 @@ export class Series3ProgressParser
           if (epNum && isCandidateRow) {
             // Only set if not already set (handling multi-column spanning same episode)
             if (!progress[epNum]) {
-                progress[epNum] = status;
+              progress[epNum] = status;
             }
           }
           pendingSpans[colIdx].rowsLeft--;
