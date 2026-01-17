@@ -20,7 +20,9 @@ export const parseFinishText = (
     return null;
   }
 
-  const parts = finishText.match(/(.+?)(?:\s*\(Episode\s*(\d+)\))?(?:\[.*?\])?$/);
+  const parts = finishText.match(
+    /(.+?)(?:\s*\(Episode\s*(\d+)\))?(?:\[.*?\])?$/
+  );
   if (!parts) {
     return null;
   }
