@@ -18,6 +18,8 @@ export enum Status {
   Banished = "Banished",
   /** The candidate was murdered by the Traitors. */
   Murdered = "Murdered",
+  /** The candidate was eliminated from the game. */
+  Eliminated = "Eliminated",
   /** The candidate was recruited to be a Traitor. */
   Recruited = "Recruited",
   /** The candidate won the game. */

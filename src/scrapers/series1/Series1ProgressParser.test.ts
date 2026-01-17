@@ -104,7 +104,7 @@ describe("Series1ProgressParser", () => {
         `;
 
     const result = parser.parse(html);
-    expect(result[0].progress[1]).toBe("Banished"); // Eliminated -> Banished
+    expect(result[0].progress[1]).toBe("Eliminated");
     expect(result[1].progress[1]).toBe("Murdered");
   });
 
