@@ -1,8 +1,6 @@
 # Task Backlog
 
 ## 1. Series Implementation
-- [ ] **Series 1**:
-    - [ ] Integration Test: Verify S1 output matches expected snapshot.
 - [ ] **Series 2**:
     - [ ] Adapt `TableParser` for S2 variations.
     - [ ] Scrape Candidate & Progress Tables.
@@ -76,3 +74,4 @@
 ## Series 1 Implementation
 - [x] Scrape Candidate Table.
 - [x] Scrape Progress/Voting Table.
+- [x] Integration Test: Verify S1 output matches expected snapshot.
