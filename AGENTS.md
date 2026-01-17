@@ -34,3 +34,4 @@
 - **2026-01-16**: When parsing complex HTML tables with merged cells, implement explicit state tracking for `rowspan` and `colspan` (e.g., using a `pendingSpans` buffer) to correctly map values to the underlying grid.
 - **2026-01-16**: Employ heuristic filtering with keyword blocklists to distinguish valid data rows from embedded metadata or sub-headers within loosely structured HTML tables.
 - **2026-01-16**: Centralize domain status mapping in normalizers to handle synonyms and infer default states from ambiguous cell content (e.g., treating voting records as "Safe").
+- **2026-01-17**: Adopt a hybrid data persistence model: commit CSV snapshots to the repository for auditability and transparency, while leveraging cloud storage for automated, scheduled data ingestion pipelines.
