@@ -1,5 +1,8 @@
 # Task Backlog
 
+
+Next task is to run the script and actually push the generated files into the repository. 
+
 ## 1. Data Aggregation & Final Polish
 - [ ] Implement `DataMerger` to combine series data into master CSVs.
 - [ ] Build CLI Entrypoint (e.g., `npm run ingest`).
