@@ -1,8 +1,6 @@
 # Task Backlog
 
 ## 1. Series Implementation
-- [ ] **Series 3**:
-    - [ ] Scrape Candidate & Progress Tables.
 - [ ] **Series 4**:
     - [ ] Scrape Candidate & Progress Tables.
 
@@ -76,3 +74,7 @@
 ## Series 2 Implementation
 - [x] Adapt `TableParser` for S2 variations.
 - [x] Scrape Candidate & Progress Tables.
+
+## Series 3 Implementation
+- [x] Scrape Candidate & Progress Tables.
+- [x] Handle "Eliminated" status code (affecting Series 1 & 3).
