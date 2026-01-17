@@ -43,3 +43,5 @@
 - **2026-01-17**: Encapsulate specialized parsing logic for distinct data sources (e.g., candidates vs. progress) within a Facade class to provide a unified and simplified interface for data retrieval.
 - **2026-01-17**: Dynamically analyze table structures at runtime—such as scanning for specific header rows or mapping columns to logical keys—to robustly handle variable layouts instead of relying on fixed indices.
 - **2026-01-17**: When expanding domain enums, explicitly audit negative conditional logic (e.g., "if not a known status, treat as value") to prevent new enum members from being misclassified.
+- **2026-01-17**: Create dedicated NPM scripts for distinct data ingestion tasks (e.g., `ingest:series4`) to encapsulate specific configurations and simplify execution.
+- **2026-01-17**: When parsing tables with mixed `colspan` attributes, calculate the logical column index by summing the `colspan` of all preceding sibling elements to ensure accurate data alignment.
