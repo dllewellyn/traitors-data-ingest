@@ -1,7 +1,7 @@
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  testMatch: ['**/src/**/*.test.ts', '**/tests/**/*.test.ts'],
+  preset: "ts-jest",
+  testEnvironment: "node",
+  testMatch: ["**/src/**/*.test.ts", "**/tests/**/*.test.ts"],
   coverageThreshold: {
     global: {
       branches: 90,

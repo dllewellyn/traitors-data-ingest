@@ -1,4 +1,8 @@
-import { normalizeName, normalizeDate } from "./dataNormalizers";
+import {
+  normalizeName,
+  normalizeDate,
+  normalizeGameStatus,
+} from "./dataNormalizers";
 
 describe("Data Normalizers", () => {
   describe("normalizeName", () => {
@@ -40,6 +44,28 @@ describe("Data Normalizers", () => {
 
     it("should return an empty string for an empty input string", () => {
       expect(normalizeDate("")).toBe("");
+    });
+  });
+
+  describe("normalizeGameStatus", () => {
+    it("should return empty string for null/empty status", () => {
+      expect(normalizeGameStatus("")).toBe("");
+    });
+
+    it("should normalize variants", () => {
+      expect(normalizeGameStatus("Safe")).toBe("Safe");
+      expect(normalizeGameStatus("Banished")).toBe("Banished");
+      expect(normalizeGameStatus("Murdered")).toBe("Murdered");
+      expect(normalizeGameStatus("Eliminated")).toBe("Eliminated");
+      expect(normalizeGameStatus("Winner")).toBe("Winner");
+      expect(normalizeGameStatus("Runner-up")).toBe("RunnerUp");
+      expect(normalizeGameStatus("No vote")).toBe("Safe");
+      expect(normalizeGameStatus("Traitor")).toBe("Traitor");
+      expect(normalizeGameStatus("Faithful")).toBe("Faithful");
+    });
+
+    it("should remove annotations", () => {
+      expect(normalizeGameStatus("Banished[a]")).toBe("Banished");
     });
   });
 });
