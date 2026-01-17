@@ -1,17 +1,13 @@
 # Task Backlog
 
-## 1. Series Implementation
-- [ ] **Series 4**:
-    - [ ] Scrape Candidate & Progress Tables.
-
-## 2. Data Aggregation & Final Polish
+## 1. Data Aggregation & Final Polish
 - [ ] Implement `DataMerger` to combine series data into master CSVs.
 - [ ] Build CLI Entrypoint (e.g., `npm run ingest`).
 - [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
 - [ ] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
 - [ ] **Auditing**: Automation to commit/persist CSVs to repository history.
 
-## 3. Cloud Infrastructure & Automation
+## 2. Cloud Infrastructure & Automation
 - [ ] **Firebase Setup**: Initialize project and configure credentials.
 - [ ] **Storage**: Implement GCS (Google Cloud Storage) adapter for data persistence.
 - [ ] **Automation**: Develop Firebase Function for daily (24h) polling/ingestion.
@@ -78,3 +74,6 @@
 ## Series 3 Implementation
 - [x] Scrape Candidate & Progress Tables.
 - [x] Handle "Eliminated" status code (affecting Series 1 & 3).
+
+## Series 4 Implementation
+- [x] Scrape Candidate & Progress Tables.
