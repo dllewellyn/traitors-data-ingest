@@ -23,3 +23,5 @@ Create a comprehensive, structured dataset (CSVs) derived from Wikipedia for the
     - Scrape Series 4
 4.  **Data Export**: Robust CSV generation logic.
 5.  **Validation**: Verify data against source.
+6. Storage of csvs into the repository for auditing 
+7. Set-up of firebase functions for polling every 24 hours and storage of data in Google cloud storage 
