@@ -42,3 +42,4 @@
 - **2026-01-17**: Explicitly flatten complex nested data structures (e.g., JSON objects) into string representations before serializing to CSV to ensure output validity and readability.
 - **2026-01-17**: Encapsulate specialized parsing logic for distinct data sources (e.g., candidates vs. progress) within a Facade class to provide a unified and simplified interface for data retrieval.
 - **2026-01-17**: Dynamically analyze table structures at runtime—such as scanning for specific header rows or mapping columns to logical keys—to robustly handle variable layouts instead of relying on fixed indices.
+- **2026-01-17**: When expanding domain enums, explicitly audit negative conditional logic (e.g., "if not a known status, treat as value") to prevent new enum members from being misclassified.
