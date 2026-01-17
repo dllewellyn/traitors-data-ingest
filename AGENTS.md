@@ -2,7 +2,7 @@
 ## Lessons Learned
 - **2026-01-15**: System initialized.
 - **2026-01-15**: Constitution ratified: Enforcing strict TypeScript, >90% test coverage, and Conventional Commits for all contributions.
-- **2026-01-15**: Explicitly document the status of ongoing objectives in GOALS.md to provide clear visibility into in-progress versus completed scope.
+- **2026-01-15**: Explicitly document the status of ongoing objectives in GOALS.md to provide clear visibility into-progress versus completed scope.
 - **2026-01-15**: Enforce consistent formatting in documentation files, such as ensuring trailing newlines, to maintain clean version control diffs.
 - **2026-01-15**: Avoid committing internal planning notes or scratchpad text to project documentation files like TASKS.md to maintain clarity and focus.
 - **2026-01-15**: Decouple Express application configuration (`src/app.ts`) from server startup (`src/index.ts`) to enable efficient integration testing with Supertest.
@@ -35,3 +35,8 @@
 - **2026-01-16**: Employ heuristic filtering with keyword blocklists to distinguish valid data rows from embedded metadata or sub-headers within loosely structured HTML tables.
 - **2026-01-16**: Centralize domain status mapping in normalizers to handle synonyms and infer default states from ambiguous cell content (e.g., treating voting records as "Safe").
 - **2026-01-17**: Adopt a hybrid data persistence model: commit CSV snapshots to the repository for auditability and transparency, while leveraging cloud storage for automated, scheduled data ingestion pipelines.
+- **2026-01-17**: Configure test runners (e.g., Jest) to discover tests in both source (`src/`) and dedicated test directories (`tests/`) to support separated unit and integration test strategies.
+- **2026-01-17**: Implement snapshot-based integration tests for data scrapers using local HTML fixtures and "golden" output files (e.g., CSVs) to ensure deterministic and accurate end-to-end validation.
+- **2026-01-17**: Enhance regex patterns in parsers to robustly handle and strip optional trailing metadata or citation markers (e.g., `[a]`) to prevent data pollution.
+- **2026-01-17**: Use strategy-based mocks (e.g., `FileBasedFetcher`) in integration tests to decouple execution from external network dependencies while maintaining realistic input data.
+- **2026-01-17**: Explicitly flatten complex nested data structures (e.g., JSON objects) into string representations before serializing to CSV to ensure output validity and readability.
