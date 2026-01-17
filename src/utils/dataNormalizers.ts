@@ -54,7 +54,7 @@ export const normalizeGameStatus = (status: string): string => {
   if (/^faithful/i.test(clean)) return "Faithful";
   if (/^winner/i.test(clean)) return "Winner";
   if (/^runner-up/i.test(clean)) return "RunnerUp";
-  if (/^eliminated/i.test(clean)) return "Banished"; // Treat eliminated as banished
+  if (/^eliminated/i.test(clean)) return "Eliminated";
   if (/^no\s*vote/i.test(clean)) return "Safe"; // No vote means they were present/safe
 
   return clean;

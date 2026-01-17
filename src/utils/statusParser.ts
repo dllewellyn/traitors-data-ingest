@@ -44,6 +44,9 @@ export const parseFinishText = (
     case "Runner-up":
       status = Status.RunnerUp;
       break;
+    case "Eliminated":
+      status = Status.Eliminated;
+      break;
     default:
       return null;
   }

@@ -145,7 +145,7 @@ export class Series1ProgressParser
         // Note: normalizeGameStatus already handles "No vote" -> "Safe"
         // and "Eliminated" -> "Banished".
 
-        if (status && !knownStatuses.includes(status)) {
+        if (status && !knownStatuses.includes(status) && status !== "Eliminated") {
           // It's likely a Vote (Name), so they are Safe.
           status = "Safe";
         }
