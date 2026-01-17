@@ -1,8 +1,8 @@
+import * as path from "path";
+import * as fs from "fs/promises";
 import { CsvWriter } from "../src/services/CsvWriter";
 import { WikipediaFetcher } from "../src/services/WikipediaFetcher";
 import { Series4Scraper } from "../src/scrapers/Series4Scraper";
-import * as path from "path";
-import * as fs from "fs/promises";
 
 async function main() {
   const fetcher = new WikipediaFetcher();
@@ -13,7 +13,9 @@ async function main() {
   await fs.mkdir(outputDir, { recursive: true });
 
   console.log("Fetching Series 4 data...");
-  const html = await fetcher.fetch("https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_4");
+  const html = await fetcher.fetch(
+    "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_4"
+  );
 
   console.log("Parsing candidates...");
   const candidates = scraper.parseCandidates(html);

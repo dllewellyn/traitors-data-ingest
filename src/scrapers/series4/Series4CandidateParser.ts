@@ -35,7 +35,8 @@ export class Series4CandidateParser implements TableParser<Candidate> {
         const location = $(columns[2]).text().trim();
         const job = $(columns[3]).text().trim();
         const affiliationText = normalizeName($(columns[4]).text().trim());
-        const finishText = columns.length > 5 ? $(columns[5]).text().trim() : "";
+        const finishText =
+          columns.length > 5 ? $(columns[5]).text().trim() : "";
 
         let originalRole: Role;
         if (affiliationText === "Traitor") {
