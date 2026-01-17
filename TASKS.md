@@ -16,6 +16,12 @@
 - [ ] Build CLI Entrypoint (e.g., `npm run ingest`).
 - [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
 - [ ] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
+- [ ] **Auditing**: Automation to commit/persist CSVs to repository history.
+
+## 3. Cloud Infrastructure & Automation
+- [ ] **Firebase Setup**: Initialize project and configure credentials.
+- [ ] **Storage**: Implement GCS (Google Cloud Storage) adapter for data persistence.
+- [ ] **Automation**: Develop Firebase Function for daily (24h) polling/ingestion.
 
 # Completed Work
 
