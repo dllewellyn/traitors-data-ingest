@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .ts",
     "prebuild": "node scripts/build-packages.js",
     "build": "tsc",
+    "ingest:series4": "ts-node scripts/ingest_series4.ts",
     "e2e": "playwright test",
     "dev": "nodemon src/index.ts"
   },

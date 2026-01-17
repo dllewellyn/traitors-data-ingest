@@ -25,6 +25,13 @@ export class FileBasedFetcher implements IWikipediaFetcher {
       );
       return await fs.readFile(fixturePath, "utf-8");
     }
+    if (url.includes("The_Traitors_(British_TV_series)_series_4")) {
+      const fixturePath = path.resolve(
+        __dirname,
+        "../fixtures/series4/source.html"
+      );
+      return await fs.readFile(fixturePath, "utf-8");
+    }
     throw new Error(`Unexpected URL: ${url}`);
   }
 }

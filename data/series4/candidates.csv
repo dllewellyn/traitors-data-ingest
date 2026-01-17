@@ -1,0 +1,23 @@
+id,name,age,job,location,originalRole,roundStates
+0,Netty Österberg,42,Nursery school teacher,Glasgow,Faithful,"[{""episode"":2,""status"":""Murdered"",""role"":""Faithful""}]"
+1,Judy Wilson,60,Child liaison officer,Doncaster,Faithful,"[{""episode"":2,""status"":""Banished"",""role"":""Faithful""}]"
+2,Ben,66,Royal Navy veteran,Hampshire,Faithful,"[{""episode"":3,""status"":""Murdered"",""role"":""Faithful""}]"
+3,Hugo Lodge,51,Barrister,London,Traitor,"[{""episode"":3,""status"":""Banished"",""role"":""Traitor""}]"
+4,Ross Garshong,37,Sales executive & personal trainer,London,Faithful,"[{""episode"":4,""status"":""Banished"",""role"":""Faithful""}]"
+5,"Marzook ""Maz"" Bana",59,Civil servant,Preston,Faithful,"[{""episode"":5,""status"":""Murdered"",""role"":""Faithful""}]"
+6,Amanda Collier,57,Retired police detective,Brighton,Faithful,"[{""episode"":5,""status"":""Banished"",""role"":""Faithful""}]"
+7,Reece Ward,27,Sweet shop assistant,Sheffield,Faithful,"[{""episode"":6,""status"":""Murdered"",""role"":""Faithful""}]"
+8,Fiona Hughes,62,Local government officer,Swansea,Traitor,"[{""episode"":6,""status"":""Banished"",""role"":""Traitor""}]"
+9,Harriet Tyce,52,Crime writer & former barrister,London,Faithful,"[{""episode"":7,""status"":""Banished"",""role"":""Faithful""}]"
+10,Adam Waughman,34,Builder,Romford,Faithful,"[{""episode"":8,""status"":""Murdered"",""role"":""Faithful""}]"
+11,Sam Little,34,Account manager,North Yorkshire,Faithful,"[{""episode"":8,""status"":""Banished"",""role"":""Faithful""}]"
+12,Jessie Stride,28,Hairstylist,Hull,Faithful,"[{""episode"":9,""status"":""Murdered"",""role"":""Faithful""}]"
+13,Ellie Buckley,33,Psychologist,London,Faithful,"[{""episode"":9,""status"":""Banished"",""role"":""Faithful""}]"
+14,Faraaz Noor,22,Internal auditor,Middlesbrough,Faithful,[]
+15,Jack Butler,29,Personal trainer,Hatfield Heath,Faithful,[]
+16,Jade Scott,25,PhD student,Warwick,Faithful,[]
+17,James Baker,38,Gardener,Weymouth,Faithful,[]
+18,Matthew Hyndman,35,Creative director,Edinburgh,Faithful,[]
+19,Rachel Duffy,42,Head of Communications,Newry,Traitor,[]
+20,Roxy,32,Recruiter,Amsterdam,Faithful,[]
+21,Stephen Libby,32,Cyber security consultant,London,Traitor,[]
