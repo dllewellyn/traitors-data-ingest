@@ -40,7 +40,8 @@ export class Series1CandidateParser implements TableParser<Candidate> {
         const age = parseInt($(columns[1]).text().trim(), 10);
         const hometown = $(columns[2]).text().trim();
         const occupation = $(columns[3]).text().trim();
-        const affiliationText = $(columns[4]).text().trim();
+        // Normalize affiliation text to handle annotations like "Traitor[a]"
+        const affiliationText = normalizeName($(columns[4]).text().trim());
         const finishText = $(columns[5]).text().trim();
 
         let originalRole: Role;
