@@ -45,3 +45,8 @@
 - **2026-01-17**: When expanding domain enums, explicitly audit negative conditional logic (e.g., "if not a known status, treat as value") to prevent new enum members from being misclassified.
 - **2026-01-17**: Create dedicated NPM scripts for distinct data ingestion tasks (e.g., `ingest:series4`) to encapsulate specific configurations and simplify execution.
 - **2026-01-17**: When parsing tables with mixed `colspan` attributes, calculate the logical column index by summing the `colspan` of all preceding sibling elements to ensure accurate data alignment.
+- **2026-01-18**: Inject context identifiers (e.g., `series` ID) immediately at the scraping layer to ensure data provenance is maintained when aggregating multiple sources.
+- **2026-01-18**: Implement a tiered entity resolution strategy (Full Name -> Nickname extraction -> First Name fallback) when linking loose text references to domain entities.
+- **2026-01-18**: When parsing fields containing mixed data types (e.g., votes and statuses), explicitly filter against a comprehensive blocklist of reserved values to isolate valid data.
+- **2026-01-18**: Defer complex semantic resolution (e.g., name-to-ID mapping) to a dedicated service layer that has access to the full dataset, rather than attempting it within isolated parsers.
+- **2026-01-18**: Orchestrate multi-source data ingestion using parallel execution (`Promise.all`) followed by a centralized merge step to optimize performance and ensure consistency.
