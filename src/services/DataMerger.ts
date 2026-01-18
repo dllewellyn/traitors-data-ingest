@@ -55,12 +55,12 @@ export class DataMerger {
 
     progressRows.forEach((row) => {
       const voterName = row.name;
-      let voterId = candidateMap.get(voterName.toLowerCase());
+      const voterId = candidateMap.get(voterName.toLowerCase());
 
       // Try nickname resolution for voter if direct lookup fails
       if (voterId === undefined) {
-         // Maybe voterName is a first name?
-         // Included in map now.
+        // Maybe voterName is a first name?
+        // Included in map now.
       }
 
       if (voterId === undefined) {
@@ -76,13 +76,28 @@ export class DataMerger {
 
         // Skip empty or known status values
         const knownStatuses = [
-            "Traitor", "Faithful", "Banished", "Murdered",
-            "Eliminated", "Winner", "Runner-up", "Recruited",
-            "Safe", "Active", "Participating", "Hospitalised", "Withdrew", "Removed"
+          "Traitor",
+          "Faithful",
+          "Banished",
+          "Murdered",
+          "Eliminated",
+          "Winner",
+          "Runner-up",
+          "Recruited",
+          "Safe",
+          "Active",
+          "Participating",
+          "Hospitalised",
+          "Withdrew",
+          "Removed",
         ];
 
-        if (knownStatuses.some(s => s.toLowerCase() === voteTargetName.toLowerCase())) {
-            return;
+        if (
+          knownStatuses.some(
+            (s) => s.toLowerCase() === voteTargetName.toLowerCase()
+          )
+        ) {
+          return;
         }
 
         const targetId = candidateMap.get(voteTargetName.toLowerCase());
@@ -90,7 +105,7 @@ export class DataMerger {
         if (targetId !== undefined) {
           votes.push({
             series,
-            voterId: voterId!, // We already checked undefined above
+            voterId: voterId as number, // We already checked undefined above
             targetId,
             round: episode,
             episode,
