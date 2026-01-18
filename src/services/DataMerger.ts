@@ -95,6 +95,10 @@ export class DataMerger {
             round: episode,
             episode,
           });
+        } else {
+          console.warn(
+            `Series ${series}: Could not resolve vote target '${voteTargetName}' for voter '${voterName}' in episode ${episode}.`
+          );
         }
       });
     });

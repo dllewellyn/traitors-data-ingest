@@ -4,6 +4,7 @@ import { Role, Status } from "./enums";
 describe("Domain Models", () => {
   it("should allow creation of a Candidate object", () => {
     const candidate: Candidate = {
+      series: 1,
       id: 1,
       name: "John Doe",
       age: 30,
@@ -32,6 +33,7 @@ describe("Domain Models", () => {
 
   it("should allow creation of a Vote object", () => {
     const vote: Vote = {
+      series: 1,
       voterId: 1,
       targetId: 2,
       round: 1,

@@ -1,3 +1,5 @@
+import * as fs from "fs";
+import * as path from "path";
 import { Series1Scraper } from "../scrapers/Series1Scraper";
 import { Series2Scraper } from "../scrapers/Series2Scraper";
 import { Series3Scraper } from "../scrapers/Series3Scraper";
@@ -6,8 +8,6 @@ import { WikipediaFetcher } from "../services/WikipediaFetcher";
 import { DataMerger } from "../services/DataMerger";
 import { CsvWriter } from "../services/CsvWriter";
 import { Candidate, Vote } from "../domain/models";
-import * as fs from "fs";
-import * as path from "path";
 
 async function main() {
   console.log("Starting ingestion...");
