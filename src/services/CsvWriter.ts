@@ -1,12 +1,17 @@
-import { promises as fs } from "fs";
-import * as path from "path";
-
 import { stringify } from "csv-stringify/sync";
+import { StoragePort } from "../infrastructure/storage/StoragePort";
+import { FileSystemAdapter } from "../infrastructure/storage/FileSystemAdapter";
 
 /**
  * A service for writing data to CSV files.
  */
 export class CsvWriter {
+  private storage: StoragePort;
+
+  constructor(storage: StoragePort = new FileSystemAdapter()) {
+    this.storage = storage;
+  }
+
   /**
    * Writes an array of objects to a CSV file.
    *
@@ -20,7 +25,7 @@ export class CsvWriter {
     headers?: (keyof T)[]
   ): Promise<void> {
     if (data.length === 0) {
-      await fs.writeFile(filePath, "");
+      await this.storage.save(filePath, "");
       return;
     }
 
@@ -30,8 +35,6 @@ export class CsvWriter {
       columns: resolvedHeaders as string[],
     });
 
-    const dir = path.dirname(filePath);
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(filePath, csvData);
+    await this.storage.save(filePath, csvData);
   }
 }
