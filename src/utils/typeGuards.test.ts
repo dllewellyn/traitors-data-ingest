@@ -119,6 +119,7 @@ describe("Domain Entity Type Guards", () => {
 
   describe("isCandidate", () => {
     const validCandidate: Candidate = {
+      series: 1,
       id: 1,
       name: "Test",
       age: 30,
@@ -153,6 +154,7 @@ describe("Domain Entity Type Guards", () => {
 
   describe("isVote", () => {
     const validVote: Vote = {
+      series: 1,
       voterId: 1,
       targetId: 2,
       round: 1,

@@ -16,6 +16,7 @@ Array [
         "status": "Eliminated",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 34,
@@ -31,6 +32,7 @@ Array [
         "status": "Murdered",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 39,
@@ -46,6 +48,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 65,
@@ -61,6 +64,7 @@ Array [
         "status": "Murdered",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 24,
@@ -76,6 +80,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 27,
@@ -91,6 +96,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 25,
@@ -106,6 +112,7 @@ Array [
         "status": "Murdered",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 33,
@@ -121,6 +128,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 29,
@@ -136,6 +144,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 26,
@@ -151,6 +160,7 @@ Array [
         "status": "Murdered",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 33,
@@ -166,6 +176,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 50,
@@ -181,6 +192,7 @@ Array [
         "status": "Murdered",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 70,
@@ -196,6 +208,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 28,
@@ -211,6 +224,7 @@ Array [
         "status": "Murdered",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 29,
@@ -226,6 +240,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 62,
@@ -241,6 +256,7 @@ Array [
         "status": "Murdered",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 40,
@@ -256,6 +272,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 37,
@@ -271,6 +288,7 @@ Array [
         "status": "Murdered",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 29,
@@ -286,6 +304,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 20,
@@ -301,6 +320,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 32,
@@ -316,6 +336,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 38,
@@ -331,6 +352,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 44,
@@ -346,6 +368,7 @@ Array [
         "status": "Banished",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 28,
@@ -361,6 +384,7 @@ Array [
         "status": "Winner",
       },
     ],
+    "series": 3,
   },
   Object {
     "age": 28,
@@ -376,6 +400,7 @@ Array [
         "status": "Winner",
       },
     ],
+    "series": 3,
   },
 ]
 `;

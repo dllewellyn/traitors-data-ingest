@@ -8,7 +8,8 @@ export class Series4Scraper {
   private progressParser = new Series4ProgressParser();
 
   parseCandidates(html: string): Candidate[] {
-    return this.candidateParser.parse(html);
+    const candidates = this.candidateParser.parse(html);
+    return candidates.map((c) => ({ ...c, series: 4 }));
   }
 
   parseProgress(html: string): CandidateProgressRow[] {

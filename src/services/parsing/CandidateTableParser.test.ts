@@ -41,6 +41,7 @@ describe("CandidateTableParser", () => {
 
     const expectedCandidates: Omit<Candidate, "id" | "roundStates">[] = [
       {
+        series: 1,
         name: "Aaron Evans",
         age: 25,
         location: "Location 1",
@@ -48,6 +49,7 @@ describe("CandidateTableParser", () => {
         originalRole: Role.Faithful,
       },
       {
+        series: 1,
         name: "Meryl Williams",
         age: 28,
         location: "Location 2",

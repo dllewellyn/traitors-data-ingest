@@ -145,14 +145,14 @@ export class Series1ProgressParser
         // Note: normalizeGameStatus already handles "No vote" -> "Safe"
         // and "Eliminated" -> "Banished".
 
-        if (
-          status &&
-          !knownStatuses.includes(status) &&
-          status !== "Eliminated"
-        ) {
-          // It's likely a Vote (Name), so they are Safe.
-          status = "Safe";
-        }
+        // if (
+        //   status &&
+        //   !knownStatuses.includes(status) &&
+        //   status !== "Eliminated"
+        // ) {
+        //   // It's likely a Vote (Name), so they are Safe.
+        //   status = "Safe";
+        // }
 
         // If status is empty string, what does it mean?
         // Could be a gap? Or just empty cell?
