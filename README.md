@@ -1,0 +1,112 @@
+# The Traitors Scraper
+
+The Traitors Scraper is a robust data aggregation tool designed to extract, normalize, and validate data from Wikipedia pages for "The Traitors" (British series). It produces structured CSV datasets suitable for analysis and machine learning.
+
+## Project Status
+
+| Series | Status |
+| :--- | :--- |
+| Series 1 | ✅ **Fully Implemented** |
+| Series 2 | ✅ **Fully Implemented** |
+| Series 3 | ✅ **Fully Implemented** |
+| Series 4 | ✅ **Fully Implemented** |
+
+## Architecture Overview
+
+The project adheres to a strict separation of concerns, as defined in `CONTEXT_MAP.md`:
+
+-   **Infrastructure** (`src/services/`): Handles external I/O and generic parsing.
+    -   `WikipediaFetcher`: Fetches raw HTML with retry logic and caching.
+    -   `HtmlParser`: Generic HTML parsing capabilities.
+    -   `CsvWriter` / `CsvReader`: Handles CSV persistence with type safety.
+    -   `DataValidator`: Enforces referential integrity and schema validation.
+-   **Logic** (`src/scrapers/`, `src/domain/`): Contains business logic and domain models.
+    -   `Scrapers`: Series-specific logic to handle structural variations in Wikipedia tables.
+    -   `Domain`: Strict TypeScript interfaces (`Candidate`, `Vote`) and Enums (`Role`, `Status`).
+-   **Persistence** (`data/`): Stores the generated artifacts.
+    -   `all_candidates.csv`: Master list of all contestants.
+    -   `all_votes.csv`: Complete history of banishment votes.
+
+## Setup & Usage
+
+### Prerequisites
+
+-   Node.js (v20.x recommended)
+-   npm
+
+### Installation
+
+```bash
+npm install
+```
+
+### Development
+
+Run the development server (with hot-reload):
+
+```bash
+npm run dev
+```
+
+Alternatively, run with Docker:
+
+```bash
+docker-compose up
+```
+
+### Data Ingestion
+
+Scrape Wikipedia and regenerate the CSV datasets:
+
+```bash
+npm run ingest
+```
+
+This will produce `data/all_candidates.csv` and `data/all_votes.csv`.
+
+### Validation
+
+Verify the integrity of the generated data (e.g., ensuring all votes reference valid candidates):
+
+```bash
+npm run validate
+```
+
+## Data Dictionary
+
+### Candidates (`data/all_candidates.csv`)
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `series` | Integer | The season number (e.g., 1). |
+| `id` | Integer | Unique identifier for the candidate within the series. |
+| `name` | String | Full name of the candidate. |
+| `age` | Integer | Age of the candidate during the show. |
+| `job` | String | Occupation of the candidate. |
+| `location` | String | Hometown or location of the candidate. |
+| `originalRole` | String | The candidate's starting role: `Traitor` or `Faithful`. |
+
+### Votes (`data/all_votes.csv`)
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `series` | Integer | The season number. |
+| `voterId` | Integer | ID of the candidate who cast the vote. |
+| `targetId` | Integer | ID of the candidate who received the vote. |
+| `episode` | Integer | The episode number where the vote took place. |
+| `round` | Integer | The round number (often corresponds to episode, but handles double banishments). |
+
+### Key Enumerations
+
+**Role**:
+- `Traitor`: A designated traitor.
+- `Faithful`: A faithful contestant.
+
+**Status**:
+- `Active`: Currently in the game.
+- `Banished`: Voted out by the group.
+- `Murdered`: Removed by the Traitors.
+- `Eliminated`: Removed by other game mechanics.
+- `Recruited`: Converted from Faithful to Traitor.
+- `Winner`: Won the game.
+- `RunnerUp`: Reached the final but did not win.

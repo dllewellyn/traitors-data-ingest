@@ -33,6 +33,7 @@
     "@types/csv-stringify": "^1.1.4",
     "@types/express": "^5.0.6",
     "@types/jest": "^28.0.0",
+    "@types/node": "^20.19.30",
     "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
