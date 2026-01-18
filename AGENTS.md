@@ -55,3 +55,5 @@
 - **2026-01-18**: When designing data access services, gracefully handle missing files (e.g., returning empty arrays on `ENOENT`) to allow the system to bootstrap or run in partial states without crashing.
 - **2026-01-18**: Integrate end-to-end data verification steps (ingestion and validation) into the CI pipeline to guarantee that code changes do not degrade data quality or scraping reliability.
 - **2026-01-18**: Maintain a live Data Dictionary within the project root documentation (`README.md`) to define schemas and enumerations clearly for users and automated tools.
+- **2026-01-18**: Implement self-updating data pipelines using GitHub Actions with `contents: write` permissions to scrape, validate, and commit dataset changes directly to the repository.
+- **2026-01-18**: In CI/CD workflows that persist data, explicitly check for file changes (e.g., `git status --porcelain`) before committing to avoid failures caused by empty commits.
