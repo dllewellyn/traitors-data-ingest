@@ -1,7 +1,7 @@
 # Task Backlog
 
 ## 1. Data Aggregation & Final Polish
-- [ ] **Auditing**: Automation to commit/persist CSVs to repository history.
+- [x] **Auditing**: Automation to commit/persist CSVs to repository history.
 
 ## 2. Cloud Infrastructure & Automation
 - [ ] **Firebase Setup**: Initialize project and configure credentials.

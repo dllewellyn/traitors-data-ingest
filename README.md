@@ -72,6 +72,16 @@ Verify the integrity of the generated data (e.g., ensuring all votes reference v
 npm run validate
 ```
 
+### Automated Auditing
+
+This repository includes a GitHub Actions workflow (`.github/workflows/audit-data.yml`) that runs automatically every day at 06:00 UTC. This workflow:
+
+1.  **Ingests**: Scrapes the latest data from Wikipedia.
+2.  **Validates**: Checks for data integrity (referential integrity, schema compliance).
+3.  **Persists**: Commits any changes to the `data/` directory back to the repository.
+
+You can verify the "Last Updated" status of the dataset by checking the commit history of the `data/` directory or looking for commits by `github-actions[bot]`.
+
 ## Data Dictionary
 
 ### Candidates (`data/all_candidates.csv`)

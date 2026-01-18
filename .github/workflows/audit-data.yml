@@ -1,0 +1,48 @@
+name: Data Audit & Persistence
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit-and-persist:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Ingest data
+        run: npm run ingest
+
+      - name: Validate data
+        run: npm run validate
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          if [[ -n $(git status --porcelain data/) ]]; then
+            echo "Changes detected in data/ directory. Committing..."
+            git add data/
+            git commit -m "chore(data): automated daily dataset update"
+            git push origin HEAD:${{ github.ref }}
+          else
+            echo "No changes detected in data/ directory."
+          fi
