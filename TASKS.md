@@ -1,8 +1,6 @@
 # Task Backlog
 
 ## 1. Data Aggregation & Final Polish
-- [ ] Implement `DataMerger` to combine series data into master CSVs.
-- [ ] Build CLI Entrypoint (e.g., `npm run ingest`).
 - [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
 - [ ] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
 - [ ] **Auditing**: Automation to commit/persist CSVs to repository history.
@@ -61,6 +59,10 @@
     - [x] `TableParser`: Strategy pattern for extracting data from different table structures.
 - [x] Persistence Layer
     - [x] `CsvWriter`: Service to safely write typed objects to CSV rows.
+
+## Data Aggregation
+- [x] Implement `DataMerger` to combine series data into master CSVs.
+- [x] Build CLI Entrypoint (`npm run ingest`).
 
 ## Series 1 Implementation
 - [x] Scrape Candidate Table.
