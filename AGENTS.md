@@ -50,3 +50,6 @@
 - **2026-01-18**: When parsing fields containing mixed data types (e.g., votes and statuses), explicitly filter against a comprehensive blocklist of reserved values to isolate valid data.
 - **2026-01-18**: Defer complex semantic resolution (e.g., name-to-ID mapping) to a dedicated service layer that has access to the full dataset, rather than attempting it within isolated parsers.
 - **2026-01-18**: Orchestrate multi-source data ingestion using parallel execution (`Promise.all`) followed by a centralized merge step to optimize performance and ensure consistency.
+- **2026-01-18**: Implement a dedicated data validation CLI (e.g., `src/cli/validate.ts`) to run post-ingestion checks, ensuring referential integrity (e.g., no orphaned votes) and logical consistency (e.g., unique IDs) across generated datasets.
+- **2026-01-18**: Use a robust CSV parsing library (e.g., `csv-parse`) with automatic type casting to accurately restore typed data (numbers, booleans) from string-based storage formats.
+- **2026-01-18**: When designing data access services, gracefully handle missing files (e.g., returning empty arrays on `ENOENT`) to allow the system to bootstrap or run in partial states without crashing.
