@@ -51,6 +51,7 @@ export class CandidateTableParser implements TableParser<Candidate> {
       }
 
       candidates.push({
+        series: 1, // Defaulting to 1 for this generic parser, though it should ideally be injected
         id: -1, // Placeholder ID
         name,
         age,

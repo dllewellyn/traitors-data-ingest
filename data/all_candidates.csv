@@ -1,0 +1,92 @@
+series,id,name,age,job,location,originalRole
+1,0,Aisha Birley,23,Masters Graduate,"Manchester,England",Faithful
+1,1,Nicky Wilding,45,Accounts supervisor,"South Croydon,England",Faithful
+1,2,Claire Barratt,43,Ex-police officer & entrepreneur,"Hull,England",Faithful
+1,3,Imran Nasim,23,Scientist,"Burgess Hill,England",Faithful
+1,4,Ivan Brett,32,Author,"Polruan,England",Faithful
+1,5,John McManus,49,Spa therapist,"Edinburgh,Scotland",Faithful
+1,6,Tom Elderfield,24,Magician,"Chesham,England",Faithful
+1,7,Matt Harris,23,BMX Athlete,"Melbourn,England",Faithful
+1,8,Alyssa Chan,21,Business student,"Cork,Ireland",Traitor
+1,9,Rayan Rachedi,25,Trainee lawyer,"North London,England",Faithful
+1,10,Alex Gray,26,Presenter & actress,"London,England",Faithful
+1,11,Amos Ogunkoya,30,Doctor,"North London,England",Faithful
+1,12,Theo Mayne,26,Cheerleading coach,"Leeds,England",Faithful
+1,13,Fay Greaves,59,Head of School Welfare,"Bury St Edmunds,England",Faithful
+1,14,Amanda Lovett,54,Estate agent,"Swansea,Wales",Traitor
+1,15,Andrea Addison,72,Retired,"Brussels, Belgium",Faithful
+1,16,"Madelyn ""Maddy"" Smedley",29,Receptionist & actress,"Swanley,England",Faithful
+1,17,Kieran Tompsett,42,Solutions consultant,"Stevenage,England",Traitor
+1,18,"Wilfred ""Wilf"" Webster",28,Senior fundraiser,"North London,England",Traitor
+1,19,Aaron Evans,24,Property agent,"Portsmouth,England",Faithful
+1,20,Hannah Byczkowski,32,Comedian,"London,England",Faithful
+1,21,Meryl Williams,25,Call centre agent,"Edinburgh,Scotland",Faithful
+2,0,Aubrey Emerson,67,Retired shop owner,"Loughborough, England",Faithful
+2,1,Sonja Clarke,66,Volunteer business mentor,"Poulton-le-Fylde, England",Faithful
+2,2,Kyra Johnson,21,Apprentice economist,"Kent, England",Faithful
+2,3,Brian Davidson,33,Photographer,"Glasgow, Scotland",Faithful
+2,4,Ash Bibi,45,Events coordinator,"London, England",Traitor
+2,5,Meg Corrick,22,Illustrator,"Hereford, England",Faithful
+2,6,Jonny Holloway,31,Ex-military,"Luton, England",Faithful
+2,7,Tracey Griffin,58,Sonographer & clairvoyant,"Inverness, Scotland",Faithful
+2,8,Anthony Mathurin,44,Chess coach,"Birmingham, England",Faithful
+2,9,Diane Carson,63,Retired teacher,"Lytham St Annes, England",Faithful
+2,10,Miles Asteri,37,Veterinary nurse,"Worcester, England",Traitor
+2,11,Paul Gorton,36,Business manager,"Manchester, England",Traitor
+2,12,Charlie Bees,34,Mental health area manager,"Bristol, England",Faithful
+2,13,Charlotte Chilton,32,Recruitment manager,"Atherstone, England",Faithful
+2,14,Ross Carson,28,Video director,"Lytham St Annes, England",Traitor
+2,15,Zack Davies,27,Parliamentary affairs advisor,"London, England",Faithful
+2,16,Jasmine Boatswain,26,Sales executive,"London, England",Faithful
+2,17,Evie Morrison,29,Veterinary nurse,"Inverness, Scotland",Faithful
+2,18,Andrew Jenkins,45,Insurance broker,"Talbot Green, Wales",Traitor
+2,19,Jaz Singh,30,National account manager,"Manchester, England",Faithful
+2,20,Mollie Pearce,21,Disability model,"Bristol, England",Faithful
+2,21,Harry Clark,22,British army engineer,"Slough, England",Traitor
+3,0,Jack Marriner-Brown,24,Market trader and landscaper,"Bridlington, England",Faithful
+3,1,Yin Lü,34,Doctor of Communication,"Reading, England",Faithful
+3,2,Nathan Khider,39,Property consultant,"London, England",Faithful
+3,3,Keith Stewart,65,Window cleaner,"Bournemouth, England",Faithful
+3,4,Elen Wyn,24,Translator,"Cardiff, Wales",Faithful
+3,5,Armani Gouveia,27,Financial investigator,"London, England",Traitor
+3,6,Maia Gouveia,25,Stay at home mum,"Epping, England",Faithful
+3,7,Kasim Ahmed,33,Doctor,"Cambridge, England",Faithful
+3,8,Tyler Smith,29,Barber,"Leicester, England",Faithful
+3,9,"Olivia ""Livi"" Deane",26,Beautician and model,"Horsham, England",Faithful
+3,10,Dan Bird,33,Bank risk manager,"Liverpool, England",Faithful
+3,11,Fozia Fazil,50,Community development manager,"Birmingham, England",Faithful
+3,12,Linda Rands,70,Retired opera singer,"Hitchin, England",Traitor
+3,13,Anna Duke,28,Swimming teacher,"Blessington, Ireland",Faithful
+3,14,Alex Oleksy,29,Care manager,"Whitby, England",Faithful
+3,15,Lisa Coupland,62,Anglican priest,"Mawgan-in-Meneage, England",Faithful
+3,16,Leon Jackman,40,Retail store manager,"Ilkeston, England",Faithful
+3,17,Joe Scott,37,English teacher,"Southampton, England",Faithful
+3,18,Minah Shannon,29,Call centre manager,"Liverpool, England",Traitor
+3,19,Freddie Fraser,20,Politics student,"Peterborough, England",Traitor
+3,20,Charlotte Berman,32,Business director,"Basingstoke, England",Traitor
+3,21,Alexander Dragonetti,38,Former British diplomat,"London, England",Faithful
+3,22,Francesca Rowan-Plowden,44,Interior designer,"Rye, England",Faithful
+3,23,Jake Brown,28,"Project manager, and former CP football player.","Barrow-in-Furness, England",Faithful
+3,24,Leanne Quigley,28,Former soldier,"Holywell, Wales",Faithful
+4,0,Netty Österberg,42,Nursery school teacher,"Glasgow, Scotland",Faithful
+4,1,Judy Wilson,60,Child liaison officer,"Doncaster, England",Faithful
+4,2,Ben,66,Royal Navy veteran,"Hampshire, England",Faithful
+4,3,Hugo Lodge,51,Barrister,"London, England",Traitor
+4,4,Ross Garshong,37,Sales executive & personal trainer,"London, England",Faithful
+4,5,"Marzook ""Maz"" Bana",59,Civil servant,"Preston, England",Faithful
+4,6,Amanda Collier,57,Retired police detective,"Brighton, England",Faithful
+4,7,Reece Ward,27,Sweet shop assistant,"Sheffield, England",Faithful
+4,8,Fiona Hughes,62,Local government officer,"Swansea, Wales",Traitor
+4,9,Harriet Tyce,52,Crime writer & former barrister,"London, England",Faithful
+4,10,Adam Waughman,34,Builder,"Romford, England",Faithful
+4,11,Sam Little,34,Account manager,"North Yorkshire, England",Faithful
+4,12,Jessie Stride,28,Hairstylist,"Hull, England",Faithful
+4,13,Ellie Buckley,33,Psychologist,"London, England",Faithful
+4,14,Faraaz Noor,22,Internal auditor,"Middlesbrough, England",Faithful
+4,15,Jack Butler,29,Personal trainer,"Hatfield Heath, England",Faithful
+4,16,Jade Scott,25,PhD student,"Warwick, England",Faithful
+4,17,James Baker,38,Gardener,"Weymouth, England",Faithful
+4,18,Matthew Hyndman,35,Creative director,"Edinburgh, Scotland",Faithful
+4,19,Rachel Duffy,42,Head of communications,"Newry, Northern Ireland",Traitor
+4,20,Roxy Wilson,32,Recruiter,"Amsterdam, Netherlands",Faithful
+4,21,Stephen Libby,32,Cyber security consultant,"London, England",Traitor

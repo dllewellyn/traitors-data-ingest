@@ -55,7 +55,7 @@ describe("Series1ProgressParser", () => {
       name: "Aaron",
       progress: {
         1: "Safe",
-        2: "Safe",
+        2: "Imran",
       },
     });
 
@@ -64,7 +64,7 @@ describe("Series1ProgressParser", () => {
       name: "Hannah",
       progress: {
         1: "Safe",
-        2: "Safe",
+        2: "Nicky",
       },
     });
 
@@ -72,7 +72,7 @@ describe("Series1ProgressParser", () => {
     expect(result[2]).toEqual({
       name: "Maddy",
       progress: {
-        1: "Safe",
+        1: "Imran",
         2: "Banished",
       },
     });

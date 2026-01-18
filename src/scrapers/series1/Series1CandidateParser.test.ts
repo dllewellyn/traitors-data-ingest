@@ -37,6 +37,7 @@ describe("Series1CandidateParser", () => {
 
     expect(result).toHaveLength(1);
     expect(result[0]).toEqual({
+      series: 1,
       id: 0,
       name: "Aisha Birley",
       age: 23,

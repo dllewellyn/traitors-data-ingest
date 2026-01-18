@@ -16,6 +16,8 @@ export interface RoundState {
  * Represents a candidate in the game.
  */
 export interface Candidate {
+  /** The series number. */
+  series: number;
   /** The unique identifier for the candidate. */
   id: number;
   /** The name of the candidate. */
@@ -48,6 +50,8 @@ export interface Episode {
  * Represents a vote cast by one candidate against another.
  */
 export interface Vote {
+  /** The series number. */
+  series: number;
   /** The ID of the candidate who cast the vote. */
   voterId: number;
   /** The ID of the candidate who received the vote. */

@@ -78,6 +78,7 @@ export class Series2CandidateParser implements TableParser<Candidate> {
         }
 
         candidates.push({
+          series: 2,
           id: i,
           name,
           age,

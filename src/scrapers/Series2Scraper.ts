@@ -16,7 +16,8 @@ export class Series2Scraper {
    * @param html The HTML content.
    */
   parseCandidates(html: string): Candidate[] {
-    return this.candidateParser.parse(html);
+    const candidates = this.candidateParser.parse(html);
+    return candidates.map((c) => ({ ...c, series: 2 }));
   }
 
   /**
