@@ -1,8 +1,8 @@
 # Task Backlog
 
 ## 1. Data Aggregation & Final Polish
-- [ ] Validation Suite: Script to check integrity of generated CSVs (e.g., no orphaned votes).
 - [ ] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
+- [ ] **CI Integration**: Add `npm run validate` to the GitHub Actions workflow to ensure data integrity on every PR.
 - [ ] **Auditing**: Automation to commit/persist CSVs to repository history.
 
 ## 2. Cloud Infrastructure & Automation
@@ -63,6 +63,11 @@
 ## Data Aggregation
 - [x] Implement `DataMerger` to combine series data into master CSVs.
 - [x] Build CLI Entrypoint (`npm run ingest`).
+
+## Data Validation
+- [x] Validation Suite: CLI script (`npm run validate`) to check integrity of generated CSVs (e.g., no orphaned votes).
+- [x] `CsvReader`: Service for reading and parsing CSV files with numeric casting support.
+- [x] `DataValidator`: Logic to verify referential integrity and schema compliance for processed data.
 
 ## Series 1 Implementation
 - [x] Scrape Candidate Table.
