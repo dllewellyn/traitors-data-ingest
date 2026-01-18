@@ -19,13 +19,13 @@ export class CsvReader {
         skip_empty_lines: true,
         trim: true,
         cast: (value, context) => {
-           if (context.header) return value;
-           // Attempt to cast numbers
-           if (!isNaN(Number(value)) && value.trim() !== "") {
-             return Number(value);
-           }
-           return value;
-        }
+          if (context.header) return value;
+          // Attempt to cast numbers
+          if (!isNaN(Number(value)) && value.trim() !== "") {
+            return Number(value);
+          }
+          return value;
+        },
       });
       return records as T[];
     } catch (error) {

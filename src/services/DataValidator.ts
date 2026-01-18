@@ -1,4 +1,3 @@
-import { CsvReader } from "./CsvReader";
 import { Role } from "../domain/enums";
 
 export interface CandidateRow {
@@ -23,6 +22,13 @@ export interface ValidationResult {
 }
 
 export class DataValidator {
+  /**
+   * Validates the integrity of the candidates data.
+   * Checks for duplicate IDs and invalid role values.
+   *
+   * @param candidates The list of candidates to validate.
+   * @returns A ValidationResult object containing validity status and error messages.
+   */
   public validateCandidates(candidates: CandidateRow[]): ValidationResult {
     const errors: string[] = [];
     const ids = new Set<string>();
@@ -30,17 +36,25 @@ export class DataValidator {
     for (const candidate of candidates) {
       const idKey = `${candidate.series}-${candidate.id}`;
       if (ids.has(idKey)) {
-        errors.push(`Duplicate candidate ID found: ${idKey} (${candidate.name})`);
+        errors.push(
+          `Duplicate candidate ID found: ${idKey} (${candidate.name})`
+        );
       }
       ids.add(idKey);
 
-      if (!Object.values(Role).includes(candidate.originalRole as Role) && candidate.originalRole !== 'None') { // 'None' handling as per memory
-         // Wait, Role enum is Traitor, Faithful. 'None' is sometimes used for early eliminated.
-         // Let's check strict enum compliance or normalized values.
-         // Memory says "If a candidate's affiliation is listed as 'None'... parsers default the role to Role.Faithful".
-         // So the CSV should ideally have 'Faithful' or 'Traitor'.
-         // I will strict check against Role enum.
-         errors.push(`Invalid role for candidate ${candidate.id}: ${candidate.originalRole}`);
+      if (
+        !Object.values(Role).includes(candidate.originalRole as Role) &&
+        candidate.originalRole !== "None"
+      ) {
+        // 'None' handling as per memory
+        // Wait, Role enum is Traitor, Faithful. 'None' is sometimes used for early eliminated.
+        // Let's check strict enum compliance or normalized values.
+        // Memory says "If a candidate's affiliation is listed as 'None'... parsers default the role to Role.Faithful".
+        // So the CSV should ideally have 'Faithful' or 'Traitor'.
+        // I will strict check against Role enum.
+        errors.push(
+          `Invalid role for candidate ${candidate.id}: ${candidate.originalRole}`
+        );
       }
 
       // Status isn't in the flat CandidateRow usually, as it's per round.
@@ -56,29 +70,48 @@ export class DataValidator {
     };
   }
 
-  public validateVotes(votes: VoteRow[], candidates: CandidateRow[]): ValidationResult {
+  /**
+   * Validates the integrity of the votes data.
+   * Checks for referential integrity (orphaned votes) and valid round/episode numbers.
+   *
+   * @param votes The list of votes to validate.
+   * @param candidates The list of candidates to validate against.
+   * @returns A ValidationResult object containing validity status and error messages.
+   */
+  public validateVotes(
+    votes: VoteRow[],
+    candidates: CandidateRow[]
+  ): ValidationResult {
     const errors: string[] = [];
     // candidate key: series-id
-    const candidateIds = new Set(candidates.map(c => `${c.series}-${c.id}`));
+    const candidateIds = new Set(candidates.map((c) => `${c.series}-${c.id}`));
 
     for (const vote of votes) {
       const voterKey = `${vote.series}-${vote.voterId}`;
       const targetKey = `${vote.series}-${vote.targetId}`;
 
       if (!candidateIds.has(voterKey)) {
-        errors.push(`Orphaned vote: Voter ${voterKey} not found in candidates (Round ${vote.round})`);
+        errors.push(
+          `Orphaned vote: Voter ${voterKey} not found in candidates (Round ${vote.round})`
+        );
       }
 
       if (!candidateIds.has(targetKey)) {
-        errors.push(`Orphaned vote: Target ${targetKey} not found in candidates (Round ${vote.round})`);
+        errors.push(
+          `Orphaned vote: Target ${targetKey} not found in candidates (Round ${vote.round})`
+        );
       }
 
       if (vote.round <= 0) {
-        errors.push(`Invalid round number: ${vote.round} for vote by ${voterKey}`);
+        errors.push(
+          `Invalid round number: ${vote.round} for vote by ${voterKey}`
+        );
       }
 
       if (vote.episode <= 0) {
-         errors.push(`Invalid episode number: ${vote.episode} for vote by ${voterKey}`);
+        errors.push(
+          `Invalid episode number: ${vote.episode} for vote by ${voterKey}`
+        );
       }
     }
 

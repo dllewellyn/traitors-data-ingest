@@ -1,7 +1,11 @@
 /* eslint-disable no-console */
 import * as path from "path";
 import { CsvReader } from "../services/CsvReader";
-import { DataValidator, CandidateRow, VoteRow } from "../services/DataValidator";
+import {
+  DataValidator,
+  CandidateRow,
+  VoteRow,
+} from "../services/DataValidator";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -22,8 +26,8 @@ async function main() {
   const votes = await reader.read<VoteRow>(votesPath);
 
   if (candidates.length === 0) {
-      console.warn("No candidates found or file missing. Validation aborted.");
-      process.exit(1);
+    console.warn("No candidates found or file missing. Validation aborted.");
+    process.exit(1);
   }
 
   // Validate Candidates
@@ -31,7 +35,7 @@ async function main() {
   const candidateValidation = validator.validateCandidates(candidates);
   if (!candidateValidation.valid) {
     console.error("Candidate validation failed:");
-    candidateValidation.errors.forEach(err => console.error(`  - ${err}`));
+    candidateValidation.errors.forEach((err) => console.error(`  - ${err}`));
   } else {
     console.log("Candidate validation passed.");
   }
@@ -41,7 +45,7 @@ async function main() {
   const voteValidation = validator.validateVotes(votes, candidates);
   if (!voteValidation.valid) {
     console.error("Vote validation failed:");
-    voteValidation.errors.forEach(err => console.error(`  - ${err}`));
+    voteValidation.errors.forEach((err) => console.error(`  - ${err}`));
   } else {
     console.log("Vote validation passed.");
   }
@@ -54,7 +58,7 @@ async function main() {
   console.log("\nData integrity check PASSED.");
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error("An unexpected error occurred:", error);
   process.exit(1);
 });

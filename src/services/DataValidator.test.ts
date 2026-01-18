@@ -30,19 +30,19 @@ describe("DataValidator", () => {
     });
 
     it("should fail for invalid role", () => {
-        const candidates: CandidateRow[] = [
-          { id: 1, name: "Alice", series: 1, originalRole: "Jester" },
-        ];
-        const result = validator.validateCandidates(candidates);
-        expect(result.valid).toBe(false);
-        expect(result.errors[0]).toContain("Invalid role");
+      const candidates: CandidateRow[] = [
+        { id: 1, name: "Alice", series: 1, originalRole: "Jester" },
+      ];
+      const result = validator.validateCandidates(candidates);
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toContain("Invalid role");
     });
   });
 
   describe("validateVotes", () => {
     const candidates: CandidateRow[] = [
-        { id: 1, name: "Alice", series: 1, originalRole: Role.Faithful },
-        { id: 2, name: "Bob", series: 1, originalRole: Role.Traitor },
+      { id: 1, name: "Alice", series: 1, originalRole: Role.Faithful },
+      { id: 2, name: "Bob", series: 1, originalRole: Role.Traitor },
     ];
 
     it("should pass for valid votes", () => {
@@ -54,30 +54,30 @@ describe("DataValidator", () => {
     });
 
     it("should fail for orphaned voter", () => {
-        const votes: VoteRow[] = [
-          { series: 1, voterId: 99, targetId: 2, round: 1, episode: 1 },
-        ];
-        const result = validator.validateVotes(votes, candidates);
-        expect(result.valid).toBe(false);
-        expect(result.errors[0]).toContain("Orphaned vote: Voter");
+      const votes: VoteRow[] = [
+        { series: 1, voterId: 99, targetId: 2, round: 1, episode: 1 },
+      ];
+      const result = validator.validateVotes(votes, candidates);
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toContain("Orphaned vote: Voter");
     });
 
     it("should fail for orphaned target", () => {
-        const votes: VoteRow[] = [
-          { series: 1, voterId: 1, targetId: 99, round: 1, episode: 1 },
-        ];
-        const result = validator.validateVotes(votes, candidates);
-        expect(result.valid).toBe(false);
-        expect(result.errors[0]).toContain("Orphaned vote: Target");
+      const votes: VoteRow[] = [
+        { series: 1, voterId: 1, targetId: 99, round: 1, episode: 1 },
+      ];
+      const result = validator.validateVotes(votes, candidates);
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toContain("Orphaned vote: Target");
     });
 
     it("should fail for invalid round", () => {
-        const votes: VoteRow[] = [
-          { series: 1, voterId: 1, targetId: 2, round: -1, episode: 1 },
-        ];
-        const result = validator.validateVotes(votes, candidates);
-        expect(result.valid).toBe(false);
-        expect(result.errors[0]).toContain("Invalid round");
+      const votes: VoteRow[] = [
+        { series: 1, voterId: 1, targetId: 2, round: -1, episode: 1 },
+      ];
+      const result = validator.validateVotes(votes, candidates);
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toContain("Invalid round");
     });
   });
 });

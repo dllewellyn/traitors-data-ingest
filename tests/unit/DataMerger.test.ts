@@ -123,18 +123,18 @@ describe("DataMerger", () => {
     });
 
     it("should ignore status values", () => {
-        const progress: CandidateProgressRow[] = [
-          {
-            name: "Alice Smith",
-            progress: {
-              1: "Banished",
-              2: "Safe",
-            },
+      const progress: CandidateProgressRow[] = [
+        {
+          name: "Alice Smith",
+          progress: {
+            1: "Banished",
+            2: "Safe",
           },
-        ];
+        },
+      ];
 
-        const votes = merger.processVotes(1, candidates, progress);
-        expect(votes).toHaveLength(0);
-      });
+      const votes = merger.processVotes(1, candidates, progress);
+      expect(votes).toHaveLength(0);
+    });
   });
 });
