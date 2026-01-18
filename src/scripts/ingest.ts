@@ -92,11 +92,13 @@ async function main() {
 
   // Create all_votes.csv
   console.log("Writing all_votes.csv...");
-  await csvWriter.write(
-    allVotes,
-    path.join(dataDir, "all_votes.csv"),
-    ["series", "voterId", "targetId", "episode", "round"]
-  );
+  await csvWriter.write(allVotes, path.join(dataDir, "all_votes.csv"), [
+    "series",
+    "voterId",
+    "targetId",
+    "episode",
+    "round",
+  ]);
 
   console.log("Ingestion complete.");
 }

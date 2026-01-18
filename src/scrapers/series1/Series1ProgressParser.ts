@@ -130,7 +130,7 @@ export class Series1ProgressParser
         cellCursor++;
 
         const rawText = cell.text();
-        let status = normalizeGameStatus(rawText);
+        const status = normalizeGameStatus(rawText);
 
         // Inference: if status looks like a name (not a known keyword), assume Safe
         const knownStatuses = [
