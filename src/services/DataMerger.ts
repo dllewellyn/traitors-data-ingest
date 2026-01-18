@@ -105,7 +105,7 @@ export class DataMerger {
         if (targetId !== undefined) {
           votes.push({
             series,
-            voterId: voterId!, // We already checked undefined above
+            voterId: voterId, // Validated above
             targetId,
             round: episode,
             episode,

@@ -32,7 +32,11 @@ describe("CsvReader", () => {
     const fileContent = "val1,val2,val3\n123,45.6,hello";
     mockReadFile.mockResolvedValue(fileContent);
 
-    const result = await reader.read<{ val1: number; val2: number; val3: string }>("test.csv");
+    const result = await reader.read<{
+      val1: number;
+      val2: number;
+      val3: string;
+    }>("test.csv");
 
     expect(result).toHaveLength(1);
     expect(result[0].val1).toBe(123);
@@ -44,7 +48,9 @@ describe("CsvReader", () => {
     const fileContent = "col1,col2\n,  ";
     mockReadFile.mockResolvedValue(fileContent);
 
-    const result = await reader.read<{ col1: string; col2: string }>("test.csv");
+    const result = await reader.read<{ col1: string; col2: string }>(
+      "test.csv"
+    );
 
     // Default csv-parse behavior + our trim: true might affect this.
     // Our cast: if (value.trim() !== "") ...
@@ -61,17 +67,21 @@ describe("CsvReader", () => {
   });
 
   it("should return an empty array if file not found (ENOENT)", async () => {
-    const error: any = new Error("File not found");
+    const error: NodeJS.ErrnoException = new Error("File not found");
     error.code = "ENOENT";
     mockReadFile.mockRejectedValue(error);
 
     // Suppress console.warn for this test
-    const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+      // Intentional no-op to suppress console output during test
+    });
 
     const result = await reader.read("missing.csv");
 
     expect(result).toEqual([]);
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("File not found"));
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining("File not found")
+    );
 
     consoleSpy.mockRestore();
   });
@@ -80,6 +90,8 @@ describe("CsvReader", () => {
     const error = new Error("Permission denied");
     mockReadFile.mockRejectedValue(error);
 
-    await expect(reader.read("protected.csv")).rejects.toThrow("Permission denied");
+    await expect(reader.read("protected.csv")).rejects.toThrow(
+      "Permission denied"
+    );
   });
 });

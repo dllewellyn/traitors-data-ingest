@@ -1,6 +1,6 @@
 import { DataMerger } from "../../src/services/DataMerger";
 import { Candidate } from "../../src/domain/models";
-import { Role, Status } from "../../src/domain/enums";
+import { Role } from "../../src/domain/enums";
 import { CandidateProgressRow } from "../../src/scrapers/types";
 
 describe("DataMerger", () => {
