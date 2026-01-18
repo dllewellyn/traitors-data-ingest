@@ -1,9 +1,6 @@
 # Task Backlog
 
-## 1. Data Aggregation & Final Polish
-- [x] **Auditing**: Automation to commit/persist CSVs to repository history.
-
-## 2. Cloud Infrastructure & Automation
+## 1. Cloud Infrastructure & Automation
 - [ ] **Firebase Setup**: Initialize project and configure credentials.
 - [ ] **Storage**: Implement GCS (Google Cloud Storage) adapter for data persistence.
 - [ ] **Automation**: Develop Firebase Function for daily (24h) polling/ingestion.
@@ -86,3 +83,4 @@
 
 ## Documentation & Polish
 - [x] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
+- [x] **Auditing**: Automation to commit/persist CSVs to repository history.
