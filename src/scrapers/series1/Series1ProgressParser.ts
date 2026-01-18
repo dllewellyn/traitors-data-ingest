@@ -133,15 +133,7 @@ export class Series1ProgressParser
         const status = normalizeGameStatus(rawText);
 
         // Inference: if status looks like a name (not a known keyword), assume Safe
-        const knownStatuses = [
-          "Safe",
-          "Banished",
-          "Murdered",
-          "Traitor",
-          "Faithful",
-          "Winner",
-          "RunnerUp",
-        ];
+        // knownStatuses removed to fix unused variable warning
         // Note: normalizeGameStatus already handles "No vote" -> "Safe"
         // and "Eliminated" -> "Banished".
 

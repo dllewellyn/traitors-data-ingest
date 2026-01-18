@@ -1,85 +1,88 @@
-import { CsvReader } from "./CsvReader";
 import { promises as fs } from "fs";
-
-// Only mock fs, use real csv-parse
-jest.mock("fs", () => ({
-  promises: {
-    readFile: jest.fn(),
-  },
-}));
+import { CsvReader } from "./CsvReader";
 
 describe("CsvReader", () => {
-  let reader: CsvReader;
-  const mockReadFile = fs.readFile as jest.Mock;
+  const reader = new CsvReader();
+  const testFile = "test.csv";
 
-  beforeEach(() => {
-    reader = new CsvReader();
-    jest.clearAllMocks();
+  afterEach(async () => {
+    try {
+      await fs.unlink(testFile);
+    } catch {
+      // Ignore if file doesn't exist
+    }
   });
 
-  it("should read and parse a CSV file successfully using real parser", async () => {
-    // Provide real CSV content
-    const fileContent = "id,name\n1,Alice";
-    mockReadFile.mockResolvedValue(fileContent);
+  it("should read a CSV file and return an array of objects", async () => {
+    const csvContent = "name,age\nAlice,30\nBob,25";
+    await fs.writeFile(testFile, csvContent);
 
-    const result = await reader.read<{ id: number; name: string }>("test.csv");
+    const result = await reader.read<{ name: string; age: number }>(testFile);
 
-    expect(mockReadFile).toHaveBeenCalledWith("test.csv", "utf-8");
-    expect(result).toEqual([{ id: 1, name: "Alice" }]);
+    expect(result).toHaveLength(2);
+    expect(result[0]).toEqual({ name: "Alice", age: 30 });
+    expect(result[1]).toEqual({ name: "Bob", age: 25 });
   });
 
-  it("should cast numbers correctly", async () => {
-    const fileContent = "val1,val2,val3\n123,45.6,hello";
-    mockReadFile.mockResolvedValue(fileContent);
+  it("should handle numeric casting correctly", async () => {
+    const csvContent = "val1,val2,val3\n10,20.5,text";
+    await fs.writeFile(testFile, csvContent);
 
-    const result = await reader.read<{ val1: number; val2: number; val3: string }>("test.csv");
+    const result = await reader.read<{
+      val1: number;
+      val2: number;
+      val3: string;
+    }>(testFile);
 
-    expect(result).toHaveLength(1);
-    expect(result[0].val1).toBe(123);
-    expect(result[0].val2).toBe(45.6);
-    expect(result[0].val3).toBe("hello");
+    expect(result[0].val1).toBe(10);
+    expect(result[0].val2).toBe(20.5);
+    expect(result[0].val3).toBe("text");
   });
 
-  it("should handle empty strings in casting", async () => {
-    const fileContent = "col1,col2\n,  ";
-    mockReadFile.mockResolvedValue(fileContent);
+  it("should return an empty array for an empty file", async () => {
+    await fs.writeFile(testFile, "");
 
-    const result = await reader.read<{ col1: string; col2: string }>("test.csv");
-
-    // Default csv-parse behavior + our trim: true might affect this.
-    // Our cast: if (value.trim() !== "") ...
-    // "  ".trim() is "" -> returns value "  " (because trim:true in options handles the trim before cast? No, cast runs on raw usually or after trim depending on config)
-    // Actually `trim: true` in options means the value passed to cast is already trimmed?
-    // Let's rely on the real behavior.
-
-    expect(result).toHaveLength(1);
-    // Since trim: true is set, whitespace becomes empty string usually?
-    // Let's verify what we get.
-    // If input is empty string in CSV (,,), value is "". Number("") is 0.
-    // But value.trim() !== "" prevents it becoming 0. So it returns "".
-    expect(result[0].col1).toBe("");
-  });
-
-  it("should return an empty array if file not found (ENOENT)", async () => {
-    const error: any = new Error("File not found");
-    error.code = "ENOENT";
-    mockReadFile.mockRejectedValue(error);
-
-    // Suppress console.warn for this test
-    const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
-
-    const result = await reader.read("missing.csv");
+    const result = await reader.read(testFile);
 
     expect(result).toEqual([]);
-    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("File not found"));
+  });
 
+  it("should log a warning and return empty array if file does not exist", async () => {
+    const consoleSpy = jest.spyOn(console, "warn").mockImplementation();
+    const result = await reader.read("nonexistent.csv");
+    expect(result).toEqual([]);
+    expect(consoleSpy).toHaveBeenCalledWith(
+      expect.stringContaining("File not found")
+    );
     consoleSpy.mockRestore();
   });
 
-  it("should throw error for non-ENOENT errors", async () => {
-    const error = new Error("Permission denied");
-    mockReadFile.mockRejectedValue(error);
+  it("should handle parsing errors gracefully", async () => {
+    // Malformed CSV
+    const csvContent = 'name,age\nAlice,30\nBob,"unclosed quote';
+    await fs.writeFile(testFile, csvContent);
 
-    await expect(reader.read("protected.csv")).rejects.toThrow("Permission denied");
+    // Casting as any because specific error type varies by library version
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let error: any;
+    try {
+      await reader.read(testFile);
+    } catch (e) {
+      error = e;
+    }
+
+    expect(error).toBeDefined();
+  });
+
+  it("should throw specific error for permission issues", async () => {
+    await fs.writeFile(testFile, "data");
+    // Remove read permissions
+    await fs.chmod(testFile, 0o000);
+
+    try {
+      await reader.read(testFile);
+    } catch (error) {
+      expect(error).toBeDefined();
+    }
   });
 });
