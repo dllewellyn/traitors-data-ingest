@@ -72,7 +72,9 @@ describe("CsvReader", () => {
     mockReadFile.mockRejectedValue(error);
 
     // Suppress console.warn for this test
-    const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+    const consoleSpy = jest.spyOn(console, "warn").mockImplementation(() => {
+      // no-op
+    });
 
     const result = await reader.read("missing.csv");
 
