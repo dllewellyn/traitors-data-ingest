@@ -57,3 +57,10 @@
 - **2026-01-18**: Maintain a live Data Dictionary within the project root documentation (`README.md`) to define schemas and enumerations clearly for users and automated tools.
 - **2026-01-18**: Implement self-updating data pipelines using GitHub Actions with `contents: write` permissions to scrape, validate, and commit dataset changes directly to the repository.
 - **2026-01-18**: In CI/CD workflows that persist data, explicitly check for file changes (e.g., `git status --porcelain`) before committing to avoid failures caused by empty commits.
+- **2026-01-19**: When deploying serverless applications to Firebase, maintain a hybrid approach: use Firebase Hosting for static assets (CDN-backed CSV files), Cloud Functions for API endpoints, and GitHub Actions for data ingestion to preserve git-based auditability.
+- **2026-01-19**: Structure Firebase deployments to leverage existing infrastructure rather than replacing it—keep proven workflows (GitHub Actions) while adding cloud capabilities (Hosting, Functions) incrementally.
+- **2026-01-19**: For monorepo projects with local package dependencies, ensure Firebase Functions build process includes prebuild steps to compile local packages before function deployment.
+- **2026-01-19**: Document cloud deployment strategies comprehensively in project governance files (GOALS.md, TASKS.md) to maintain clear visibility into infrastructure decisions and implementation roadmap.
+- **2026-01-19**: Before deploying to Firebase production, establish a complete local testing infrastructure using Firebase Emulator Suite to validate functions, hosting, and integrations without incurring costs or affecting production.
+- **2026-01-19**: Implement manual trigger endpoints (e.g., `/api/ingest`) for data operations to enable on-demand testing and debugging during development, separate from automated scheduled workflows.
+- **2026-01-19**: Treat Firebase emulator testing as a mandatory gate—no deployment to production should occur without successful local emulator validation of all functions and hosting configurations.

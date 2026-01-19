@@ -14,14 +14,19 @@ Create a comprehensive, structured dataset (CSVs) derived from Wikipedia for the
 - **Coverage**: 100% of participants from all 4 series included.
 
 ## Milestones
-1.  **Scraper Prototype**: Successfully fetch and parse a single Wikipedia page (e.g., Series 1).
-2.  **Data Modeling**: Define the schema for CSV outputs to handle complex voting and demographic data.
-3.  **Series Implementation**:
-    - Scrape Series 1
-    - Scrape Series 2
-    - Scrape Series 3
-    - Scrape Series 4
-4.  **Data Export**: Robust CSV generation logic.
-5.  **Validation**: Verify data against source.
-6. Storage of csvs into the repository for auditing 
-7. Set-up of firebase functions for polling every 24 hours and storage of data in Google cloud storage 
+1.  ✅ **Scraper Prototype**: Successfully fetch and parse a single Wikipedia page (e.g., Series 1).
+2.  ✅ **Data Modeling**: Define the schema for CSV outputs to handle complex voting and demographic data.
+3.  ✅ **Series Implementation**:
+    - ✅ Scrape Series 1
+    - ✅ Scrape Series 2
+    - ✅ Scrape Series 3
+    - ✅ Scrape Series 4
+4.  ✅ **Data Export**: Robust CSV generation logic.
+5.  ✅ **Validation**: Verify data against source.
+6.  ✅ **Repository Storage**: Storage of CSVs into the repository for auditing and version control.
+7.  🔄 **Firebase Deployment**: Deploy API and data pipeline to Google Cloud Platform.
+    - ⏳ Phase 0: Local testing with Firebase Emulator Suite and manual triggers
+    - Firebase Hosting for static CSV files and CDN delivery
+    - Cloud Functions for API endpoints
+    - GitHub Actions for scheduled data ingestion (commits to repo)
+    - Optional: Cloud Storage for backup/alternate data persistence 

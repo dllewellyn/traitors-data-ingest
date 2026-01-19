@@ -1,9 +1,99 @@
 # Task Backlog
 
-## 1. Cloud Infrastructure & Automation
-- [ ] **Firebase Setup**: Initialize project and configure credentials.
-- [ ] **Storage**: Implement GCS (Google Cloud Storage) adapter for data persistence.
-- [ ] **Automation**: Develop Firebase Function for daily (24h) polling/ingestion.
+## 1. Firebase Deployment & Cloud Infrastructure
+
+### Phase 0: Local Testing Infrastructure (DO THIS FIRST)
+- [ ] **Firebase Emulator Setup**
+  - [X] Install Firebase CLI: `npm install -g firebase-tools`
+  - [X] Authenticate: `firebase login`
+  - [X] Initialize emulators: `firebase init emulators`
+  - [X] Configure emulator suite (Hosting, Functions, optional: Storage)
+  - [ ] Add npm script: `"emulate": "firebase emulators:start"`
+  - [ ] Document emulator ports and access URLs in README
+
+- [ ] **Local Testing Workflow**
+  - [ ] Create test Firebase Functions with Express app wrapper
+  - [ ] Test functions locally with emulator: `npm run emulate`
+  - [ ] Verify hot-reload functionality for development
+  - [ ] Test CSV file serving through emulated hosting
+  - [ ] Validate local package dependencies work in emulated environment
+
+- [ ] **Manual Trigger Implementation**
+  - [ ] Create HTTP endpoint for manual data ingestion: `/api/ingest`
+  - [ ] Add authentication/security token for manual trigger
+  - [ ] Test manual trigger locally with emulator
+  - [ ] Document manual trigger usage for maintainers
+  - [ ] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
+
+- [ ] **Emulator Integration Tests**
+  - [ ] Write integration tests that use Firebase emulator
+  - [ ] Test API endpoints against emulated functions
+  - [ ] Verify CSV data accessibility through emulated hosting
+  - [ ] Add emulator tests to CI pipeline (optional)
+  - [ ] Document testing workflow in CONSTITUTION.md
+
+### Phase 1: Firebase Setup
+- [X] **Initialize Firebase Project**
+  - [X] Create Firebase project in console
+  - [X] Initialize hosting: `firebase init hosting`
+  - [X] Initialize functions: `firebase init functions`
+  - [X] Configure `firebase.json` and `.firebaserc`
+  
+### Phase 2: Firebase Hosting Configuration
+- [ ] **Static File Serving**
+  - [ ] Configure hosting to serve CSV files from `data/` directory
+  - [ ] Set up CDN caching headers for CSV files
+  - [ ] Configure CORS for cross-origin data access
+  - [ ] Test CSV file accessibility via Firebase Hosting URLs
+
+### Phase 3: Cloud Functions for API
+- [ ] **Migrate Express App to Functions**
+  - [ ] Move Express app to `functions/src/` directory
+  - [ ] Wrap Express app: `exports.api = functions.https.onRequest(app)`
+  - [ ] Create manual ingestion endpoint: `exports.ingest = functions.https.onRequest(...)`
+  - [ ] Configure rewrite rules in `firebase.json` to route API requests
+  
+- [ ] **Function Development**
+  - [ ] Adapt build process for Cloud Functions environment
+  - [ ] Handle local package dependencies (`file:` protocol) in Functions
+  - [ ] Configure environment variables via Firebase Config
+  - [ ] Re-test with Firebase emulator before deployment
+
+### Phase 4: Data Ingestion Strategy
+- [ ] **Maintain GitHub Actions Approach**
+  - [ ] Keep existing `audit-data.yml` workflow for scheduled ingestion
+  - [ ] Ensure workflow commits updated CSVs to repository
+  - [ ] Verify Firebase Hosting auto-deploys on data commits
+  
+- [ ] **Optional: Cloud Scheduler Backup**
+  - [ ] Create Cloud Function endpoint for manual ingestion trigger
+  - [ ] Set up Cloud Scheduler to call ingestion endpoint
+  - [ ] Implement GCS adapter for cloud-based data persistence
+
+### Phase 5: Deployment & Testing
+- [ ] **Initial Deployment**
+  - [ ] Deploy hosting: `firebase deploy --only hosting`
+  - [ ] Deploy functions: `firebase deploy --only functions`
+  - [ ] Verify API endpoint accessibility
+  - [ ] Verify CSV file serving via CDN
+  
+- [ ] **Integration Testing**
+  - [ ] Test end-to-end data flow (scrape → commit → hosting update)
+  - [ ] Verify function cold start performance
+  - [ ] Monitor Firebase quotas and costs
+  - [ ] Set up Firebase monitoring and alerts
+
+### Phase 6: Documentation & Optimization
+- [ ] **Update Documentation**
+  - [ ] Document Firebase deployment process in README
+  - [ ] Add Firebase hosting URLs to documentation
+  - [ ] Create deployment runbook for maintainers
+  
+- [ ] **Performance Optimization**
+  - [ ] Optimize function bundle size
+  - [ ] Configure function memory/timeout settings
+  - [ ] Implement caching strategies for API responses
+  - [ ] Set up custom domain (optional)
 
 # Completed Work
 

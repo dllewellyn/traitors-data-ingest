@@ -19,3 +19,9 @@ packages/*/dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Firebase & GCP Credentials
+firebase-deploy-key.json
+*-service-account.json
+.firebaserc
+.firebase/
