@@ -2,7 +2,7 @@
   "functions": [
     {
       "source": "functions",
-      "codebase": "default",
+      "codebase": "traitors-data",
       "disallowLegacyRuntimeConfig": true,
       "ignore": [
         "node_modules",
