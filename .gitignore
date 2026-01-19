@@ -16,13 +16,9 @@ packages/*/dist
 
 # OS
 .DS_Store
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Emulator Data
-firebase-data/
 
 # Firebase & GCP Credentials
 firebase-deploy-key.json

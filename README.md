@@ -84,30 +84,6 @@ Scrape Wikipedia and regenerate the CSV datasets:
 npm run ingest
 ```
 
-### Local Development with Firebase Emulators
-
-1.  **Start the Emulators:**
-    This command builds the functions and starts the Firebase Emulator Suite (Hosting, Functions, etc.).
-    ```bash
-    npm run emulate
-    ```
-    - Emulator UI: http://localhost:4000
-    - Functions: http://localhost:5001
-    - Hosting: http://localhost:5000
-
-2.  **Trigger Ingestion Manually:**
-    Once the emulators are running, you can manually trigger the ingestion process.
-    ```bash
-    npm run trigger:local
-    ```
-    This sends an authenticated request to the `/api/ingest` endpoint.
-
-3.  **Run Function Tests:**
-    Unit and integration tests for the Cloud Functions are located in the `functions/` directory.
-    ```bash
-    cd functions && npm test
-    ```
-
 This will produce `data/all_candidates.csv` and `data/all_votes.csv`.
 
 ### Validation
