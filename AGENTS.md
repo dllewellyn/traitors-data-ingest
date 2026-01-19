@@ -64,3 +64,4 @@
 - **2026-01-19**: Before deploying to Firebase production, establish a complete local testing infrastructure using Firebase Emulator Suite to validate functions, hosting, and integrations without incurring costs or affecting production.
 - **2026-01-19**: Implement manual trigger endpoints (e.g., `/api/ingest`) for data operations to enable on-demand testing and debugging during development, separate from automated scheduled workflows.
 - **2026-01-19**: Treat Firebase emulator testing as a mandatory gate—no deployment to production should occur without successful local emulator validation of all functions and hosting configurations.
+- **2026-01-19**: Establish a local emulator workflow for Firebase Functions by decoupling the Express app into a dedicated directory (`functions/`) with its own dependency tree, while using root-level scripts (`npm run emulate`) and `firebase.json` rewrites to integrate it seamlessly with Hosting.
