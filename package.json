@@ -14,7 +14,7 @@
     "validate": "ts-node src/cli/validate.ts",
     "e2e": "playwright test",
     "dev": "nodemon src/index.ts",
-    "emulate": "firebase emulators:start --project demo-test"
+    "emulate": "npm run build --prefix functions && firebase emulators:start --project demo-test"
   },
   "keywords": [],
   "author": "",

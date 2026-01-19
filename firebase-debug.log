@@ -1,0 +1,109 @@
+[debug] [2026-01-19T13:01:52.938Z] ----------------------------------------------------------------------
+[debug] [2026-01-19T13:01:52.941Z] Command:       /home/jules/.nvm/versions/node/v22.21.1/bin/node /app/node_modules/.bin/firebase emulators:start --project demo-test
+[debug] [2026-01-19T13:01:52.942Z] CLI Version:   15.3.1
+[debug] [2026-01-19T13:01:52.942Z] Platform:      linux
+[debug] [2026-01-19T13:01:52.942Z] Node Version:  v22.21.1
+[debug] [2026-01-19T13:01:52.943Z] Time:          Mon Jan 19 2026 13:01:52 GMT+0000 (Coordinated Universal Time)
+[debug] [2026-01-19T13:01:52.943Z] ----------------------------------------------------------------------
+[debug]
+[debug] [2026-01-19T13:01:54.041Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] Failed to authenticate, have you run firebase login?
+[warn] ⚠  emulators: You are not currently authenticated so some features may not work correctly. Please run firebase login to authenticate the CLI.
+[debug] [2026-01-19T13:01:54.145Z] openjdk version "21.0.8" 2025-07-15
+OpenJDK Runtime Environment (build 21.0.8+9-Ubuntu-0ubuntu124.04.1)
+
+[debug] [2026-01-19T13:01:54.146Z] OpenJDK 64-Bit Server VM (build 21.0.8+9-Ubuntu-0ubuntu124.04.1, mixed mode, sharing)
+
+[debug] [2026-01-19T13:01:54.151Z] Parsed Java major version: 21
+[info] i  emulators: Starting emulators: functions, hosting, storage, extensions {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: functions, hosting, storage, extensions"}}
+[info] i  emulators: Detected demo project ID "demo-test", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail. {"metadata":{"emulator":{"name":"hub"},"message":"Detected demo project ID \"demo-test\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail."}}
+[debug] [2026-01-19T13:01:54.158Z] [logging] Logging Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-01-19T13:01:54.158Z] [hosting] Hosting Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-01-19T13:01:54.158Z] [storage] Storage Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-01-19T13:01:54.158Z] assigned listening specs for emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2026-01-19T13:01:54.163Z] Write emulator hub locator at /tmp/hub-demo-test.json
+[debug] [2026-01-19T13:01:54.169Z] [Extensions] Started Extensions emulator, this is a noop.
+[debug] [2026-01-19T13:01:54.170Z] [functions] Functions Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-01-19T13:01:54.170Z] [eventarc] Eventarc Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-01-19T13:01:54.171Z] [tasks] Cloud Tasks Emulator only supports listening on one address (127.0.0.1). Not listening on ::1
+[debug] [2026-01-19T13:01:54.171Z] late-assigned ports for functions and eventarc emulators {"user":{"hub":[{"address":"127.0.0.1","family":"IPv4","port":4400},{"address":"::1","family":"IPv6","port":4400}],"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000},{"address":"::1","family":"IPv6","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"hosting":[{"address":"127.0.0.1","family":"IPv4","port":5000}],"storage":[{"address":"127.0.0.1","family":"IPv4","port":9199}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[debug] [2026-01-19T13:01:54.186Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"storage"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2026-01-19T13:01:55.217Z] Temp file directory for storage emulator: /tmp/firebase/storage/blobs {"metadata":{"emulator":{"name":"storage"},"message":"Temp file directory for storage emulator: /tmp/firebase/storage/blobs"}}
+[debug] [2026-01-19T13:01:55.224Z] No OAuth tokens found
+[debug] [2026-01-19T13:01:55.225Z] No OAuth tokens found
+[debug] [2026-01-19T13:01:55.225Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-19T13:01:55.225Z] Failed to authenticate, have you run firebase login? (original: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.)
+[info] i  hosting[demo-test]: Serving hosting files from: public {"metadata":{"emulator":{"name":"hosting"},"message":"Serving hosting files from: public"}}
+[info] ✔  hosting[demo-test]: Local server: http://127.0.0.1:5000 {"metadata":{"emulator":{"name":"hosting"},"message":"Local server: http://127.0.0.1:5000"}}
+[debug] [2026-01-19T13:01:55.243Z] [Extensions] Connecting Extensions emulator, this is a noop.
+[info] i  functions: Watching "/app/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/app/functions\" for Cloud Functions..."}}
+[debug] [2026-01-19T13:01:55.252Z] Validating nodejs source
+[debug] [2026-01-19T13:01:55.894Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts .",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "24"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "firebase-admin": "^13.6.0",
+    "firebase-functions": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.9",
+    "@typescript-eslint/eslint-plugin": "^5.12.0",
+    "@typescript-eslint/parser": "^5.12.0",
+    "eslint": "^8.9.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-import": "^2.25.4",
+    "firebase-functions-test": "^3.4.1",
+    "typescript": "^5.7.3"
+  },
+  "private": true
+}
+[debug] [2026-01-19T13:01:55.894Z] Building nodejs source
+[debug] [2026-01-19T13:01:55.895Z] Failed to find version of module node: reached end of search path /app/functions/node_modules
+[warn] ⚠  functions: Your requested "node" version "24" doesn't match your global version "22". Using node@22 from host.
+[debug] [2026-01-19T13:01:55.899Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-01-19T13:01:55.905Z] Found firebase-functions binary at '/app/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8955
+
+[debug] [2026-01-19T13:01:56.544Z] Got response from /__/functions.yaml {"endpoints":{"api":{"availableMemoryMb":null,"timeoutSeconds":null,"minInstances":null,"maxInstances":null,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","labels":{},"httpsTrigger":{},"entryPoint":"api"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{}}
+[info] ✔  functions: Loaded functions definitions from source: api. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: api."}}
+[info] ✔  functions[us-central1-api]: http function initialized (http://127.0.0.1:5001/demo-test/us-central1/api). {"metadata":{"emulator":{"name":"functions"},"message":"http function initialized (http://127.0.0.1:5001/demo-test/us-central1/api)."}}
+[debug] [2026-01-19T13:02:00.598Z] Could not find VSCode notification endpoint: FetchError: request to http://localhost:40001/vscode/notify failed, reason: . If you are not running the Firebase Data Connect VSCode extension, this is expected and not an issue.
+[info]
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────┬────────────────┬──────────────────────────────────┐
+│ Emulator   │ Host:Port      │ View in Emulator UI              │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Functions  │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions  │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Hosting    │ 127.0.0.1:5000 │ n/a                              │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Storage    │ 127.0.0.1:9199 │ http://127.0.0.1:4000/storage    │
+├────────────┼────────────────┼──────────────────────────────────┤
+│ Extensions │ 127.0.0.1:5001 │ http://127.0.0.1:4000/extensions │
+└────────────┴────────────────┴──────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4400
+  Other reserved ports: 4500
+┌─────────────────────────┬───────────────┬─────────────────────┐
+│ Extension Instance Name │ Extension Ref │ View in Emulator UI │
+└─────────────────────────┴───────────────┴─────────────────────┘
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
