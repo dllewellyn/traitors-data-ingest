@@ -8,8 +8,8 @@
   - [X] Authenticate: `firebase login`
   - [X] Initialize emulators: `firebase init emulators`
   - [X] Configure emulator suite (Hosting, Functions, optional: Storage)
-  - [ ] Add npm script: `"emulate": "firebase emulators:start"`
-  - [ ] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
+  - [X] Add npm script: `"emulate": "firebase emulators:start"`
+  - [X] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
 
 - [ ] **Local Testing Workflow**
   - [ ] Create test Firebase Functions with Express app wrapper
