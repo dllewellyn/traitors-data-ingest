@@ -54,6 +54,25 @@ Alternatively, run with Docker:
 docker-compose up
 ```
 
+### Local Development (Firebase Emulators)
+
+To run the Firebase Functions and Hosting emulators locally:
+
+1.  Ensure dependencies are installed:
+    ```bash
+    npm install
+    cd functions && npm install
+    ```
+2.  Start the emulators:
+    ```bash
+    npm run emulate
+    ```
+3.  Access the services:
+    -   **Hosting**: http://localhost:5000
+    -   **Functions**: http://localhost:5001
+    -   **Emulator UI**: http://localhost:4000
+    -   **API Endpoint**: http://localhost:5000/api/ (rewritten to function)
+
 ### Data Ingestion
 
 Scrape Wikipedia and regenerate the CSV datasets:
