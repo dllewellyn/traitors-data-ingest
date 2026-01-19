@@ -5,15 +5,16 @@ import cors from "cors";
 const app = express();
 
 // Automatically allow cross-origin requests
-app.use(cors({ origin: true }));
+app.use(cors({origin: true}));
 
-const router = express.Router();
+const router = express.Router(); // eslint-disable-line new-cap
 
 router.get("/", (req, res) => {
-  res.json({ status: "ok" });
+  res.json({status: "ok"});
 });
 
-// Mount the router at the root and at /api to handle both direct function access and hosting rewrites
+// Mount the router at the root and at /api to handle both direct function
+// access and hosting rewrites
 app.use("/", router);
 app.use("/api", router);
 
