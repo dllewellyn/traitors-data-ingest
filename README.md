@@ -68,10 +68,13 @@ To run the Firebase Functions and Hosting emulators locally:
     npm run emulate
     ```
 3.  Access the services:
-    -   **Hosting**: http://localhost:5000
-    -   **Functions**: http://localhost:5001
-    -   **Emulator UI**: http://localhost:4000
-    -   **API Endpoint**: http://localhost:5000/api/ (rewritten to function)
+
+    | Service | Port | URL | Description |
+    | :--- | :--- | :--- | :--- |
+    | **Hosting** | 5000 | `http://localhost:5000` | Serves static assets (CSVs) and rewrites API calls. |
+    | **Functions** | 5001 | `http://localhost:5001` | Cloud Functions backend (direct access). |
+    | **Emulator UI** | 4000 | `http://localhost:4000` | Graphical interface to view logs and data. |
+    | **API Endpoint** | 5000 | `http://localhost:5000/api/` | Main entry point for API (via Hosting rewrite). |
 
 ### Data Ingestion
 
