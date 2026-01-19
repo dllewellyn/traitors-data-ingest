@@ -9,14 +9,14 @@
   - [X] Initialize emulators: `firebase init emulators`
   - [X] Configure emulator suite (Hosting, Functions, optional: Storage)
   - [ ] Add npm script: `"emulate": "firebase emulators:start"`
-  - [ ] Document emulator ports and access URLs in README
+  - [ ] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
 
 - [ ] **Local Testing Workflow**
   - [ ] Create test Firebase Functions with Express app wrapper
   - [ ] Test functions locally with emulator: `npm run emulate`
   - [ ] Verify hot-reload functionality for development
   - [ ] Test CSV file serving through emulated hosting
-  - [ ] Validate local package dependencies work in emulated environment
+  - [ ] Validate local package dependencies work in emulated environment and fully describe the setup in AGENTS.md
 
 - [ ] **Manual Trigger Implementation**
   - [ ] Create HTTP endpoint for manual data ingestion: `/api/ingest`
