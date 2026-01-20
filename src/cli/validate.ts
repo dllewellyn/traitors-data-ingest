@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import * as path from "path";
-import { CsvReader } from "../services/CsvReader";
 import {
+  CsvReader,
   DataValidator,
   CandidateRow,
   VoteRow,
-} from "../services/DataValidator";
+} from "@gcp-adl/core";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 

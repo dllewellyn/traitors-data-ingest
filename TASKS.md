@@ -11,12 +11,12 @@
   - [X] Add npm script: `"emulate": "firebase emulators:start"`
   - [X] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
 
-- [ ] **Manual Trigger Implementation**
-  - [ ] Create HTTP endpoint for manual data ingestion: `/api/ingest`
-  - [ ] Add authentication/security token for manual trigger
-  - [ ] Test manual trigger locally with emulator
-  - [ ] Document manual trigger usage for maintainers
-  - [ ] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
+- [x] **Manual Trigger Implementation**
+  - [x] Create HTTP endpoint for manual data ingestion: `/api/ingest`
+  - [x] Add authentication/security token for manual trigger
+  - [x] Test manual trigger locally with emulator
+  - [x] Document manual trigger usage for maintainers
+  - [x] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
 
 - [ ] **Emulator Integration Tests**
   - [ ] Write integration tests that use Firebase emulator

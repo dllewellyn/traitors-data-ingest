@@ -1,8 +1,6 @@
 import * as path from "path";
 import * as fs from "fs/promises";
-import { CsvWriter } from "../src/services/CsvWriter";
-import { WikipediaFetcher } from "../src/services/WikipediaFetcher";
-import { Series4Scraper } from "../src/scrapers/Series4Scraper";
+import { CsvWriter, WikipediaFetcher, Series4Scraper } from "@gcp-adl/core";
 
 async function main() {
   const fetcher = new WikipediaFetcher();
