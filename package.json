@@ -15,7 +15,7 @@
     "e2e": "playwright test",
     "dev": "nodemon src/index.ts",
     "emulate": "npm run build --prefix functions && firebase emulators:start --project demo-test --import=./firebase-data --export-on-exit",
-    "trigger:local": "curl -X POST http://localhost:5001/demo-test/us-central1/api/api/ingest -H 'Content-Type: application/json' -H 'Authorization: Bearer local-dev-token'"
+    "trigger:local": "curl http://127.0.0.1:5001/demo-test/us-central1/api/status"
   },
   "keywords": [],
   "author": "",
