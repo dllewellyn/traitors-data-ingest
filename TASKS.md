@@ -11,13 +11,6 @@
   - [X] Add npm script: `"emulate": "firebase emulators:start"`
   - [X] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
 
-- [ ] **Local Testing Workflow**
-  - [ ] Create test Firebase Functions with Express app wrapper
-  - [ ] Test functions locally with emulator: `npm run emulate`
-  - [ ] Verify hot-reload functionality for development
-  - [ ] Test CSV file serving through emulated hosting
-  - [ ] Validate local package dependencies work in emulated environment and fully describe the setup in AGENTS.md
-
 - [ ] **Manual Trigger Implementation**
   - [ ] Create HTTP endpoint for manual data ingestion: `/api/ingest`
   - [ ] Add authentication/security token for manual trigger
@@ -125,6 +118,14 @@
     - [x] Set up docker-compose for local development.
 - [x] Link shared libraries (State, Gemini, Jules, GitHub)
     - [x] Ensure local `file:` dependencies are correctly resolved in build pipeline.
+
+## Firebase
+- [x] **Local Testing Workflow**
+  - [x] Create test Firebase Functions with Express app wrapper
+  - [x] Test functions locally with emulator: `npm run emulate`
+  - [x] Verify hot-reload functionality for development
+  - [x] Test CSV file serving through emulated hosting
+  - [x] Validate local package dependencies work in emulated environment and fully describe the setup in AGENTS.md
 
 ## Architecture & Data Modeling
 - [x] Define Domain Entities (Strict Interfaces)
