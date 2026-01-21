@@ -18,7 +18,7 @@
   - [x] Document manual trigger usage for maintainers
   - [x] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
 
-- [x] **Emulator Integration Tests**
+- [ ] **Emulator Integration Tests**
   - [x] Write integration tests that use Firebase emulator
   - [x] Test API endpoints against emulated functions
   - [x] Verify CSV data accessibility through emulated hosting
