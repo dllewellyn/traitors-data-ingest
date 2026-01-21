@@ -1,6 +1,12 @@
 import request from "supertest";
 import app from "./app";
 
+// Mock the core library to prevent actual ingestion during API tests
+jest.mock("@gcp-adl/core", () => ({
+  runIngestionProcess: jest.fn().mockResolvedValue(undefined),
+  createStorageWriter: jest.fn(),
+}));
+
 describe("Functions API", () => {
   describe("GET /status", () => {
     it("should respond with 200 OK", async () => {

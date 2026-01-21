@@ -1,12 +1,16 @@
-import { promises as fs } from "fs";
-import * as path from "path";
-
 import { stringify } from "csv-stringify/sync";
+import { StorageWriter } from "../persistence/storage-writer";
 
 /**
- * A service for writing data to CSV files.
+ * A service for writing data to CSV files using a StorageWriter.
  */
 export class CsvWriter {
+  private writer: StorageWriter;
+
+  constructor(writer: StorageWriter) {
+    this.writer = writer;
+  }
+
   /**
    * Writes an array of objects to a CSV file.
    *
@@ -20,7 +24,7 @@ export class CsvWriter {
     headers?: (keyof T)[]
   ): Promise<void> {
     if (data.length === 0) {
-      await fs.writeFile(filePath, "");
+      await this.writer.write(filePath, "");
       return;
     }
 
@@ -30,8 +34,6 @@ export class CsvWriter {
       columns: resolvedHeaders as string[],
     });
 
-    const dir = path.dirname(filePath);
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(filePath, csvData);
+    await this.writer.write(filePath, csvData);
   }
 }

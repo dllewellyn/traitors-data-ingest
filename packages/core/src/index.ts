@@ -22,3 +22,9 @@ export * from './scrapers/Series4Scraper';
 
 // Export orchestrator
 export * from './ingestion/orchestrator';
+
+// Export persistence
+export * from './persistence/storage-writer';
+export * from './persistence/local-storage-writer';
+export * from './persistence/gcs-storage-writer';
+export * from './persistence/storage-writer.factory';

@@ -5,10 +5,10 @@
 ### Phase 1: Function Development
 - [x] Adapt build process for Cloud Functions environment
 - [x] Handle local package dependencies (`file:` protocol) in Functions
-- [ ] **Implement Cloud-Native Persistence**
-  - [ ] Implement a `StorageWriter` service that can write to either GCS in the cloud or the local filesystem for emulation.
-  - [ ] Update `runIngestionProcess` to use the `StorageWriter` instead of `fs` directly.
-  - [ ] Configure GCS bucket permissions for the Cloud Function.
+- [x] **Implement Cloud-Native Persistence**
+  - [x] Implement a `StorageWriter` service that can write to either GCS in the cloud or the local filesystem for emulation.
+  - [x] Update `runIngestionProcess` to use the `StorageWriter` instead of `fs` directly.
+  - [x] Configure GCS bucket permissions for the Cloud Function.
 - [ ] **Configuration & Secrets**
   - [ ] Configure environment variables (e.g., `INGEST_TOKEN`) via Firebase Functions config (`firebase functions:config:set`).
   - [ ] Update `app.ts` to use configured environment variables instead of hardcoded fallbacks.
