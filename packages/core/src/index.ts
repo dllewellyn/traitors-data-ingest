@@ -22,3 +22,9 @@ export * from './scrapers/Series4Scraper';
 
 // Export orchestrator
 export * from './ingestion/orchestrator';
+
+// Export infrastructure
+export * from './infrastructure/storage/IStorageWriter';
+export * from './infrastructure/storage/LocalStorageWriter';
+export * from './infrastructure/storage/GcsStorageWriter';
+export * from './infrastructure/storage/StorageWriterFactory';
