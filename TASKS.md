@@ -2,29 +2,6 @@
 
 ## 1. Firebase Deployment & Cloud Infrastructure
 
-### Phase 0: Local Testing Infrastructure (DO THIS FIRST)
-- [x] **Firebase Emulator Setup**
-  - [x] Install Firebase CLI: `npm install -g firebase-tools`
-  - [x] Authenticate: `firebase login`
-  - [x] Initialize emulators: `firebase init emulators`
-  - [x] Configure emulator suite (Hosting, Functions, optional: Storage)
-  - [x] Add npm script: `"emulate": "firebase emulators:start"`
-  - [x] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
-
-- [x] **Manual Trigger Implementation**
-  - [x] Create HTTP endpoint for manual data ingestion: `/api/ingest`
-  - [x] Add authentication/security token for manual trigger
-  - [x] Test manual trigger locally with emulator
-  - [x] Document manual trigger usage for maintainers
-  - [x] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
-
-- [ ] **Emulator Integration Tests**
-  - [x] Write integration tests that use Firebase emulator
-  - [x] Test API endpoints against emulated functions
-  - [x] Verify CSV data accessibility through emulated hosting
-  - [x] Add emulator tests to CI pipeline (optional)
-  - [x] Document testing workflow in CONSTITUTION.md
-
 ### Phase 1: Firebase Setup
 - [X] **Initialize Firebase Project**
   - [X] Create Firebase project in console
@@ -48,9 +25,10 @@
   
 - [ ] **Function Development**
   - [ ] Adapt build process for Cloud Functions environment
-  - [ ] Handle local package dependencies (`file:` protocol) in Functions
+  - [x] Handle local package dependencies (`file:` protocol) in Functions
   - [ ] Configure environment variables via Firebase Config
   - [ ] Re-test with Firebase emulator before deployment
+  - [ ] Implement cloud-native data persistence (e.g., GCS) for ingestion results, as filesystem is read-only.
 
 ### Phase 4: Data Ingestion Strategy
 - [ ] **Maintain GitHub Actions Approach**
@@ -120,12 +98,27 @@
     - [x] Ensure local `file:` dependencies are correctly resolved in build pipeline.
 
 ## Firebase
-- [x] **Local Testing Workflow**
-  - [x] Create test Firebase Functions with Express app wrapper
-  - [x] Test functions locally with emulator: `npm run emulate`
-  - [x] Verify hot-reload functionality for development
-  - [x] Test CSV file serving through emulated hosting
-  - [x] Validate local package dependencies work in emulated environment and fully describe the setup in AGENTS.md
+- [x] **Firebase Emulator Setup**
+  - [x] Install Firebase CLI: `npm install -g firebase-tools`
+  - [x] Authenticate: `firebase login`
+  - [x] Initialize emulators: `firebase init emulators`
+  - [x] Configure emulator suite (Hosting, Functions, optional: Storage)
+  - [x] Add npm script: `"emulate": "firebase emulators:start"`
+  - [x] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
+
+- [x] **Manual Trigger Implementation**
+  - [x] Create HTTP endpoint for manual data ingestion: `/api/ingest`
+  - [x] Add authentication/security token for manual trigger
+  - [x] Test manual trigger locally with emulator
+  - [x] Document manual trigger usage for maintainers
+  - [x] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
+
+- [x] **Emulator Integration Tests**
+  - [x] Write integration tests that use Firebase emulator
+  - [x] Test API endpoints against emulated functions
+  - [x] Verify CSV data accessibility through emulated hosting
+  - [x] Add emulator tests to CI pipeline (optional)
+  - [x] Document testing workflow in CONSTITUTION.md
 
 ## Architecture & Data Modeling
 - [x] Define Domain Entities (Strict Interfaces)
