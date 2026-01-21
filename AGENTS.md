@@ -100,3 +100,4 @@ To run the project locally with the Firebase Emulator Suite, follow these steps:
 - **2026-01-21**: Employ hosting rewrites (e.g., in `firebase.json`) to proxy a clean API path (like `/api/**`) to the underlying serverless function, decoupling the public URL from the function's trigger name.
 - **2026-01-21**: Secure internal or development-only endpoints with a simple, shared secret passed in a custom header (e.g., `X-Auth-Token`) as a lightweight alternative to complex user authentication schemes.
 - **2026-01-21**: Configure test runners (e.g., Jest) to explicitly ignore compiled output directories (e.g., `dist/`) in both `testPathIgnorePatterns` and `coveragePathIgnorePatterns` to prevent test conflicts and ensure accurate coverage metrics.
+- **2026-01-21**: Regularly update third-party dependencies and commit the resulting lockfile changes to ensure the project incorporates upstream security patches and bug fixes, maintaining a secure and stable baseline.
