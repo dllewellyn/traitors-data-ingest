@@ -1,6 +1,6 @@
 import express, {Request, Response, NextFunction} from "express";
 import * as logger from "firebase-functions/logger";
-import {runIngestionProcess, createStorageWriter} from "@gcp-adl/core";
+import {runIngestionProcess} from "@gcp-adl/core";
 
 const app = express();
 
@@ -31,11 +31,8 @@ app.get("/api/health", (req: Request, res: Response) => {
 app.post("/api/ingest", authMiddleware, (req: Request, res: Response) => {
   logger.info("Ingestion triggered manually");
 
-  // Create the storage writer based on environment
-  const writer = createStorageWriter();
-
   // Do not await, run in background
-  runIngestionProcess(writer)
+  runIngestionProcess()
       .then(() => {
         logger.info("Ingestion completed successfully");
       })

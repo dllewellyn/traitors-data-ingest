@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@gcp-adl/core": "file:../packages/core",
-    "@google-cloud/storage": "^7.18.0",
     "cors": "^2.8.5",
     "express": "^5.2.1",
     "firebase-admin": "^13.6.0",

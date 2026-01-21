@@ -7,7 +7,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@google-cloud/storage": "^7.18.0",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
     "csv-parse": "^6.1.0",

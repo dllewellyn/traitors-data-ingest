@@ -1,11 +1,14 @@
 import * as path from "path";
-import { CsvWriter, WikipediaFetcher, Series4Scraper, LocalStorageWriter } from "@gcp-adl/core";
+import * as fs from "fs/promises";
+import { CsvWriter, WikipediaFetcher, Series4Scraper } from "@gcp-adl/core";
 
 async function main() {
   const fetcher = new WikipediaFetcher();
   const scraper = new Series4Scraper();
+  const writer = new CsvWriter();
   const outputDir = path.resolve(__dirname, "../data/series4");
-  const writer = new CsvWriter(new LocalStorageWriter(outputDir));
+
+  await fs.mkdir(outputDir, { recursive: true });
 
   console.log("Fetching Series 4 data...");
   const html = await fetcher.fetch(
@@ -29,8 +32,8 @@ async function main() {
     progress: JSON.stringify(p.progress),
   }));
 
-  await writer.write(candidateRows, "candidates.csv");
-  await writer.write(progressRows, "votes.csv");
+  await writer.write(candidateRows, path.join(outputDir, "candidates.csv"));
+  await writer.write(progressRows, path.join(outputDir, "votes.csv"));
 
   console.log(`Done. CSVs written to ${outputDir}`);
 }
