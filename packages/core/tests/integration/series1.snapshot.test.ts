@@ -4,6 +4,7 @@ import { FileBasedFetcher } from "../mocks/FileBasedFetcher";
 import { Series1CandidateParser } from "../../src/scrapers/series1/Series1CandidateParser";
 import { Series1ProgressParser } from "../../src/scrapers/series1/Series1ProgressParser";
 import { CsvWriter } from "../../src/services/CsvWriter";
+import { LocalStorageWriter } from "../../src/infrastructure/storage/LocalStorageWriter";
 
 describe("Series 1 Scraper Integration Snapshot", () => {
   let tempDir: string;
@@ -31,7 +32,7 @@ describe("Series 1 Scraper Integration Snapshot", () => {
     const progress = progressParser.parse(html);
 
     // 4. Write CSVs
-    const csvWriter = new CsvWriter();
+    const csvWriter = new CsvWriter(new LocalStorageWriter(tempDir));
     const candidatesPath = path.join(tempDir, "candidates.csv");
     const votesPath = path.join(tempDir, "votes.csv");
 
@@ -46,8 +47,8 @@ describe("Series 1 Scraper Integration Snapshot", () => {
       progress: JSON.stringify(p.progress),
     }));
 
-    await csvWriter.write(candidateRows, candidatesPath);
-    await csvWriter.write(progressRows, votesPath);
+    await csvWriter.write(candidateRows, "candidates.csv");
+    await csvWriter.write(progressRows, "votes.csv");
 
     // 5. Compare with Golden Snapshots
     const expectedCandidatesPath = path.resolve(
