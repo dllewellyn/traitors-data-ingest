@@ -1,4 +1,6 @@
 import express, {Request, Response, NextFunction} from "express";
+import * as logger from "firebase-functions/logger";
+import {runIngestionProcess} from "@gcp-adl/core";
 
 const app = express();
 
@@ -11,11 +13,11 @@ app.get("/status", (req: Request, res: Response) => {
 
 // Auth Middleware
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
+  const authToken = req.headers["x-auth-token"];
   // Default for local testing
-  const token = process.env.INGEST_TOKEN || "local-dev-token";
+  const validToken = process.env.INGEST_TOKEN || "LOCAL_DEV_TOKEN";
 
-  if (!authHeader || authHeader !== `Bearer ${token}`) {
+  if (!authToken || authToken !== validToken) {
     res.status(401).send({error: "Unauthorized"});
     return;
   }
@@ -27,12 +29,18 @@ app.get("/api/health", (req: Request, res: Response) => {
 });
 
 app.post("/api/ingest", authMiddleware, (req: Request, res: Response) => {
-  // In a real implementation, this would trigger the ingestion logic.
-  // For Phase 0 (Infrastructure), we confirm the trigger works.
-  // TODO: Integrate actual ingestion logic in Phase 3.
-  // eslint-disable-next-line no-console
-  console.log("Ingestion triggered manually");
-  res.status(200).send({status: "ingestion started", mode: "manual"});
+  logger.info("Ingestion triggered manually");
+
+  // Do not await, run in background
+  runIngestionProcess()
+      .then(() => {
+        logger.info("Ingestion completed successfully");
+      })
+      .catch((err) => {
+        logger.error("Ingestion failed", err);
+      });
+
+  res.status(202).send({status: "ingestion_started"});
 });
 
 export default app;

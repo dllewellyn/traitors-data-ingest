@@ -3,27 +3,27 @@
 ## 1. Firebase Deployment & Cloud Infrastructure
 
 ### Phase 0: Local Testing Infrastructure (DO THIS FIRST)
-- [ ] **Firebase Emulator Setup**
-  - [X] Install Firebase CLI: `npm install -g firebase-tools`
-  - [X] Authenticate: `firebase login`
-  - [X] Initialize emulators: `firebase init emulators`
-  - [X] Configure emulator suite (Hosting, Functions, optional: Storage)
-  - [X] Add npm script: `"emulate": "firebase emulators:start"`
-  - [X] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
+- [x] **Firebase Emulator Setup**
+  - [x] Install Firebase CLI: `npm install -g firebase-tools`
+  - [x] Authenticate: `firebase login`
+  - [x] Initialize emulators: `firebase init emulators`
+  - [x] Configure emulator suite (Hosting, Functions, optional: Storage)
+  - [x] Add npm script: `"emulate": "firebase emulators:start"`
+  - [x] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
 
-- [ ] **Manual Trigger Implementation**
-  - [ ] Create HTTP endpoint for manual data ingestion: `/api/ingest`
-  - [ ] Add authentication/security token for manual trigger
-  - [ ] Test manual trigger locally with emulator
-  - [ ] Document manual trigger usage for maintainers
-  - [ ] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
+- [x] **Manual Trigger Implementation**
+  - [x] Create HTTP endpoint for manual data ingestion: `/api/ingest`
+  - [x] Add authentication/security token for manual trigger
+  - [x] Test manual trigger locally with emulator
+  - [x] Document manual trigger usage for maintainers
+  - [x] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
 
-- [ ] **Emulator Integration Tests**
-  - [ ] Write integration tests that use Firebase emulator
-  - [ ] Test API endpoints against emulated functions
-  - [ ] Verify CSV data accessibility through emulated hosting
-  - [ ] Add emulator tests to CI pipeline (optional)
-  - [ ] Document testing workflow in CONSTITUTION.md
+- [x] **Emulator Integration Tests**
+  - [x] Write integration tests that use Firebase emulator
+  - [x] Test API endpoints against emulated functions
+  - [x] Verify CSV data accessibility through emulated hosting
+  - [x] Add emulator tests to CI pipeline (optional)
+  - [x] Document testing workflow in CONSTITUTION.md
 
 ### Phase 1: Firebase Setup
 - [X] **Initialize Firebase Project**
@@ -34,17 +34,17 @@
   
 ### Phase 2: Firebase Hosting Configuration
 - [ ] **Static File Serving**
-  - [ ] Configure hosting to serve CSV files from `data/` directory
+  - [x] Configure hosting to serve CSV files from `data/` directory
   - [ ] Set up CDN caching headers for CSV files
   - [ ] Configure CORS for cross-origin data access
-  - [ ] Test CSV file accessibility via Firebase Hosting URLs
+  - [x] Test CSV file accessibility via Firebase Hosting URLs
 
 ### Phase 3: Cloud Functions for API
 - [ ] **Migrate Express App to Functions**
-  - [ ] Move Express app to `functions/src/` directory
-  - [ ] Wrap Express app: `exports.api = functions.https.onRequest(app)`
-  - [ ] Create manual ingestion endpoint: `exports.ingest = functions.https.onRequest(...)`
-  - [ ] Configure rewrite rules in `firebase.json` to route API requests
+  - [x] Move Express app to `functions/src/` directory
+  - [x] Wrap Express app: `exports.api = functions.https.onRequest(app)`
+  - [x] Create manual ingestion endpoint: `exports.ingest = functions.https.onRequest(...)`
+  - [x] Configure rewrite rules in `firebase.json` to route API requests
   
 - [ ] **Function Development**
   - [ ] Adapt build process for Cloud Functions environment
