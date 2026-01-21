@@ -13,7 +13,7 @@
   - [ ] Configure environment variables (e.g., `INGEST_TOKEN`) via Firebase Functions config (`firebase functions:config:set`).
   - [ ] Update `app.ts` to use configured environment variables instead of hardcoded fallbacks.
 - [ ] **Final Testing**
-  - [ ] Re-test the entire ingestion flow with the Firebase emulator, ensuring data is written correctly.
+  - [ ] Re-test the entire ingestion flow with the Firebase emulator, ensuring data is written correctly to the emulated GCS bucket.
 
 ### Phase 2: Deployment & Testing
 - [ ] **Initial Deployment**
@@ -121,6 +121,7 @@
   - [x] Document testing workflow in CONSTITUTION.md
 
 ## Architecture & Data Modeling
+- [x] Refactor core ingestion logic into a shared package (`@gcp-adl/core`)
 - [x] Define Domain Entities (Strict Interfaces)
     - [x] `Candidate` (with strict enums for Status/Role).
     - [x] `Episode`, `Round`, `Vote`, `Banishment`, `Murder`.
