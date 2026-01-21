@@ -1,4 +1,5 @@
 import express, {Request, Response, NextFunction} from "express";
+import * as logger from "firebase-functions/logger";
 import {runIngestionProcess} from "@gcp-adl/core";
 
 const app = express();
@@ -28,17 +29,15 @@ app.get("/api/health", (req: Request, res: Response) => {
 });
 
 app.post("/api/ingest", authMiddleware, (req: Request, res: Response) => {
-  // eslint-disable-next-line no-console
-  console.log("Ingestion triggered manually");
+  logger.info("Ingestion triggered manually");
 
   // Do not await, run in background
   runIngestionProcess()
       .then(() => {
-        // eslint-disable-next-line no-console
-        console.log("Ingestion completed successfully");
+        logger.info("Ingestion completed successfully");
       })
       .catch((err) => {
-        console.error("Ingestion failed", err);
+        logger.error("Ingestion failed", err);
       });
 
   res.status(202).send({status: "ingestion_started"});
