@@ -14,7 +14,7 @@
     "validate": "ts-node src/cli/validate.ts",
     "e2e": "playwright test",
     "emulate": "npm run build --prefix functions && firebase emulators:start --project demo-test --import=./firebase-data --export-on-exit",
-    "trigger:local": "curl -X POST http://127.0.0.1:5001/demo-test/us-central1/api/api/ingest -H \"X-Auth-Token: LOCAL_DEV_TOKEN\" -H \"Content-Length: 0\"",
+    "trigger:local": "curl -X POST http://localhost:5001/demo-test/us-central1/api/api/ingest -H \"X-Auth-Token: LOCAL_DEV_TOKEN\" -H \"Content-Length: 0\"",
     "postinstall": "npm install --prefix functions"
   },
   "keywords": [],
