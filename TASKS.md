@@ -121,7 +121,7 @@
   - [x] Document testing workflow in CONSTITUTION.md
 
 ## Architecture & Data Modeling
-- [x] Refactor core ingestion logic into a shared package (`@gcp-adl/core`)
+- [x] Refactor core ingestion logic into a shared package (` @gcp-adl/core`)
 - [x] Define Domain Entities (Strict Interfaces)
     - [x] `Candidate` (with strict enums for Status/Role).
     - [x] `Episode`, `Round`, `Vote`, `Banishment`, `Murder`.
@@ -169,3 +169,6 @@
 ## Documentation & Polish
 - [x] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
 - [x] **Auditing**: Automation to commit/persist CSVs to repository history.
+
+## Maintenance
+- [x] Update project dependencies.
