@@ -18,7 +18,7 @@
 - **Types**: 
   - Unit tests for logic and utilities
   - Integration/E2E tests for scraping workflows
-  - Emulator tests for Firebase Functions and Hosting
+  - Emulator tests for Firebase Functions
 - **Local Testing**: All Firebase features must be testable locally via emulators before deployment.
 - **Manual Triggers**: Provide HTTP endpoints for manual data operations during development and testing.
 - **Failure**: A broken build is a top priority fix.
