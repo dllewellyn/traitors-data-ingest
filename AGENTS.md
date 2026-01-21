@@ -1,4 +1,30 @@
 # Agent Memory & Performance
+
+## Local Development Setup
+
+To run the project locally with the Firebase Emulator Suite, follow these steps:
+
+1.  **Prerequisites**: Ensure you have Node.js 20.x, npm, and the Firebase CLI installed (`npm install -g firebase-tools`).
+2.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
+    This will also install dependencies for the `functions` directory via the `postinstall` hook.
+3.  **Start Emulators**:
+    ```bash
+    npm run emulate
+    ```
+    This command builds the functions and starts the emulator suite.
+    - **Hosting**: `http://localhost:5000` (Serves CSVs from `data/` and proxies `/api` requests)
+    - **Functions**: `http://localhost:5001` (Direct access to Cloud Functions)
+    - **Emulator UI**: `http://localhost:4000` (Logs and management interface)
+4.  **Manual Ingestion Trigger**:
+    To manually trigger data ingestion during development:
+    ```bash
+    npm run trigger:local
+    ```
+    This sends an authenticated POST request to `http://localhost:5001/.../api/ingest` using the `LOCAL_DEV_TOKEN`.
+
 ## Lessons Learned
 - **2026-01-15**: System initialized.
 - **2026-01-15**: Constitution ratified: Enforcing strict TypeScript, >90% test coverage, and Conventional Commits for all contributions.
