@@ -2,46 +2,20 @@
 
 ## 1. Firebase Deployment & Cloud Infrastructure
 
-### Phase 1: Firebase Setup
-- [X] **Initialize Firebase Project**
-  - [X] Create Firebase project in console
-  - [X] Initialize hosting: `firebase init hosting`
-  - [X] Initialize functions: `firebase init functions`
-  - [X] Configure `firebase.json` and `.firebaserc`
-  
-### Phase 2: Firebase Hosting Configuration
-- [ ] **Static File Serving**
-  - [ ] Configure hosting to serve CSV files from `data/` directory
-  - [ ] Set up CDN caching headers for CSV files
-  - [ ] Configure CORS for cross-origin data access
-  - [ ] Test CSV file accessibility via Firebase Hosting URLs
+### Phase 1: Function Development
+- [x] Adapt build process for Cloud Functions environment
+- [x] Handle local package dependencies (`file:` protocol) in Functions
+- [ ] **Implement Cloud-Native Persistence**
+  - [ ] Implement a `StorageWriter` service that can write to either GCS in the cloud or the local filesystem for emulation.
+  - [ ] Update `runIngestionProcess` to use the `StorageWriter` instead of `fs` directly.
+  - [ ] Configure GCS bucket permissions for the Cloud Function.
+- [ ] **Configuration & Secrets**
+  - [ ] Configure environment variables (e.g., `INGEST_TOKEN`) via Firebase Functions config (`firebase functions:config:set`).
+  - [ ] Update `app.ts` to use configured environment variables instead of hardcoded fallbacks.
+- [ ] **Final Testing**
+  - [ ] Re-test the entire ingestion flow with the Firebase emulator, ensuring data is written correctly.
 
-### Phase 3: Cloud Functions for API
-- [ ] **Migrate Express App to Functions**
-  - [ ] Move Express app to `functions/src/` directory
-  - [ ] Wrap Express app: `exports.api = functions.https.onRequest(app)`
-  - [ ] Create manual ingestion endpoint: `exports.ingest = functions.https.onRequest(...)`
-  - [ ] Configure rewrite rules in `firebase.json` to route API requests
-  
-- [ ] **Function Development**
-  - [ ] Adapt build process for Cloud Functions environment
-  - [x] Handle local package dependencies (`file:` protocol) in Functions
-  - [ ] Configure environment variables via Firebase Config
-  - [ ] Re-test with Firebase emulator before deployment
-  - [ ] Implement cloud-native data persistence (e.g., GCS) for ingestion results, as filesystem is read-only.
-
-### Phase 4: Data Ingestion Strategy
-- [ ] **Maintain GitHub Actions Approach**
-  - [ ] Keep existing `audit-data.yml` workflow for scheduled ingestion
-  - [ ] Ensure workflow commits updated CSVs to repository
-  - [ ] Verify Firebase Hosting auto-deploys on data commits
-  
-- [ ] **Optional: Cloud Scheduler Backup**
-  - [ ] Create Cloud Function endpoint for manual ingestion trigger
-  - [ ] Set up Cloud Scheduler to call ingestion endpoint
-  - [ ] Implement GCS adapter for cloud-based data persistence
-
-### Phase 5: Deployment & Testing
+### Phase 2: Deployment & Testing
 - [ ] **Initial Deployment**
   - [ ] Deploy hosting: `firebase deploy --only hosting`
   - [ ] Deploy functions: `firebase deploy --only functions`
@@ -54,7 +28,25 @@
   - [ ] Monitor Firebase quotas and costs
   - [ ] Set up Firebase monitoring and alerts
 
-### Phase 6: Documentation & Optimization
+### Phase 3: Firebase Hosting Configuration
+- [ ] **Static File Serving**
+  - [x] Configure hosting to serve CSV files from `data/` directory
+  - [ ] Set up CDN caching headers for CSV files
+  - [ ] Configure CORS for cross-origin data access
+  - [ ] Test CSV file accessibility via Firebase Hosting URLs
+
+### Phase 4: Data Ingestion Strategy
+- [ ] **Maintain GitHub Actions Approach**
+  - [ ] Keep existing `audit-data.yml` workflow for scheduled ingestion
+  - [ ] Ensure workflow commits updated CSVs to repository
+  - [ ] Verify Firebase Hosting auto-deploys on data commits
+  
+- [ ] **Optional: Cloud Scheduler Backup**
+  - [ ] Create Cloud Function endpoint for manual ingestion trigger
+  - [ ] Set up Cloud Scheduler to call ingestion endpoint
+  - [ ] Implement GCS adapter for cloud-based data persistence
+
+### Phase 5: Documentation & Optimization
 - [ ] **Update Documentation**
   - [ ] Document Firebase deployment process in README
   - [ ] Add Firebase hosting URLs to documentation
@@ -98,6 +90,16 @@
     - [x] Ensure local `file:` dependencies are correctly resolved in build pipeline.
 
 ## Firebase
+- [x] **Initialize Firebase Project**
+  - [x] Create Firebase project in console
+  - [x] Initialize hosting: `firebase init hosting`
+  - [x] Initialize functions: `firebase init functions`
+  - [x] Configure `firebase.json` and `.firebaserc`
+- [x] **Migrate Express App to Functions**
+  - [x] Move Express app to `functions/src/` directory
+  - [x] Wrap Express app: `exports.api = functions.https.onRequest(app)`
+  - [x] Create manual ingestion endpoint: `exports.ingest = functions.https.onRequest(...)`
+  - [x] Configure rewrite rules in `firebase.json` to route API requests
 - [x] **Firebase Emulator Setup**
   - [x] Install Firebase CLI: `npm install -g firebase-tools`
   - [x] Authenticate: `firebase login`
@@ -105,14 +107,12 @@
   - [x] Configure emulator suite (Hosting, Functions, optional: Storage)
   - [x] Add npm script: `"emulate": "firebase emulators:start"`
   - [x] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
-
 - [x] **Manual Trigger Implementation**
   - [x] Create HTTP endpoint for manual data ingestion: `/api/ingest`
   - [x] Add authentication/security token for manual trigger
   - [x] Test manual trigger locally with emulator
   - [x] Document manual trigger usage for maintainers
   - [x] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
-
 - [x] **Emulator Integration Tests**
   - [x] Write integration tests that use Firebase emulator
   - [x] Test API endpoints against emulated functions
