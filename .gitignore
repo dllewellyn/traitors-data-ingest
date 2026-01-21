@@ -1,27 +1,12 @@
-# Dependencies
-/node_modules
-
-# Testing
-/coverage
-/test-results
-
-# Build
-/dist
-/build
-packages/*/dist
-
-# IDE
-.idea/
-.vscode/
-
-# OS
+node_modules
 .DS_Store
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Firebase & GCP Credentials
-firebase-deploy-key.json
-*-service-account.json
+dist
+coverage
+.nyc_output
+.env
 .firebaserc
-.firebase/
+firebase-debug.log*
+ui-debug.log*
+*.log
+firebase-data/
+packages/core/node_modules

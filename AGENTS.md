@@ -1,4 +1,30 @@
 # Agent Memory & Performance
+
+## Local Development Setup
+
+To run the project locally with the Firebase Emulator Suite, follow these steps:
+
+1.  **Prerequisites**: Ensure you have Node.js 20.x, npm, and the Firebase CLI installed (`npm install -g firebase-tools`).
+2.  **Install Dependencies**:
+    ```bash
+    npm install
+    ```
+    This will also install dependencies for the `functions` directory via the `postinstall` hook.
+3.  **Start Emulators**:
+    ```bash
+    npm run emulate
+    ```
+    This command builds the functions and starts the emulator suite.
+    - **Hosting**: `http://localhost:5000` (Serves CSVs from `data/` and proxies `/api` requests)
+    - **Functions**: `http://localhost:5001` (Direct access to Cloud Functions)
+    - **Emulator UI**: `http://localhost:4000` (Logs and management interface)
+4.  **Manual Ingestion Trigger**:
+    To manually trigger data ingestion during development:
+    ```bash
+    npm run trigger:local
+    ```
+    This sends an authenticated POST request to `http://localhost:5001/.../api/ingest` using the `LOCAL_DEV_TOKEN`.
+
 ## Lessons Learned
 - **2026-01-15**: System initialized.
 - **2026-01-15**: Constitution ratified: Enforcing strict TypeScript, >90% test coverage, and Conventional Commits for all contributions.
@@ -68,3 +94,6 @@
 - **2026-01-19**: Abstract complex multi-step development environment setup commands (like building dependencies and starting emulators with specific flags) into single, declarative NPM scripts (e.g., `"emulate": "npm run build --prefix functions && firebase emulators:start..."`). This ensures consistency, reduces cognitive load for developers, and minimizes "it works on my machine" errors caused by missed steps.
 - **2026-01-20**: Finalized the Local Testing Workflow by enforcing a strict directory structure (`functions/` for backend, `data/` for hosting), validating Node.js 20.x compatibility for Firebase Runtime, and confirming hot-reload capabilities via `npm run build` triggering emulator updates.
 - **2026-01-20**: Managed project dependencies by removing unused root-level packages (Express, Nodemon) and ensuring `postinstall` hooks automatically install nested `functions` dependencies to maintain a ready-to-code environment.
+- **2026-01-20**: Refactored core ingestion logic into a shared package (`@gcp-adl/core`) to enable reuse across CLI tools and Cloud Functions without code duplication, enforcing a cleaner separation of concerns.
+- **2026-01-20**: Implemented a secure, manual ingestion trigger endpoint (`POST /api/ingest`) in Cloud Functions, protected by a configurable `X-Auth-Token` for local development and authorized testing.
+- **2026-01-20**: Configured `firebase.json` rewrites to map `/api/**` requests to the Cloud Function, simplifying client-side access and mirroring production routing behavior in the local emulator.
