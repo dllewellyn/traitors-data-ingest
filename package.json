@@ -9,7 +9,7 @@
     "lint": "eslint . --ext .ts",
     "prebuild": "node scripts/build-packages.js",
     "build": "tsc",
-    "ingest": "ts-node src/scripts/ingest.ts",
+    "ingest": "USE_LOCAL_STORAGE=true ts-node src/scripts/ingest.ts",
     "ingest:series4": "ts-node scripts/ingest_series4.ts",
     "validate": "ts-node src/cli/validate.ts",
     "e2e": "playwright test",

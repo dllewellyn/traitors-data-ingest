@@ -4,6 +4,7 @@ import { FileBasedFetcher } from "../mocks/FileBasedFetcher";
 import { Series1CandidateParser } from "../../src/scrapers/series1/Series1CandidateParser";
 import { Series1ProgressParser } from "../../src/scrapers/series1/Series1ProgressParser";
 import { CsvWriter } from "../../src/services/CsvWriter";
+import { LocalStorageWriter } from "../../src/persistence/local-storage-writer";
 
 describe("Series 1 Scraper Integration Snapshot", () => {
   let tempDir: string;
@@ -31,9 +32,10 @@ describe("Series 1 Scraper Integration Snapshot", () => {
     const progress = progressParser.parse(html);
 
     // 4. Write CSVs
-    const csvWriter = new CsvWriter();
-    const candidatesPath = path.join(tempDir, "candidates.csv");
-    const votesPath = path.join(tempDir, "votes.csv");
+    const storageWriter = new LocalStorageWriter(tempDir);
+    const csvWriter = new CsvWriter(storageWriter);
+    const candidatesPath = "candidates.csv";
+    const votesPath = "votes.csv";
 
     // Flatten complex objects for CSV
     const candidateRows = candidates.map((c) => ({
@@ -65,8 +67,8 @@ describe("Series 1 Scraper Integration Snapshot", () => {
     );
     const expectedVotes = await fs.readFile(expectedVotesPath, "utf-8");
 
-    const actualCandidates = await fs.readFile(candidatesPath, "utf-8");
-    const actualVotes = await fs.readFile(votesPath, "utf-8");
+    const actualCandidates = await fs.readFile(path.join(tempDir, candidatesPath), "utf-8");
+    const actualVotes = await fs.readFile(path.join(tempDir, votesPath), "utf-8");
 
     expect(actualCandidates).toEqual(expectedCandidates);
     expect(actualVotes).toEqual(expectedVotes);
