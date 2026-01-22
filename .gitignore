@@ -11,4 +11,9 @@ ui-debug.log*
 firebase-data/
 packages/core/node_modules
 # Generated API types
-packages/core/api/generated.ts
+packages/core/src/api/generated.ts
+
+# Generated documentation artifacts
+public/openapi.yaml
+playwright-report/
+test-results/
