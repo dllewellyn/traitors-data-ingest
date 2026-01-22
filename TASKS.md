@@ -1,12 +1,6 @@
 # Task Backlog
 
-## 1. Deprecation & Cleanup
-- [ ] **Clean Up Data Files**
-  - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
-- [ ] **Remove Redundant Persistence Code**
-  - [ ] Remove `LocalStorageWriter` now that `FirestoreStorageWriter` is fully operational.
-
-## 2. API Enhancements
+## 1. API Enhancements
 - [ ] **API Documentation**
   - [ ] Set up Swagger UI or Redoc to serve the OpenAPI spec via Firebase Hosting.
 - [ ] **Performance**
@@ -14,6 +8,12 @@
   - [ ] Optimize Firestore queries for low latency.
 
 # Completed Work
+
+## Deprecation & Cleanup
+- [x] **Clean Up Data Files**
+  - [x] Remove CSV generation from the ingestion pipeline as data is now written directly to Firestore.
+- [x] **Remove Redundant Persistence Code**
+  - [x] Remove `LocalStorageWriter` and `CsvWriter` now that `FirestoreStorageWriter` is fully operational.
 
 ## CI/CD
 - [x] **CI/CD Updates**
