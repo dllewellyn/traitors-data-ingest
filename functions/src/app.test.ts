@@ -1,6 +1,4 @@
 import request from "supertest";
-import * as path from "path";
-import * as fs from "fs";
 import app from "./app";
 
 // We mock @gcp-adl/core to avoid running the full ingestion during tests
