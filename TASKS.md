@@ -1,11 +1,6 @@
 # Task Backlog
 
-## 1. OpenAPI & API Design
-- [ ] **API Implementation**
-  - [x] Refactor Cloud Functions to use generated types and interfaces.
-  - [x] Implement query logic in Firebase Functions to fetch data from Firestore.
-
-## 2. Firestore Migration
+## 1. Firestore Migration
 - [ ] **Database Schema Design**
   - [ ] Design indexes for common query patterns identified in the OAS.
 - [ ] **Persistence Layer Refactoring**
@@ -14,24 +9,24 @@
   - [ ] Define `firestore.rules` to restrict access (read-only for public, write-only for service account/ingestion).
   - [ ] Verify rules with `firebase_validate_security_rules`.
 
-## 3. Data Ingestion 2.0
+## 2. Data Ingestion 2.0
 - [ ] **Validation & Integrity**
   - [ ] Adapt `DataValidator` to work with Firestore documents instead of CSV rows.
   - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
 
-## 4. Firebase Infrastructure & Deployment
+## 3. Firebase Infrastructure & Deployment
 - [ ] **CI/CD Updates**
   - [ ] Update GitHub Actions to include Firestore emulator tests.
   - [ ] Add deployment step for Firestore security rules and indexes.
 
-## 5. Documentation & Optimization
+## 4. Documentation & Optimization
 - [ ] **API Documentation**
   - [ ] Set up Swagger UI or Redoc to serve the OpenAPI spec via Firebase Hosting.
 - [ ] **Performance**
   - [ ] Implement caching headers for API responses in Cloud Functions.
   - [ ] Optimize Firestore queries for low latency.
 
-## 6. Deprecation & Cleanup
+## 5. Deprecation & Cleanup
 - [ ] **Clean Up Data Files**
   - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
   - [ ] Remove `firebase-data/` export directory if no longer needed.
@@ -39,6 +34,17 @@
   - [ ] Remove `LocalStorageWriter` now that `FirestoreStorageWriter` is fully operational.
 
 # Completed Work
+
+## OpenAPI & API Design
+- [x] **API Implementation**
+  - [x] Refactor Cloud Functions to use generated types and interfaces.
+  - [x] Implement query logic in Firebase Functions to fetch data from Firestore.
+- [x] **Automate Code Generation**
+  - [x] Set up `openapi-typescript` or similar tool to generate TypeScript interfaces from the OAS.
+  - [x] Integrate generation into the build pipeline (`npm run generate-api`).
+- [x] **Define OpenAPI Specification**
+  - [x] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
+  - [x] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
 
 ## Firestore Migration
 - [x] **Database Schema Design**
@@ -51,14 +57,6 @@
 - [x] **Direct-to-Firestore Pipeline**
   - [x] Update `ingest.ts` script to bypass local CSV creation and write directly to Firestore (or support both as a flag).
   - [x] Implement batch writing/transactions for atomic updates of series data.
-
-## OpenAPI & API Design
-- [x] **Automate Code Generation**
-  - [x] Set up `openapi-typescript` or similar tool to generate TypeScript interfaces from the OAS.
-  - [x] Integrate generation into the build pipeline (`npm run generate-api`).
-- [x] **Define OpenAPI Specification**
-  - [x] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
-  - [x] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
 
 ## Firebase Infrastructure & Deployment
 - [x] **Initialize Firestore**
