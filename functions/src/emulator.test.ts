@@ -46,12 +46,11 @@ describe("Emulator Integration Tests", () => {
 
     const response = await request(EMULATOR_HOST)
       .post("/api/ingest")
-      .set("Authorization", "Bearer local-dev-token");
+      .set("X-Auth-Token", "LOCAL_DEV_TOKEN");
 
-    expect(response.status).toBe(200);
+    expect(response.status).toBe(202);
     expect(response.body).toEqual({
-      status: "ingestion started",
-      mode: "manual",
+      status: "ingestion_started",
     });
   });
 });

@@ -1,44 +1,34 @@
 import request from "supertest";
-import app from "./app";
 
-// We mock @gcp-adl/core to avoid running the full ingestion during tests
-// but we want to verify that the core logic is called.
-// However, the plan says: "Instead of mocking fs, they will now verify that the correct CSV files appear in the data/ directory after the function executes."
-// BUT `app.ts` does NOT await `runIngestionProcess`. It runs in the background.
-// So in the test, we can't easily wait for it unless we mock it to return a promise we can control,
-// or we just assume it's an async operation and we only verify the API response.
-
-// Since this is a unit/integration test of the express app, and not a full system test,
-// verifying the files are written by the *real* `runIngestionProcess` would be flaky
-// because of the background nature.
-//
-// However, to satisfy the requirement "verify that the correct CSV files appear",
-// we would need `runIngestionProcess` to be awaited OR we mock it to write a dummy file synchronously.
-
-// Let's stick to testing the API contract here, as the actual file writing logic
-// is covered by `packages/core` tests.
-//
-// But if I *must* follow the plan "verify that the correct CSV files appear in the data/ directory",
-// I should probably mock `runIngestionProcess` to behave in a way that writes a file,
-// validating that `app.ts` calls it.
-
-// Actually, `functions/src/app.test.ts` is running in `jest` environment.
-// It imports `app.ts`.
-// `app.ts` imports `@gcp-adl/core`.
-
-// Let's create a spy on runIngestionProcess if possible.
-// Since `@gcp-adl/core` is a dependency, we can mock it.
-
-jest.mock("@gcp-adl/core", () => ({
-  runIngestionProcess: jest.fn().mockImplementation(async () => {
-      // Simulate file writing if we want to test that?
-      // Or just resolve.
-      return Promise.resolve();
-  }),
-  createStorageWriter: jest.fn()
+// Mocks must be declared before importing the module that uses them
+jest.mock("firebase-admin/app", () => ({
+  initializeApp: jest.fn(),
 }));
 
+jest.mock("firebase-admin/firestore", () => ({
+  getFirestore: jest.fn(),
+}));
+
+jest.mock("@gcp-adl/core", () => ({
+  runIngestionProcess: jest.fn().mockResolvedValue(undefined),
+  createStorageWriter: jest.fn(),
+}));
+
+jest.mock("./persistence/firestore", () => ({
+  getAllSeries: jest.fn(),
+  getSeriesByNumber: jest.fn(),
+  getCandidatesBySeriesNumber: jest.fn(),
+}));
+
+// Import app after mocks
+import app from "./app";
+const { getAllSeries, getSeriesByNumber, getCandidatesBySeriesNumber } = require("./persistence/firestore");
+
 describe("Functions API", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe("GET /status", () => {
     it("should respond with 200 OK", async () => {
       const response = await request(app).get("/status");
@@ -83,6 +73,115 @@ describe("Functions API", () => {
       });
 
       expect(runIngestionProcess).toHaveBeenCalled();
+    });
+
+    it("should handle ingestion failure gracefully (log error)", async () => {
+      const { runIngestionProcess } = require("@gcp-adl/core");
+      // Simulate rejection
+      runIngestionProcess.mockRejectedValue(new Error("Ingestion error"));
+
+      // NOTE: Because the route does not await the promise,
+      // the error is caught in the background.
+      // The response to the user is still 202.
+      // We mainly want to ensure this doesn't crash the process.
+      const response = await request(app)
+        .post("/api/ingest")
+        .set("X-Auth-Token", "LOCAL_DEV_TOKEN");
+
+      expect(response.status).toBe(202);
+      expect(runIngestionProcess).toHaveBeenCalled();
+    });
+  });
+
+  describe("GET /api/series", () => {
+    it("should return list of series", async () => {
+      getAllSeries.mockResolvedValue([
+        { seriesNumber: 1, candidates: [], votes: [] },
+        { seriesNumber: 2, candidates: [], votes: [] }
+      ]);
+
+      const response = await request(app).get("/api/series");
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveLength(2);
+      expect(response.body[0].id).toBe(1);
+      expect(response.body[0].title).toBe("The Traitors (UK series 1)");
+    });
+
+    it("should handle errors when fetching all series", async () => {
+      getAllSeries.mockRejectedValue(new Error("Database error"));
+      const response = await request(app).get("/api/series");
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Internal Server Error" });
+    });
+  });
+
+  describe("GET /api/series/:seriesId", () => {
+    it("should return a specific series", async () => {
+      getSeriesByNumber.mockResolvedValue({
+        seriesNumber: 1,
+        candidates: [],
+        votes: []
+      });
+
+      const response = await request(app).get("/api/series/1");
+      expect(response.status).toBe(200);
+      expect(response.body.id).toBe(1);
+    });
+
+    it("should return 404 if series not found", async () => {
+      getSeriesByNumber.mockResolvedValue(null);
+
+      const response = await request(app).get("/api/series/999");
+      expect(response.status).toBe(404);
+    });
+
+    it("should return 400 for invalid series ID", async () => {
+      const response = await request(app).get("/api/series/invalid");
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Invalid series ID" });
+    });
+
+    it("should handle errors when fetching a series", async () => {
+      getSeriesByNumber.mockRejectedValue(new Error("Database error"));
+      const response = await request(app).get("/api/series/1");
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Internal Server Error" });
+    });
+  });
+
+  describe("GET /api/series/:seriesId/candidates", () => {
+    it("should return candidates for a series", async () => {
+      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      getCandidatesBySeriesNumber.mockResolvedValue([
+        { id: 101, name: "Alice", series: 1, originalRole: "Faithful", roundStates: [{ status: "Active" }] }
+      ]);
+
+      const response = await request(app).get("/api/series/1/candidates");
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveLength(1);
+      expect(response.body[0].name).toBe("Alice");
+    });
+
+    it("should return 400 for invalid series ID", async () => {
+      const response = await request(app).get("/api/series/invalid/candidates");
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Invalid series ID" });
+    });
+
+    it("should return 404 if series not found", async () => {
+      getSeriesByNumber.mockResolvedValue(null);
+      const response = await request(app).get("/api/series/999/candidates");
+      expect(response.status).toBe(404);
+      expect(response.body).toEqual({ error: "Series not found" });
+    });
+
+    it("should handle errors when fetching candidates", async () => {
+      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      getCandidatesBySeriesNumber.mockRejectedValue(new Error("Database error"));
+
+      const response = await request(app).get("/api/series/1/candidates");
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Internal Server Error" });
     });
   });
 });
