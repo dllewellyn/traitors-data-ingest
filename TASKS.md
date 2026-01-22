@@ -47,17 +47,22 @@
   - [ ] Optimize Firestore queries for low latency.
 
 ## 6. Deprecation & Cleanup
-- [x] **Remove Redundant Persistence Code**
-  - [x] Remove `GCSStorageWriter` and `LocalStorageWriter` (kept Local for dev) once `FirestoreStorageWriter` is fully operational.
-  - [x] Remove `storage.rules` (Firebase Storage).
 - [ ] **Clean Up Data Files**
   - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
   - [ ] Remove `firebase-data/` export directory if no longer needed.
-- [x] **Codebase Housekeeping**
-  - [x] Audit dependencies for unused packages (`gemini`, `jules`, etc. removed).
-  - [x] Remove `@google-cloud/storage` dependency.
 
 # Completed Work
+
+## Architectural Pivot to OpenAPI & Firestore
+- [x] Redefined project goals towards an API-first, Firestore-backed architecture.
+- [x] Updated project documentation (`CONTEXT_MAP`, `CONSTITUTION`) to reflect new architecture.
+- [x] Created new project backlog for OpenAPI, Firestore, and Ingestion 2.0.
+- [x] **Remove Redundant Persistence Code**
+  - [x] Remove `GCSStorageWriter` and `LocalStorageWriter` (kept Local for dev) once `FirestoreStorageWriter` is fully operational.
+  - [x] Remove `storage.rules` (Firebase Storage).
+- [x] **Codebase Housekeeping**
+  - [x] Audit dependencies for unused packages (`gemini`, `jules`, etc. removed).
+  - [x] Remove ` @google-cloud/storage` dependency.
 
 ## Project Initialization
 - [x] Initialize Repository Documentation (Goals, Tasks, Constitution, Context Map)
@@ -81,7 +86,7 @@
 - [x] **Implement Cloud-Native Persistence** (GCS/Local)
 
 ## Architecture & Data Modeling
-- [x] Refactor core ingestion logic into a shared package (`@gcp-adl/core`)
+- [x] Refactor core ingestion logic into a shared package (` @gcp-adl/core`)
 - [x] Define Domain Entities (Strict Interfaces)
 - [x] Design CSV Schema
 - [x] Implement Utility Layer (Pure Functions)
