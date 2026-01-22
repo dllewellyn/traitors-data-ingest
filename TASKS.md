@@ -1,16 +1,12 @@
 # Task Backlog
 
-## 1. CI/CD & Deployment
-- [ ] **CI/CD Updates**
-  - [ ] Add deployment step for Firestore security rules and indexes.
-
-## 2. Deprecation & Cleanup
+## 1. Deprecation & Cleanup
 - [ ] **Clean Up Data Files**
   - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
 - [ ] **Remove Redundant Persistence Code**
   - [ ] Remove `LocalStorageWriter` now that `FirestoreStorageWriter` is fully operational.
 
-## 3. API Enhancements
+## 2. API Enhancements
 - [ ] **API Documentation**
   - [ ] Set up Swagger UI or Redoc to serve the OpenAPI spec via Firebase Hosting.
 - [ ] **Performance**
@@ -21,6 +17,7 @@
 
 ## CI/CD
 - [x] **CI/CD Updates**
+  - [x] Add deployment step for Firestore security rules and indexes.
   - [x] Update GitHub Actions to include Firestore emulator tests.
 
 ## Firestore Security & Validation
