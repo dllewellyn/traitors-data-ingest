@@ -164,6 +164,10 @@ export interface operations {
         limit?: number;
         /** @description The number of candidates to skip before starting to collect the result set. */
         offset?: number;
+        /** @description The field to sort by. */
+        sortBy?: "name";
+        /** @description The order to sort by. */
+        sortOrder?: "asc" | "desc";
       };
       path: {
         seriesId: number;

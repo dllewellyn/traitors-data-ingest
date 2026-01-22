@@ -66,6 +66,20 @@ paths:
             type: integer
             minimum: 0
             default: 0
+        - name: sortBy
+          in: query
+          description: The field to sort by.
+          schema:
+            type: string
+            enum: [name]
+            default: name
+        - name: sortOrder
+          in: query
+          description: The order to sort by.
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
       responses:
         "200":
           description: A successful response with an array of candidates.

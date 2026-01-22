@@ -166,7 +166,8 @@ describe("Functions API", () => {
       expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
       expect(response.body).toHaveLength(1);
       expect(response.body[0].name).toBe("Alice");
-      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 25, 0);
+      // Expect default sort parameters "name", "asc"
+      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 25, 0, "name", "asc");
     });
 
     it("should support custom pagination parameters", async () => {
@@ -175,7 +176,16 @@ describe("Functions API", () => {
 
       const response = await request(app).get("/api/series/1/candidates?limit=10&offset=5");
       expect(response.status).toBe(200);
-      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 10, 5);
+      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 10, 5, "name", "asc");
+    });
+
+    it("should support sorting by name desc", async () => {
+      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      getCandidatesBySeriesNumber.mockResolvedValue([]);
+
+      const response = await request(app).get("/api/series/1/candidates?sortBy=name&sortOrder=desc");
+      expect(response.status).toBe(200);
+      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 25, 0, "name", "desc");
     });
 
     it("should return 400 for invalid limit", async () => {

@@ -26,13 +26,27 @@ export const getAllSeries = async (): Promise<Series[]> => {
 export const getCandidatesBySeriesNumber = async (
   seriesNumber: number,
   limit: number,
-  offset: number
+  offset: number,
+  sortBy: string = "name",
+  sortOrder: "asc" | "desc" = "asc"
 ): Promise<Candidate[]> => {
   const db = getDb();
   const seriesId = `TRAITORS_UK_S${seriesNumber}`;
-  const snapshot = await db.collection("candidates")
-    .where("seriesId", "==", seriesId)
-    .orderBy("name", "asc")
+
+  let query = db.collection("candidates")
+    .where("seriesId", "==", seriesId);
+
+  // Apply sorting
+  // Currently only 'name' is supported effectively via Firestore indexes
+  if (sortBy === "name") {
+    query = query.orderBy("name", sortOrder);
+  } else {
+    // Default to name asc if unknown sort field, or we could throw.
+    // Given the task limitation, we stick to name for now.
+    query = query.orderBy("name", "asc");
+  }
+
+  const snapshot = await query
     .select("id", "name", "series", "originalRole", "roundStates")
     .limit(limit)
     .offset(offset)
