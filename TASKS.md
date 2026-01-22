@@ -26,9 +26,6 @@
   - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
 
 ## 4. Firebase Infrastructure & Deployment
-- [x] **Initialize Firestore**
-  - [x] Run `firebase_init` to enable Firestore in the project.
-  - [x] Configure Firestore emulator in `firebase.json`.
 - [ ] **CI/CD Updates**
   - [ ] Update GitHub Actions to include Firestore emulator tests.
   - [ ] Add deployment step for Firestore security rules and indexes.
@@ -54,6 +51,11 @@
 - [x] **Define OpenAPI Specification**
   - [x] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
   - [x] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
+
+## Firebase Infrastructure & Deployment
+- [x] **Initialize Firestore**
+  - [x] Run `firebase_init` to enable Firestore in the project.
+  - [x] Configure Firestore emulator in `firebase.json`.
 
 ## Architectural Pivot to OpenAPI & Firestore
 - [x] Redefined project goals towards an API-first, Firestore-backed architecture.
