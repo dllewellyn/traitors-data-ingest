@@ -1,7 +1,6 @@
 import * as path from "path";
 import { StorageWriter } from "./storage-writer";
 import { LocalStorageWriter } from "./local-storage-writer";
-import { GcsStorageWriter } from "./gcs-storage-writer";
 
 export function createStorageWriter(): StorageWriter {
   // If explicitly requested to use local storage (e.g. for local scripts) OR if running in emulator
@@ -14,10 +13,6 @@ export function createStorageWriter(): StorageWriter {
     }
     return new LocalStorageWriter(baseDir);
   } else {
-    const bucketName = process.env.GCS_BUCKET;
-    if (!bucketName) {
-      throw new Error("GCS_BUCKET environment variable is not set.");
-    }
-    return new GcsStorageWriter(bucketName);
+    throw new Error("GCS Storage is no longer supported. Please use Firestore.");
   }
 }

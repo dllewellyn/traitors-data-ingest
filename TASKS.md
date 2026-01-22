@@ -1,59 +1,61 @@
 # Task Backlog
 
-## 1. Firebase Deployment & Cloud Infrastructure
+## 1. OpenAPI & API Design
+- [ ] **Define OpenAPI Specification**
+  - [ ] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
+  - [ ] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
+- [ ] **Automate Code Generation**
+  - [ ] Set up `openapi-typescript` or similar tool to generate TypeScript interfaces from the OAS.
+  - [ ] Integrate generation into the build pipeline (`npm run generate-api`).
+- [ ] **API Implementation**
+  - [ ] Refactor Cloud Functions to use generated types and interfaces.
+  - [ ] Implement query logic in Firebase Functions to fetch data from Firestore.
 
-### Phase 1: Function Development
-- [x] Adapt build process for Cloud Functions environment
-- [x] Handle local package dependencies (`file:` protocol) in Functions
-- [ ] Configure GCS bucket permissions for the Cloud Function.
-- [ ] **Configuration & Secrets**
-  - [ ] Configure environment variables (e.g., `INGEST_TOKEN`, `GCS_BUCKET`) via Firebase Functions config (`firebase functions:config:set`).
-  - [ ] Update `app.ts` to use configured environment variables instead of hardcoded fallbacks.
-- [ ] **Final Testing**
-  - [ ] Re-test the entire ingestion flow with the Firebase emulator, ensuring data is written correctly to the emulated GCS bucket.
+## 2. Firestore Migration
+- [ ] **Database Schema Design**
+  - [ ] Define Firestore collection structure (e.g., `series`, `candidates`, `votes`).
+  - [ ] Design indexes for common query patterns identified in the OAS.
+- [ ] **Persistence Layer Refactoring**
+  - [ ] Implement `FirestoreStorageWriter` in `packages/core/src/persistence/`.
+  - [ ] Update `orchestrator.ts` to support writing to Firestore.
+  - [ ] Implement a migration script to upload existing CSV data from `data/` to Firestore.
+- [ ] **Security Rules**
+  - [ ] Define `firestore.rules` to restrict access (read-only for public, write-only for service account/ingestion).
+  - [ ] Verify rules with `firebase_validate_security_rules`.
 
-### Phase 2: Deployment & Testing
-- [ ] **Initial Deployment**
-  - [ ] Deploy hosting: `firebase deploy --only hosting`
-  - [ ] Deploy functions: `firebase deploy --only functions`
-  - [ ] Verify API endpoint accessibility
-  - [ ] Verify CSV file serving via CDN
-  
-- [ ] **Integration Testing**
-  - [ ] Test end-to-end data flow (scrape → commit → hosting update)
-  - [ ] Verify function cold start performance
-  - [ ] Monitor Firebase quotas and costs
-  - [ ] Set up Firebase monitoring and alerts
+## 3. Data Ingestion 2.0
+- [ ] **Direct-to-Firestore Pipeline**
+  - [ ] Update `ingest.ts` script to bypass local CSV creation and write directly to Firestore (or support both as a flag).
+  - [ ] Implement batch writing/transactions for atomic updates of series data.
+- [ ] **Validation & Integrity**
+  - [ ] Adapt `DataValidator` to work with Firestore documents instead of CSV rows.
+  - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
 
-### Phase 3: Firebase Hosting Configuration
-- [ ] **Static File Serving**
-  - [x] Configure hosting to serve CSV files from `data/` directory
-  - [ ] Set up CDN caching headers for CSV files
-  - [ ] Configure CORS for cross-origin data access
-  - [ ] Test CSV file accessibility via Firebase Hosting URLs
+## 4. Firebase Infrastructure & Deployment
+- [ ] **Initialize Firestore**
+  - [ ] Run `firebase_init` to enable Firestore in the project.
+  - [ ] Configure Firestore emulator in `firebase.json`.
+- [ ] **CI/CD Updates**
+  - [ ] Update GitHub Actions to include Firestore emulator tests.
+  - [ ] Add deployment step for Firestore security rules and indexes.
 
-### Phase 4: Data Ingestion Strategy
-- [ ] **Maintain GitHub Actions Approach**
-  - [ ] Keep existing `audit-data.yml` workflow for scheduled ingestion
-  - [ ] Ensure workflow commits updated CSVs to repository
-  - [ ] Verify Firebase Hosting auto-deploys on data commits
-  
-- [ ] **Optional: Cloud Scheduler Backup**
-  - [ ] Create Cloud Function endpoint for manual ingestion trigger
-  - [ ] Set up Cloud Scheduler to call ingestion endpoint
-  - [ ] Implement GCS adapter for cloud-based data persistence
+## 5. Documentation & Optimization
+- [ ] **API Documentation**
+  - [ ] Set up Swagger UI or Redoc to serve the OpenAPI spec via Firebase Hosting.
+- [ ] **Performance**
+  - [ ] Implement caching headers for API responses in Cloud Functions.
+  - [ ] Optimize Firestore queries for low latency.
 
-### Phase 5: Documentation & Optimization
-- [ ] **Update Documentation**
-  - [ ] Document Firebase deployment process in README
-  - [ ] Add Firebase hosting URLs to documentation
-  - [ ] Create deployment runbook for maintainers
-  
-- [ ] **Performance Optimization**
-  - [ ] Optimize function bundle size
-  - [ ] Configure function memory/timeout settings
-  - [ ] Implement caching strategies for API responses
-  - [ ] Set up custom domain (optional)
+## 6. Deprecation & Cleanup
+- [x] **Remove Redundant Persistence Code**
+  - [x] Remove `GCSStorageWriter` and `LocalStorageWriter` (kept Local for dev) once `FirestoreStorageWriter` is fully operational.
+  - [x] Remove `storage.rules` (Firebase Storage).
+- [ ] **Clean Up Data Files**
+  - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
+  - [ ] Remove `firebase-data/` export directory if no longer needed.
+- [x] **Codebase Housekeeping**
+  - [x] Audit dependencies for unused packages (`gemini`, `jules`, etc. removed).
+  - [x] Remove `@google-cloud/storage` dependency.
 
 # Completed Work
 
@@ -63,112 +65,47 @@
 
 ## Setup
 - [x] Initialize Node.js/TypeScript project
-    - [x] `npm init`
-    - [x] Configure `tsconfig.json` with `strict: true`, `noImplicitAny: true`, and `noEmitOnError: true`.
-- [x] Configure Strict Linting & Formatting and enforce
-    - [x] Install and configure ESLint with strict rules (e.g., no `any`, explicit return types).
-    - [x] Install and configure Prettier.
-    - [x] Ensure `npm run lint` fails on *any* warning or error.
+- [x] Configure Strict Linting & Formatting
 - [x] Set up Testing Infrastructure
-    - [x] Install Jest or Vitest.
-    - [x] Configure coverage reporting to fail if global coverage < 90%.
-    - [x] Set up Playwright for E2E scraper tests.
 - [x] Configure Git Hooks (Husky + lint-staged)
-    - [x] Pre-commit: Run Prettier and ESLint.
-    - [x] Pre-commit: Run unit tests related to changed files.
-    - [x] Commit-msg: Install `commitlint` to enforce Conventional Commits.
 - [x] Create GitHub Actions CI Workflow
-    - [x] Pipeline must run Lint, Build, and Test steps.
-    - [x] Pipeline must fail if any step fails or coverage is unmet.
 - [x] Containerize application with Docker
-    - [x] Refine Dockerfile for production-ready builds.
-    - [x] Set up docker-compose for local development.
 - [x] Link shared libraries (State, Gemini, Jules, GitHub)
-    - [x] Ensure local `file:` dependencies are correctly resolved in build pipeline.
 
 ## Firebase
 - [x] **Initialize Firebase Project**
-  - [x] Create Firebase project in console
-  - [x] Initialize hosting: `firebase init hosting`
-  - [x] Initialize functions: `firebase init functions`
-  - [x] Configure `firebase.json` and `.firebaserc`
 - [x] **Migrate Express App to Functions**
-  - [x] Move Express app to `functions/src/` directory
-  - [x] Wrap Express app: `exports.api = functions.https.onRequest(app)`
-  - [x] Create manual ingestion endpoint: `exports.ingest = functions.https.onRequest(...)`
-  - [x] Configure rewrite rules in `firebase.json` to route API requests
 - [x] **Firebase Emulator Setup**
-  - [x] Install Firebase CLI: `npm install -g firebase-tools`
-  - [x] Authenticate: `firebase login`
-  - [x] Initialize emulators: `firebase init emulators`
-  - [x] Configure emulator suite (Hosting, Functions, optional: Storage)
-  - [x] Add npm script: `"emulate": "firebase emulators:start"`
-  - [x] Document emulator ports and access URLs in README and fully describe the setup in AGENTS.md
 - [x] **Manual Trigger Implementation**
-  - [x] Create HTTP endpoint for manual data ingestion: `/api/ingest`
-  - [x] Add authentication/security token for manual trigger
-  - [x] Test manual trigger locally with emulator
-  - [x] Document manual trigger usage for maintainers
-  - [x] Add npm script: `"trigger:local": "curl http://localhost:5001/.../api/ingest"`
 - [x] **Emulator Integration Tests**
-  - [x] Write integration tests that use Firebase emulator
-  - [x] Test API endpoints against emulated functions
-  - [x] Verify CSV data accessibility through emulated hosting
-  - [x] Add emulator tests to CI pipeline (optional)
-  - [x] Document testing workflow in CONSTITUTION.md
-- [x] **Implement Cloud-Native Persistence**
-  - [x] Implement a `StorageWriter` service that can write to either GCS in the cloud or the local filesystem for emulation.
-  - [x] Update `runIngestionProcess` to use the `StorageWriter` instead of `fs` directly.
+- [x] **Implement Cloud-Native Persistence** (GCS/Local)
 
 ## Architecture & Data Modeling
-- [x] Refactor core ingestion logic into a shared package (` @gcp-adl/core`)
+- [x] Refactor core ingestion logic into a shared package (`@gcp-adl/core`)
 - [x] Define Domain Entities (Strict Interfaces)
-    - [x] `Candidate` (with strict enums for Status/Role).
-    - [x] `Episode`, `Round`, `Vote`, `Banishment`, `Murder`.
 - [x] Design CSV Schema
-    - [x] Define strict column mappings for `candidates.csv`, `votes.csv`, etc.
 - [x] Implement Utility Layer (Pure Functions)
-    - [x] Type guards for parsing untrusted external data.
-    - [x] Data normalizers (dates, names).
 
 ## Core Scraper Implementation
-- [x] Infrastructure Layer
-    - [x] `WikipediaFetcher`: Service for HTTP requests with retry logic and error handling.
-    - [x] `HtmlParser`: Generic interface for parsing HTML (decoupled from fetching).
-- [x] Logic Layer
-    - [x] `TableParser`: Strategy pattern for extracting data from different table structures.
-- [x] Persistence Layer
-    - [x] `CsvWriter`: Service to safely write typed objects to CSV rows.
+- [x] Infrastructure Layer (WikipediaFetcher, HtmlParser)
+- [x] Logic Layer (TableParser)
+- [x] Persistence Layer (CsvWriter)
 
 ## Data Aggregation
-- [x] Implement `DataMerger` to combine series data into master CSVs.
-- [x] Build CLI Entrypoint (`npm run ingest`).
+- [x] Implement `DataMerger`
+- [x] Build CLI Entrypoint (`npm run ingest`)
 
 ## Data Validation
-- [x] Validation Suite: CLI script (`npm run validate`) to check integrity of generated CSVs (e.g., no orphaned votes).
-- [x] `CsvReader`: Service for reading and parsing CSV files with numeric casting support.
-- [x] `DataValidator`: Logic to verify referential integrity and schema compliance for processed data.
-- [x] **CI Integration**: Add `npm run validate` to the GitHub Actions workflow to ensure data integrity on every PR.
+- [x] Validation Suite (CLI script)
+- [x] `CsvReader` & `DataValidator`
+- [x] **CI Integration**
 
-## Series 1 Implementation
-- [x] Scrape Candidate Table.
-- [x] Scrape Progress/Voting Table.
-- [x] Integration Test: Verify S1 output matches expected snapshot.
-
-## Series 2 Implementation
-- [x] Adapt `TableParser` for S2 variations.
-- [x] Scrape Candidate & Progress Tables.
-
-## Series 3 Implementation
-- [x] Scrape Candidate & Progress Tables.
-- [x] Handle "Eliminated" status code (affecting Series 1 & 3).
-
-## Series 4 Implementation
-- [x] Scrape Candidate & Progress Tables.
+## Series Implementation
+- [x] Series 1: Scrape Candidate & Progress Tables
+- [x] Series 2: Scrape Candidate & Progress Tables
+- [x] Series 3: Scrape Candidate & Progress Tables
+- [x] Series 4: Scrape Candidate & Progress Tables
 
 ## Documentation & Polish
-- [x] Documentation: `README.md` with setup, architecture overview, and schema dictionary.
-- [x] **Auditing**: Automation to commit/persist CSVs to repository history.
-
-## Maintenance
-- [x] Update project dependencies.
+- [x] Documentation: `README.md`
+- [x] **Auditing**: Automation to commit/persist CSVs

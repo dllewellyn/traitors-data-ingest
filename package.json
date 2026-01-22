@@ -53,10 +53,6 @@
   },
   "dependencies": {
     "@gcp-adl/core": "file:packages/core",
-    "@gcp-adl/gemini": "file:packages/gemini",
-    "@gcp-adl/github": "file:packages/github",
-    "@gcp-adl/jules": "file:packages/jules",
-    "@gcp-adl/state": "file:packages/state",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
     "csv-parse": "^6.1.0",

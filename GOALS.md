@@ -1,32 +1,31 @@
 # Project Goals
 
 ## Vision
-Create a comprehensive, structured dataset (CSVs) derived from Wikipedia for the UK Series of "The Traitors" (Series 1, 2, 3, and 4). The system should scrape, parse, and organize data to provide deep insights into the show's dynamics, capturing "as much information as physically possible."
-
-## Objectives
-- **Data Completeness**: Capture all available data points including voting behaviors (round-by-round), candidate profiles, role changes (Traitor/Faithful), and demographics.
-- **Structure**: Organize data into logical CSV files (e.g., `candidates.csv`, `votes.csv`, `episodes.csv`, `banishments.csv`) to maximize usability.
-- **Scope**: Cover UK Series 1, 2, 3, and 4 (still in progress).
+Create a comprehensive, structured dataset derived from Wikipedia for the UK Series of "The Traitors" (Series 1-4). The project is evolving from a CSV-based ingestion tool into a robust, API-driven platform that leverages Firestore for data persistence and adopts an OpenAPI-first development approach to ensure scalability and consistency.
 
 ## Key Performance Indicators (KPIs)
-- **Accuracy**: Data must match Wikipedia source tables exactly.
-- **Granularity**: Voting data must be broken down by round/episode.
-- **Coverage**: 100% of participants from all 4 series included.
+- **Data Integrity**: 100% accuracy relative to Wikipedia source data.
+- **API Standards**: 100% adherence to the defined OpenAPI Specification.
+- **Test Coverage**: Maintain 80%+ test coverage across core packages.
+- **Automation**: Maximize code generation from API specifications to ensure consistency between documentation and implementation.
 
-## Milestones
-1.  ✅ **Scraper Prototype**: Successfully fetch and parse a single Wikipedia page (e.g., Series 1).
-2.  ✅ **Data Modeling**: Define the schema for CSV outputs to handle complex voting and demographic data.
-3.  ✅ **Series Implementation**:
-    - ✅ Scrape Series 1
-    - ✅ Scrape Series 2
-    - ✅ Scrape Series 3
-    - ✅ Scrape Series 4
-4.  ✅ **Data Export**: Robust CSV generation logic.
-5.  ✅ **Validation**: Verify data against source.
-6.  ✅ **Repository Storage**: Storage of CSVs into the repository for auditing and version control.
-7.  🔄 **Firebase Deployment**: Deploy API and data pipeline to Google Cloud Platform.
-    - ⏳ Phase 0: Local testing with Firebase Emulator Suite and manual triggers
-    - Firebase Hosting for static CSV files and CDN delivery
-    - Cloud Functions for API endpoints
-    - GitHub Actions for scheduled data ingestion (commits to repo)
-    - Optional: Cloud Storage for backup/alternate data persistence 
+## Major Milestones
+
+### 1. API Architecture & Design
+- Define a comprehensive OpenAPI Specification (OAS) covering all Traitors data entities (Candidates, Votes, Episodes, etc.).
+- Establish an automated pipeline for generating TypeScript models and API stubs from the OAS.
+
+### 2. Firestore Migration
+- Design a Firestore schema that optimizes for common query patterns (e.g., filtering by series, searching for specific candidates).
+- Transition data storage from CSV files and GCS to Firestore collections.
+
+### 3. API Implementation
+- Develop and deploy Firebase Cloud Functions that serve as the primary interface for querying Traitors data.
+- Ensure the API supports flexible filtering and pagination.
+
+### 4. Data Ingestion 2.0
+- Refactor existing scraping logic to populate Firestore directly.
+- Implement robust validation to ensure data quality before it reaches the database.
+
+### 5. Deployment & Automation
+- Full integration with GitHub Actions for CI/CD, including automated API documentation generation and deployment.
