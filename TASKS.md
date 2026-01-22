@@ -1,13 +1,11 @@
 # Task Backlog
 
-## 1. API Enhancements
-- [ ] **Functionality**
-  - [ ] Add pagination to the `/series/{id}/votes` endpoint.
-  - [ ] Add sorting options to the `/series/{id}/candidates` endpoint (e.g., by name, status).
-
 # Completed Work
 
 ## API Enhancements
+- [x] **Functionality**
+  - [x] Add pagination to the `/series/{id}/votes` endpoint.
+  - [x] Add sorting options to the `/series/{id}/candidates` endpoint (e.g., by name, status).
 - [x] **Performance**
   - [x] Add pagination to the `/series/{id}/candidates` endpoint to optimize data fetching.
   - [x] Implement caching headers for API responses in Cloud Functions.
