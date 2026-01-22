@@ -36,7 +36,7 @@ app.post("/api/ingest", authMiddleware, (req: Request, res: Response) => {
     .then(() => {
       logger.info("Ingestion completed successfully");
     })
-    .catch((err) => {
+    .catch((err: unknown) => {
       logger.error("Ingestion failed", err);
     });
 
