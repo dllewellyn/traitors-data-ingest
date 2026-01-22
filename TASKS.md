@@ -7,20 +7,14 @@
 
 ## 2. Firestore Migration
 - [ ] **Database Schema Design**
-  - [ ] Define Firestore collection structure (e.g., `series`, `candidates`, `votes`).
   - [ ] Design indexes for common query patterns identified in the OAS.
 - [ ] **Persistence Layer Refactoring**
-  - [ ] Implement `FirestoreStorageWriter` in `packages/core/src/persistence/`.
-  - [ ] Update `orchestrator.ts` to support writing to Firestore.
   - [ ] Implement a migration script to upload existing CSV data from `data/` to Firestore.
 - [ ] **Security Rules**
   - [ ] Define `firestore.rules` to restrict access (read-only for public, write-only for service account/ingestion).
   - [ ] Verify rules with `firebase_validate_security_rules`.
 
 ## 3. Data Ingestion 2.0
-- [ ] **Direct-to-Firestore Pipeline**
-  - [ ] Update `ingest.ts` script to bypass local CSV creation and write directly to Firestore (or support both as a flag).
-  - [ ] Implement batch writing/transactions for atomic updates of series data.
 - [ ] **Validation & Integrity**
   - [ ] Adapt `DataValidator` to work with Firestore documents instead of CSV rows.
   - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
@@ -41,8 +35,22 @@
 - [ ] **Clean Up Data Files**
   - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
   - [ ] Remove `firebase-data/` export directory if no longer needed.
+- [ ] **Remove Redundant Persistence Code**
+  - [ ] Remove `LocalStorageWriter` now that `FirestoreStorageWriter` is fully operational.
 
 # Completed Work
+
+## Firestore Migration
+- [x] **Database Schema Design**
+  - [x] Define Firestore collection structure (e.g., `series`, `candidates`, `votes`).
+- [x] **Persistence Layer Refactoring**
+  - [x] Implement `FirestoreStorageWriter` in `packages/core/src/persistence/`.
+  - [x] Update `orchestrator.ts` to support writing to Firestore.
+
+## Data Ingestion 2.0
+- [x] **Direct-to-Firestore Pipeline**
+  - [x] Update `ingest.ts` script to bypass local CSV creation and write directly to Firestore (or support both as a flag).
+  - [x] Implement batch writing/transactions for atomic updates of series data.
 
 ## OpenAPI & API Design
 - [x] **Automate Code Generation**
