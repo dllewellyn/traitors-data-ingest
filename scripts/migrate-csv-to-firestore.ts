@@ -9,7 +9,6 @@ import {
   Series,
   CandidateProgressRow,
 } from "@gcp-adl/core";
-
 // Define interfaces for Raw CSV rows
 // CsvReader auto-casts numbers, so we need to account for that in types
 interface RawCandidateRow {
@@ -44,7 +43,9 @@ async function main() {
       console.log(`Targeting project: ${projectId}`);
       initializeApp({ projectId });
     } else {
-      console.log("No project ID specified. Using default credentials/project.");
+      console.log(
+        "No project ID specified. Using default credentials/project."
+      );
       initializeApp();
     }
   }
@@ -59,69 +60,70 @@ async function main() {
   for (const seriesNum of seriesList) {
     console.log(`Migrating Series ${seriesNum}...`);
     try {
-        const dataDir = path.join(process.cwd(), "data", `series${seriesNum}`);
-        const candidatesPath = path.join(dataDir, "candidates.csv");
-        const votesPath = path.join(dataDir, "votes.csv");
+      const dataDir = path.join(process.cwd(), "data", `series${seriesNum}`);
+      const candidatesPath = path.join(dataDir, "candidates.csv");
+      const votesPath = path.join(dataDir, "votes.csv");
 
-        // Read Candidates
-        const rawCandidates = await reader.read<RawCandidateRow>(candidatesPath);
-        const candidates: Candidate[] = rawCandidates.map((row) => {
-            let roundStates: any[] = [];
-            try {
-                // Ensure roundStates is a string before parsing
-                const jsonString = String(row.roundStates);
-                roundStates = JSON.parse(jsonString);
-            } catch (e) {
-                console.error(`Error parsing roundStates for ${row.name}:`, e);
-            }
+      // Read Candidates
+      const rawCandidates = await reader.read<RawCandidateRow>(candidatesPath);
+      const candidates: Candidate[] = rawCandidates.map((row) => {
+        let roundStates: unknown[] = [];
+        try {
+          // Ensure roundStates is a string before parsing
+          const jsonString = String(row.roundStates);
+          roundStates = JSON.parse(jsonString);
+        } catch (e) {
+          console.error(`Error parsing roundStates for ${row.name}:`, e);
+        }
 
-            return {
-                series: seriesNum,
-                id: Number(row.id),
-                name: row.name,
-                age: Number(row.age),
-                job: row.job,
-                location: row.location,
-                originalRole: row.originalRole as any,
-                roundStates: roundStates,
-            };
-        });
-
-        // Read Votes (Progress)
-        const rawVotes = await reader.read<RawVoteRow>(votesPath);
-        const progressRows: CandidateProgressRow[] = rawVotes.map((row) => {
-            let progress: Record<number, string> = {};
-            try {
-                const jsonString = String(row.progress);
-                progress = JSON.parse(jsonString);
-            } catch (e) {
-                console.error(`Error parsing progress for ${row.name}:`, e);
-            }
-            return {
-                name: row.name,
-                progress: progress,
-            };
-        });
-
-        // Process Votes
-        const votes = merger.processVotes(seriesNum, candidates, progressRows);
-
-        // Construct Series
-        const seriesId = `TRAITORS_UK_S${seriesNum}`;
-        const series: Series = {
-            id: seriesId,
-            seriesNumber: seriesNum,
-            candidates: candidates,
-            votes: votes,
+        return {
+          series: seriesNum,
+          id: Number(row.id),
+          name: row.name,
+          age: Number(row.age),
+          job: row.job,
+          location: row.location,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          originalRole: row.originalRole as any,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          roundStates: roundStates as any,
         };
+      });
 
-        // Write to Firestore
-        await writer.write(series);
-        console.log(`Successfully migrated Series ${seriesNum}.`);
+      // Read Votes (Progress)
+      const rawVotes = await reader.read<RawVoteRow>(votesPath);
+      const progressRows: CandidateProgressRow[] = rawVotes.map((row) => {
+        let progress: Record<number, string> = {};
+        try {
+          const jsonString = String(row.progress);
+          progress = JSON.parse(jsonString);
+        } catch (e) {
+          console.error(`Error parsing progress for ${row.name}:`, e);
+        }
+        return {
+          name: row.name,
+          progress: progress,
+        };
+      });
 
+      // Process Votes
+      const votes = merger.processVotes(seriesNum, candidates, progressRows);
+
+      // Construct Series
+      const seriesId = `TRAITORS_UK_S${seriesNum}`;
+      const series: Series = {
+        id: seriesId,
+        seriesNumber: seriesNum,
+        candidates: candidates,
+        votes: votes,
+      };
+
+      // Write to Firestore
+      await writer.write(series);
+      console.log(`Successfully migrated Series ${seriesNum}.`);
     } catch (error) {
-        console.error(`Failed to migrate Series ${seriesNum}:`, error);
-        process.exit(1);
+      console.error(`Failed to migrate Series ${seriesNum}:`, error);
+      process.exit(1);
     }
   }
 }
