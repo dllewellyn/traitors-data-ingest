@@ -1,14 +1,13 @@
+import { firestore } from "firebase-admin";
 import { FirestoreStorageWriter } from "./firestore-writer";
 import { Series } from "../domain/series";
-import { Role, Status } from "../domain/enums";
+import { Role } from "../domain/enums";
 
 describe("FirestoreStorageWriter", () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let writer: FirestoreStorageWriter;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let mockDb: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let mockBatch: any;
+  // Use Partial to allow mocking only the necessary methods
+  let mockDb: Partial<firestore.Firestore>;
+  let mockBatch: Partial<firestore.WriteBatch>;
 
   beforeEach(() => {
     mockBatch = {
@@ -16,17 +15,17 @@ describe("FirestoreStorageWriter", () => {
       commit: jest.fn().mockResolvedValue([]),
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const mockCollection = (name: string) => ({
       doc: (id: string) => ({ path: `${name}/${id}` }),
     });
 
     mockDb = {
-      batch: jest.fn(() => mockBatch),
-      collection: jest.fn(mockCollection),
+      batch: jest.fn(() => mockBatch as firestore.WriteBatch),
+      collection: jest.fn(mockCollection as unknown as (path: string) => firestore.CollectionReference),
     };
 
-    writer = new FirestoreStorageWriter(mockDb);
+    // Cast the mockDb to the expected type
+    writer = new FirestoreStorageWriter(mockDb as firestore.Firestore);
   });
 
   it("should write series, candidates, and votes to Firestore", async () => {
