@@ -10,3 +10,5 @@ ui-debug.log*
 *.log
 firebase-data/
 packages/core/node_modules
+# Generated API types
+packages/core/api/generated.ts
