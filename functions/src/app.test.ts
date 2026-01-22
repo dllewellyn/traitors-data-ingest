@@ -74,6 +74,23 @@ describe("Functions API", () => {
 
       expect(runIngestionProcess).toHaveBeenCalled();
     });
+
+    it("should handle ingestion failure gracefully (log error)", async () => {
+      const { runIngestionProcess } = require("@gcp-adl/core");
+      // Simulate rejection
+      runIngestionProcess.mockRejectedValue(new Error("Ingestion error"));
+
+      // NOTE: Because the route does not await the promise,
+      // the error is caught in the background.
+      // The response to the user is still 202.
+      // We mainly want to ensure this doesn't crash the process.
+      const response = await request(app)
+        .post("/api/ingest")
+        .set("X-Auth-Token", "LOCAL_DEV_TOKEN");
+
+      expect(response.status).toBe(202);
+      expect(runIngestionProcess).toHaveBeenCalled();
+    });
   });
 
   describe("GET /api/series", () => {
@@ -88,6 +105,13 @@ describe("Functions API", () => {
       expect(response.body).toHaveLength(2);
       expect(response.body[0].id).toBe(1);
       expect(response.body[0].title).toBe("The Traitors (UK series 1)");
+    });
+
+    it("should handle errors when fetching all series", async () => {
+      getAllSeries.mockRejectedValue(new Error("Database error"));
+      const response = await request(app).get("/api/series");
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Internal Server Error" });
     });
   });
 
@@ -110,6 +134,19 @@ describe("Functions API", () => {
       const response = await request(app).get("/api/series/999");
       expect(response.status).toBe(404);
     });
+
+    it("should return 400 for invalid series ID", async () => {
+      const response = await request(app).get("/api/series/invalid");
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Invalid series ID" });
+    });
+
+    it("should handle errors when fetching a series", async () => {
+      getSeriesByNumber.mockRejectedValue(new Error("Database error"));
+      const response = await request(app).get("/api/series/1");
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Internal Server Error" });
+    });
   });
 
   describe("GET /api/series/:seriesId/candidates", () => {
@@ -123,6 +160,28 @@ describe("Functions API", () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveLength(1);
       expect(response.body[0].name).toBe("Alice");
+    });
+
+    it("should return 400 for invalid series ID", async () => {
+      const response = await request(app).get("/api/series/invalid/candidates");
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Invalid series ID" });
+    });
+
+    it("should return 404 if series not found", async () => {
+      getSeriesByNumber.mockResolvedValue(null);
+      const response = await request(app).get("/api/series/999/candidates");
+      expect(response.status).toBe(404);
+      expect(response.body).toEqual({ error: "Series not found" });
+    });
+
+    it("should handle errors when fetching candidates", async () => {
+      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      getCandidatesBySeriesNumber.mockRejectedValue(new Error("Database error"));
+
+      const response = await request(app).get("/api/series/1/candidates");
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Internal Server Error" });
     });
   });
 });
