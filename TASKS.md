@@ -1,21 +1,17 @@
 # Task Backlog
 
-## 1. Firestore Security & Validation
-- [ ] **Validation & Integrity**
-  - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
-
-## 2. CI/CD & Deployment
+## 1. CI/CD & Deployment
 - [ ] **CI/CD Updates**
   - [ ] Update GitHub Actions to include Firestore emulator tests.
   - [ ] Add deployment step for Firestore security rules and indexes.
 
-## 3. Deprecation & Cleanup
+## 2. Deprecation & Cleanup
 - [ ] **Clean Up Data Files**
   - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
 - [ ] **Remove Redundant Persistence Code**
   - [ ] Remove `LocalStorageWriter` now that `FirestoreStorageWriter` is fully operational.
 
-## 4. API Enhancements
+## 3. API Enhancements
 - [ ] **API Documentation**
   - [ ] Set up Swagger UI or Redoc to serve the OpenAPI spec via Firebase Hosting.
 - [ ] **Performance**
@@ -26,6 +22,7 @@
 
 ## Firestore Security & Validation
 - [x] **Validation & Integrity**
+  - [x] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
   - [x] Adapt `DataValidator` to work with Firestore documents instead of CSV rows.
 - [x] **Security Rules**
   - [x] Define `firestore.rules` to restrict access (read-only for public, write-only for service account/ingestion).
