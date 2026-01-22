@@ -1,37 +1,41 @@
 # Task Backlog
 
-## 1. Firestore Migration
-- [ ] **Persistence Layer Refactoring**
-  - [ ] Implement a migration script to upload existing CSV data from `data/` to Firestore.
+## 1. Firestore Security & Validation
 - [ ] **Security Rules**
   - [ ] Define `firestore.rules` to restrict access (read-only for public, write-only for service account/ingestion).
-  - [ ] Verify rules with `firebase_validate_security_rules`.
-
-## 2. Data Ingestion 2.0
 - [ ] **Validation & Integrity**
   - [ ] Adapt `DataValidator` to work with Firestore documents instead of CSV rows.
   - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
 
-## 3. Firebase Infrastructure & Deployment
+## 2. CI/CD & Deployment
 - [ ] **CI/CD Updates**
   - [ ] Update GitHub Actions to include Firestore emulator tests.
   - [ ] Add deployment step for Firestore security rules and indexes.
 
-## 4. Documentation & Optimization
+## 3. Deprecation & Cleanup
+- [ ] **Clean Up Data Files**
+  - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
+- [ ] **Remove Redundant Persistence Code**
+  - [ ] Remove `LocalStorageWriter` now that `FirestoreStorageWriter` is fully operational.
+
+## 4. API Enhancements
 - [ ] **API Documentation**
   - [ ] Set up Swagger UI or Redoc to serve the OpenAPI spec via Firebase Hosting.
 - [ ] **Performance**
   - [ ] Implement caching headers for API responses in Cloud Functions.
   - [ ] Optimize Firestore queries for low latency.
 
-## 5. Deprecation & Cleanup
-- [ ] **Clean Up Data Files**
-  - [ ] Archive or delete legacy CSV files in `data/` once migration is confirmed.
-  - [ ] Remove `firebase-data/` export directory if no longer needed.
-- [ ] **Remove Redundant Persistence Code**
-  - [ ] Remove `LocalStorageWriter` now that `FirestoreStorageWriter` is fully operational.
-
 # Completed Work
+
+## Firestore Migration
+- [x] **Persistence Layer Refactoring**
+  - [x] Implement a migration script to upload existing CSV data from `data/` to Firestore.
+- [x] **Database Schema Design**
+  - [x] Define Firestore collection structure (e.g., `series`, `candidates`, `votes`).
+  - [x] Design indexes for common query patterns identified in the OAS.
+- [x] **Persistence Layer Refactoring**
+  - [x] Implement `FirestoreStorageWriter` in `packages/core/src/persistence/`.
+  - [x] Update `orchestrator.ts` to support writing to Firestore.
 
 ## OpenAPI & API Design
 - [x] **API Implementation**
@@ -43,14 +47,6 @@
 - [x] **Define OpenAPI Specification**
   - [x] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
   - [x] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
-
-## Firestore Migration
-- [x] **Database Schema Design**
-  - [x] Define Firestore collection structure (e.g., `series`, `candidates`, `votes`).
-  - [x] Design indexes for common query patterns identified in the OAS.
-- [x] **Persistence Layer Refactoring**
-  - [x] Implement `FirestoreStorageWriter` in `packages/core/src/persistence/`.
-  - [x] Update `orchestrator.ts` to support writing to Firestore.
 
 ## Data Ingestion 2.0
 - [x] **Direct-to-Firestore Pipeline**
