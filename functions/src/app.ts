@@ -120,7 +120,25 @@ apiRouter.get("/series/:seriesId/candidates", async (req: Request, res: Response
       return;
     }
 
-    const candidatesDomain = await getCandidatesBySeriesNumber(seriesId);
+    let limit = 25;
+    if (req.query.limit) {
+      limit = parseInt(req.query.limit as string, 10);
+      if (isNaN(limit) || limit < 1) {
+        res.status(400).send({error: "Invalid limit"});
+        return;
+      }
+    }
+
+    let offset = 0;
+    if (req.query.offset) {
+      offset = parseInt(req.query.offset as string, 10);
+      if (isNaN(offset) || offset < 0) {
+        res.status(400).send({error: "Invalid offset"});
+        return;
+      }
+    }
+
+    const candidatesDomain = await getCandidatesBySeriesNumber(seriesId, limit, offset);
     const candidates = candidatesDomain.map(mapCandidate);
     res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
     res.json(candidates);

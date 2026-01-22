@@ -23,10 +23,20 @@ export const getAllSeries = async (): Promise<Series[]> => {
   return snapshot.docs.map(doc => doc.data() as Series);
 };
 
-export const getCandidatesBySeriesNumber = async (seriesNumber: number): Promise<Candidate[]> => {
+export const getCandidatesBySeriesNumber = async (
+  seriesNumber: number,
+  limit: number,
+  offset: number
+): Promise<Candidate[]> => {
   const db = getDb();
   const seriesId = `TRAITORS_UK_S${seriesNumber}`;
-  const snapshot = await db.collection("candidates").where("seriesId", "==", seriesId).get();
+  const snapshot = await db.collection("candidates")
+    .where("seriesId", "==", seriesId)
+    .orderBy("name", "asc")
+    .select("id", "name", "series", "originalRole", "roundStates")
+    .limit(limit)
+    .offset(offset)
+    .get();
 
-  return snapshot.docs.map(doc => doc.data() as Candidate);
+  return snapshot.docs.map((doc) => doc.data() as Candidate);
 };
