@@ -1,8 +1,20 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Deny all writes by default, unless explicitly allowed below.
+    // Public read access is granted for all collections.
     match /{document=**} {
-      allow read, write: if false;
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Allow authenticated users (i.e., the ingestion service) to write
+    // to any collection. This rule is intentionally broad for the service
+    // account but could be narrowed to specific collections if needed.
+    match /{collection}/{docId} {
+       allow write: if request.auth != null;
     }
   }
 }
