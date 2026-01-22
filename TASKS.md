@@ -26,9 +26,9 @@
   - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
 
 ## 4. Firebase Infrastructure & Deployment
-- [ ] **Initialize Firestore**
-  - [ ] Run `firebase_init` to enable Firestore in the project.
-  - [ ] Configure Firestore emulator in `firebase.json`.
+- [x] **Initialize Firestore**
+  - [x] Run `firebase_init` to enable Firestore in the project.
+  - [x] Configure Firestore emulator in `firebase.json`.
 - [ ] **CI/CD Updates**
   - [ ] Update GitHub Actions to include Firestore emulator tests.
   - [ ] Add deployment step for Firestore security rules and indexes.

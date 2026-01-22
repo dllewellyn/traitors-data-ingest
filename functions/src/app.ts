@@ -33,12 +33,12 @@ app.post("/api/ingest", authMiddleware, (req: Request, res: Response) => {
 
   // Do not await, run in background
   runIngestionProcess()
-      .then(() => {
-        logger.info("Ingestion completed successfully");
-      })
-      .catch((err) => {
-        logger.error("Ingestion failed", err);
-      });
+    .then(() => {
+      logger.info("Ingestion completed successfully");
+    })
+    .catch((err) => {
+      logger.error("Ingestion failed", err);
+    });
 
   res.status(202).send({status: "ingestion_started"});
 });
