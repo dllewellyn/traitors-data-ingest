@@ -7,15 +7,11 @@ import { Series1Scraper } from "../scrapers/Series1Scraper";
 import { Series2Scraper } from "../scrapers/Series2Scraper";
 import { Series3Scraper } from "../scrapers/Series3Scraper";
 import { Series4Scraper } from "../scrapers/Series4Scraper";
-import { CsvWriter } from "../services/CsvWriter";
+import * as writerFactory from "../persistence/storage-writer-factory";
 
 // Mock dependencies
 jest.mock("../services/WikipediaFetcher");
 jest.mock("../services/DataMerger");
-jest.mock("../services/CsvWriter");
-jest.mock("../persistence/storage-writer-factory", () => ({
-  createStorageWriter: jest.fn(),
-}));
 jest.mock("../persistence/firestore-writer");
 jest.mock("../persistence/DryRunStorageWriter");
 jest.mock("../scrapers/Series1Scraper");
@@ -25,6 +21,10 @@ jest.mock("../scrapers/Series4Scraper");
 jest.mock("firebase-admin/firestore", () => ({
   getFirestore: jest.fn(),
 }));
+
+// Spy on console methods
+const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
 describe("Ingestion Orchestrator", () => {
   beforeEach(() => {
@@ -51,9 +51,10 @@ describe("Ingestion Orchestrator", () => {
     (DataMerger as jest.Mock).mockImplementation(() => ({
         processVotes: jest.fn().mockReturnValue([]),
     }));
-    (CsvWriter as jest.Mock).mockImplementation(() => ({
-        write: jest.fn().mockResolvedValue(undefined),
-    }));
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 
   it("should use DryRunStorageWriter when dryRun is true", async () => {
@@ -82,5 +83,48 @@ describe("Ingestion Orchestrator", () => {
     expect(FirestoreStorageWriter).toHaveBeenCalledWith(mockFirestore);
     expect(DryRunStorageWriter).not.toHaveBeenCalled();
     expect(mockFirestoreWrite).toHaveBeenCalledTimes(4);
+  });
+
+  it("should handle initialization error for Firestore writer", async () => {
+    // Mock createStorageWriter to throw error
+    // Note: We need to spy on the factory directly if it's not mocked at the module level
+    // In the previous plan, we removed the module-level mock for storage-writer-factory
+    // So here we are using the real factory, which imports FirestoreStorageWriter.
+    // However, FirestoreStorageWriter is mocked.
+    // If we want to simulate an error during initialization inside `runIngestionProcess`,
+    // we need `createStorageWriter` to fail.
+
+    // We can spy on `createStorageWriter` if we imported it as a module
+    const createWriterSpy = jest.spyOn(writerFactory, "createStorageWriter");
+    createWriterSpy.mockImplementation(() => {
+      throw new Error("Init failed");
+    });
+
+    await runIngestionProcess({ firestoreInstance: {} as any });
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining("Failed to initialize Firestore writer"),
+      expect.any(Error)
+    );
+  });
+
+  it("should handle error during series processing", async () => {
+    // Make fetch fail for the first call
+    const mockFetch = jest.fn()
+      .mockRejectedValueOnce(new Error("Network error"))
+      .mockResolvedValue("<html></html>");
+
+    (WikipediaFetcher as jest.Mock).mockImplementation(() => ({
+      fetch: mockFetch,
+    }));
+
+    await runIngestionProcess({ dryRun: true });
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      expect.stringContaining("Error processing Series 1"),
+      expect.any(Error)
+    );
+    // Should still process other series
+    expect(mockFetch).toHaveBeenCalledTimes(4);
   });
 });
