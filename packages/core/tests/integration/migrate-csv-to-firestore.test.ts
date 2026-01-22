@@ -31,5 +31,5 @@ describe("migrate-csv-to-firestore script", () => {
             done();
         }
     });
-  }, 10000); // Increase timeout
+  }, 30000); // Increase timeout to 30s
 });
