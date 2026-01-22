@@ -9,6 +9,7 @@ export default defineConfig({
   reporter: "html",
   use: {
     trace: "on-first-retry",
+    baseURL: "http://localhost:5000",
   },
   projects: [
     {
@@ -16,4 +17,10 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
     },
   ],
+  webServer: {
+    command: "npm run emulate",
+    port: 5000,
+    reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000, // 2 minutes startup time
+  },
 });
