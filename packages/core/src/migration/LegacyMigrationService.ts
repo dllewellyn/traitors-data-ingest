@@ -7,6 +7,7 @@ import {
   CandidateProgressRow,
 } from "..";
 import { RoundState, Role } from "../domain/models";
+import { isRole, isRoundState, isArrayOf } from "../utils/typeGuards";
 import * as path from "path";
 
 // Define interfaces for Raw CSV rows
@@ -25,11 +26,21 @@ interface RawVoteRow {
   progress: string; // JSON string
 }
 
+/**
+ * Service for migrating legacy CSV data to Firestore.
+ * Handles reading, parsing, merging, and writing series data.
+ */
 export class LegacyMigrationService {
   private reader: CsvReader;
   private merger: DataMerger;
   private writer: FirestoreStorageWriter;
 
+  /**
+   * Creates a new instance of LegacyMigrationService.
+   * @param reader The CsvReader to read legacy data.
+   * @param merger The DataMerger to combine disparate data sources.
+   * @param writer The FirestoreStorageWriter to persist the migrated series.
+   */
   constructor(
     reader: CsvReader,
     merger: DataMerger,
@@ -40,6 +51,13 @@ export class LegacyMigrationService {
     this.writer = writer;
   }
 
+  /**
+   * Migrates a single series from CSV files in a given directory to Firestore.
+   * @param seriesNum The number of the series to migrate (e.g. 1).
+   * @param dataDir The directory containing 'candidates.csv' and 'votes.csv'.
+   * @returns A promise that resolves when the migration is complete.
+   * @throws Error if parsing fails or data is invalid.
+   */
   async migrateSeries(seriesNum: number, dataDir: string): Promise<void> {
     const candidatesPath = path.join(dataDir, "candidates.csv");
     const votesPath = path.join(dataDir, "votes.csv");
@@ -58,6 +76,14 @@ export class LegacyMigrationService {
         throw e;
       }
 
+      if (!isRole(row.originalRole)) {
+        throw new Error(`Invalid role for candidate ${row.name}: ${row.originalRole}`);
+      }
+
+      if (!isArrayOf(roundStates, isRoundState)) {
+         throw new Error(`Invalid roundStates for candidate ${row.name}`);
+      }
+
       return {
         series: seriesNum,
         id: Number(row.id),
@@ -65,8 +91,8 @@ export class LegacyMigrationService {
         age: Number(row.age),
         job: row.job,
         location: row.location,
-        originalRole: row.originalRole as unknown as Role,
-        roundStates: roundStates as unknown as RoundState[],
+        originalRole: row.originalRole,
+        roundStates: roundStates,
       };
     });
 
