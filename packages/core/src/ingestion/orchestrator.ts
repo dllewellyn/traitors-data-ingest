@@ -5,8 +5,6 @@ import { Series4Scraper } from "../scrapers/Series4Scraper";
 import { WikipediaFetcher } from "../services/WikipediaFetcher";
 import { DataMerger } from "../services/DataMerger";
 import { getFirestore } from "firebase-admin/firestore";
-import { CsvWriter } from "../services/CsvWriter";
-import { createStorageWriter } from "../persistence/storage-writer-factory";
 import { FirestoreStorageWriter } from "../persistence/firestore-writer";
 import { DryRunStorageWriter } from "../persistence/DryRunStorageWriter";
 import { IStorageWriter } from "../persistence/IStorageWriter";
@@ -24,25 +22,23 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
 
   const fetcher = new WikipediaFetcher();
   const merger = new DataMerger();
-  const storageWriter = createStorageWriter();
-  const csvWriter = new CsvWriter(storageWriter);
 
-  const useFirestore = process.env.USE_FIRESTORE === "true";
-  let seriesWriter: IStorageWriter | undefined;
+  let seriesWriter: IStorageWriter;
 
   if (options.dryRun) {
     seriesWriter = new DryRunStorageWriter();
     console.log("Dry run mode enabled. No data will be written to Firestore.");
-  } else if (useFirestore || options.firestoreInstance) {
+  } else {
     try {
       const db = options.firestoreInstance || getFirestore();
       seriesWriter = new FirestoreStorageWriter(db);
       console.log("Firestore writer initialized.");
     } catch (error) {
-      console.warn(
+      console.error(
         "Failed to initialize Firestore writer. Ensure firebase-admin is initialized.",
         error
       );
+      throw error;
     }
   }
 
@@ -84,20 +80,18 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
         console.log(`Processing Series ${seriesNum} votes...`);
         const votes = merger.processVotes(seriesNum, candidates, progress);
 
-        if (seriesWriter) {
-          console.log(
-            options.dryRun
-              ? `Simulating write for Series ${seriesNum}...`
-              : `Writing Series ${seriesNum} to Firestore...`
-          );
-          const series: Series = {
-            id: `TRAITORS_UK_S${seriesNum}`,
-            seriesNumber: seriesNum,
-            candidates,
-            votes,
-          };
-          await seriesWriter.write(series);
-        }
+        console.log(
+          options.dryRun
+            ? `Simulating write for Series ${seriesNum}...`
+            : `Writing Series ${seriesNum} to Firestore...`
+        );
+        const series: Series = {
+          id: `TRAITORS_UK_S${seriesNum}`,
+          seriesNumber: seriesNum,
+          candidates,
+          votes,
+        };
+        await seriesWriter.write(series);
 
         return { candidates, votes };
       } catch (error) {
@@ -115,24 +109,6 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
 
   console.log(`Total Candidates: ${allCandidates.length}`);
   console.log(`Total Votes: ${allVotes.length}`);
-
-  // Create all_candidates.csv
-  console.log("Writing all_candidates.csv...");
-  await csvWriter.write(
-    allCandidates,
-    "all_candidates.csv",
-    ["series", "id", "name", "age", "job", "location", "originalRole"]
-  );
-
-  // Create all_votes.csv
-  console.log("Writing all_votes.csv...");
-  await csvWriter.write(allVotes, "all_votes.csv", [
-    "series",
-    "voterId",
-    "targetId",
-    "episode",
-    "round",
-  ]);
 
   console.log("Ingestion process finished.");
 }

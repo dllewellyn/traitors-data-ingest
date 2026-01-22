@@ -7,15 +7,10 @@ import { Series1Scraper } from "../scrapers/Series1Scraper";
 import { Series2Scraper } from "../scrapers/Series2Scraper";
 import { Series3Scraper } from "../scrapers/Series3Scraper";
 import { Series4Scraper } from "../scrapers/Series4Scraper";
-import { CsvWriter } from "../services/CsvWriter";
 
 // Mock dependencies
 jest.mock("../services/WikipediaFetcher");
 jest.mock("../services/DataMerger");
-jest.mock("../services/CsvWriter");
-jest.mock("../persistence/storage-writer-factory", () => ({
-  createStorageWriter: jest.fn(),
-}));
 jest.mock("../persistence/firestore-writer");
 jest.mock("../persistence/DryRunStorageWriter");
 jest.mock("../scrapers/Series1Scraper");
@@ -50,9 +45,6 @@ describe("Ingestion Orchestrator", () => {
     }));
     (DataMerger as jest.Mock).mockImplementation(() => ({
         processVotes: jest.fn().mockReturnValue([]),
-    }));
-    (CsvWriter as jest.Mock).mockImplementation(() => ({
-        write: jest.fn().mockResolvedValue(undefined),
     }));
   });
 

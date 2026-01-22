@@ -11,7 +11,6 @@ export * from './utils/typeGuards';
 
 // Export services
 export * from './services/CsvReader';
-export * from './services/CsvWriter';
 export * from './services/DataMerger';
 export * from './persistence/IStorageWriter';
 export * from './persistence/DryRunStorageWriter';
