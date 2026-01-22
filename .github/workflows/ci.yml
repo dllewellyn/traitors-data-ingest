@@ -42,6 +42,7 @@ jobs:
 
       - name: Deploy Firestore Rules & Indexes
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        continue-on-error: true
         run: npx firebase-tools deploy --only firestore --project flame-27501
         env:
           GOOGLE_APPLICATION_CREDENTIALS: service-account.json
