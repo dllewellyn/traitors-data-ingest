@@ -1,8 +1,6 @@
 # Task Backlog
 
 ## 1. Firestore Migration
-- [ ] **Database Schema Design**
-  - [x] Design indexes for common query patterns identified in the OAS.
 - [ ] **Persistence Layer Refactoring**
   - [ ] Implement a migration script to upload existing CSV data from `data/` to Firestore.
 - [ ] **Security Rules**
@@ -49,6 +47,7 @@
 ## Firestore Migration
 - [x] **Database Schema Design**
   - [x] Define Firestore collection structure (e.g., `series`, `candidates`, `votes`).
+  - [x] Design indexes for common query patterns identified in the OAS.
 - [x] **Persistence Layer Refactoring**
   - [x] Implement `FirestoreStorageWriter` in `packages/core/src/persistence/`.
   - [x] Update `orchestrator.ts` to support writing to Firestore.
