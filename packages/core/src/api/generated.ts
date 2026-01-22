@@ -26,6 +26,13 @@ export interface paths {
      */
     get: operations["getCandidatesBySeries"];
   };
+  "/series/{seriesId}/votes": {
+    /**
+     * Get votes for a series
+     * @description Returns a list of all votes cast in a specific series.
+     */
+    get: operations["getVotesBySeries"];
+  };
   "/candidates/{candidateId}": {
     /**
      * Get a specific candidate
@@ -167,6 +174,35 @@ export interface operations {
       200: {
         content: {
           "application/json": components["schemas"]["Candidate"][];
+        };
+      };
+      /** @description Series not found. */
+      404: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * Get votes for a series
+   * @description Returns a list of all votes cast in a specific series.
+   */
+  getVotesBySeries: {
+    parameters: {
+      query?: {
+        /** @description The maximum number of votes to return. */
+        limit?: number;
+        /** @description The number of votes to skip before starting to collect the result set. */
+        offset?: number;
+      };
+      path: {
+        seriesId: number;
+      };
+    };
+    responses: {
+      /** @description A successful response with an array of votes. */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Vote"][];
         };
       };
       /** @description Series not found. */

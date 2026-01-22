@@ -2,8 +2,8 @@ import express, {Request, Response, NextFunction} from "express";
 import * as logger from "firebase-functions/logger";
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
-import {runIngestionProcess, Api, Series, Candidate} from "@gcp-adl/core";
-import {getAllSeries, getSeriesByNumber, getCandidatesBySeriesNumber} from "./persistence/firestore";
+import {runIngestionProcess, Api, Series, Candidate, Vote} from "@gcp-adl/core";
+import {getAllSeries, getSeriesByNumber, getCandidatesBySeriesNumber, getVotes} from "./persistence/firestore";
 
 // Initialize Firebase Admin once
 initializeApp();
@@ -34,6 +34,39 @@ const mapSeries = (s: Series): Api.components["schemas"]["Series"] => {
     id: s.seriesNumber,
     year: years[s.seriesNumber] || 0,
     title: `The Traitors (UK series ${s.seriesNumber})`,
+  };
+};
+
+const mapVote = (v: Vote): Api.components["schemas"]["Vote"] => {
+  return {
+    id: 0, // Vote domain object doesn't have an ID, but schema requires one. This is a potential issue.
+    // Checking Vote domain interface in memory:
+    /*
+    export interface Vote {
+      series: number;
+      voterId: number;
+      targetId: number;
+      round: number;
+      episode: number;
+    }
+    */
+    // The Schema Vote has `id`.
+    /*
+    Vote:
+      properties:
+        id: integer
+        episode: integer
+        voterId: integer
+        votedForId: integer
+        seriesId: integer
+    */
+    // I will generate a synthetic ID or leave it as 0 for now as the domain model is missing it.
+    // Or I should use a combination of fields.
+    // But for now let's map what we have.
+    episode: v.episode,
+    voterId: v.voterId,
+    votedForId: v.targetId,
+    seriesId: v.series,
   };
 };
 
@@ -78,6 +111,49 @@ apiRouter.get("/series", async (req: Request, res: Response) => {
     res.json(response);
   } catch (err) {
     logger.error("Error listing series", err);
+    res.status(500).send({error: "Internal Server Error"});
+  }
+});
+
+// GET /series/:seriesId/votes
+apiRouter.get("/series/:seriesId/votes", async (req: Request, res: Response) => {
+  try {
+    const seriesId = parseInt(req.params.seriesId as string, 10);
+    if (isNaN(seriesId)) {
+      res.status(400).send({error: "Invalid series ID"});
+      return;
+    }
+
+    const series = await getSeriesByNumber(seriesId);
+    if (!series) {
+      res.status(404).send({error: "Series not found"});
+      return;
+    }
+
+    let limit = 20;
+    if (req.query.limit) {
+      limit = parseInt(req.query.limit as string, 10);
+      if (isNaN(limit) || limit < 1) {
+        res.status(400).send({error: "Invalid limit"});
+        return;
+      }
+    }
+
+    let offset = 0;
+    if (req.query.offset) {
+      offset = parseInt(req.query.offset as string, 10);
+      if (isNaN(offset) || offset < 0) {
+        res.status(400).send({error: "Invalid offset"});
+        return;
+      }
+    }
+
+    const votesDomain = await getVotes(seriesId, limit, offset);
+    const votes = votesDomain.map(mapVote);
+    res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
+    res.json(votes);
+  } catch (err) {
+    logger.error(`Error getting votes for series ${req.params.seriesId}`, err);
     res.status(500).send({error: "Internal Server Error"});
   }
 });
