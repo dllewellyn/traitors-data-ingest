@@ -1,9 +1,6 @@
 # Task Backlog
 
 ## 1. OpenAPI & API Design
-- [x] **Define OpenAPI Specification**
-  - [x] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
-  - [x] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
 - [ ] **Automate Code Generation**
   - [ ] Set up `openapi-typescript` or similar tool to generate TypeScript interfaces from the OAS.
   - [ ] Integrate generation into the build pipeline (`npm run generate-api`).
@@ -52,6 +49,11 @@
   - [ ] Remove `firebase-data/` export directory if no longer needed.
 
 # Completed Work
+
+## OpenAPI & API Design
+- [x] **Define OpenAPI Specification**
+  - [x] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
+  - [x] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
 
 ## Architectural Pivot to OpenAPI & Firestore
 - [x] Redefined project goals towards an API-first, Firestore-backed architecture.
