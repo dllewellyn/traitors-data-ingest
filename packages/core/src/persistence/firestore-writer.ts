@@ -1,10 +1,11 @@
 import { firestore } from "firebase-admin";
 import { Series } from "../domain/series";
+import { IStorageWriter } from "./IStorageWriter";
 
 /**
  * Persists series data to Cloud Firestore.
  */
-export class FirestoreStorageWriter {
+export class FirestoreStorageWriter implements IStorageWriter {
   private readonly db: firestore.Firestore;
 
   constructor(db: firestore.Firestore) {

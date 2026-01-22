@@ -11,11 +11,13 @@
     "prebuild": "npm run generate-api && node scripts/build-packages.js",
     "build": "tsc",
     "ingest": "USE_LOCAL_STORAGE=true ts-node src/scripts/ingest.ts",
+    "ingest:dry-run": "npm run ingest -- --dry-run",
     "ingest:series4": "ts-node scripts/ingest_series4.ts",
     "validate": "ts-node src/cli/validate.ts",
     "e2e": "playwright test",
     "emulate": "npm run build --prefix functions && firebase emulators:start --project demo-test --import=./firebase-data --export-on-exit",
     "trigger:local": "curl -X POST http://localhost:5001/demo-test/us-central1/api/api/ingest -H \"X-Auth-Token: LOCAL_DEV_TOKEN\" -H \"Content-Length: 0\"",
+    "trigger:local:dry-run": "curl -X POST http://localhost:5001/demo-test/us-central1/api/api/ingest -H \"X-Auth-Token: LOCAL_DEV_TOKEN\" -H \"Content-Type: application/json\" -d '{\"dryRun\": true}'",
     "migrate:firestore:local": "ts-node scripts/migrate-csv-to-firestore.ts --emulator",
     "migrate:firestore:prod": "ts-node scripts/migrate-csv-to-firestore.ts",
     "postinstall": "npm install --prefix functions"
@@ -58,10 +60,12 @@
   },
   "dependencies": {
     "@gcp-adl/core": "file:packages/core",
+    "@types/yargs": "^17.0.35",
     "axios": "^1.7.2",
     "cheerio": "^1.0.0-rc.12",
     "csv-parse": "^6.1.0",
     "csv-stringify": "^6.5.0",
-    "domhandler": "^5.0.3"
+    "domhandler": "^5.0.3",
+    "yargs": "^18.0.0"
   }
 }

@@ -58,7 +58,8 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
 apiRouter.post("/ingest", authMiddleware, (req: Request, res: Response) => {
   logger.info("Ingestion triggered manually");
-  runIngestionProcess(getFirestore())
+  const dryRun = !!(req.body && req.body.dryRun);
+  runIngestionProcess({ firestoreInstance: getFirestore(), dryRun })
     .then(() => {
       logger.info("Ingestion completed successfully");
     })

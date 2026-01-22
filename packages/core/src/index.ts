@@ -13,6 +13,8 @@ export * from './utils/typeGuards';
 export * from './services/CsvReader';
 export * from './services/CsvWriter';
 export * from './services/DataMerger';
+export * from './persistence/IStorageWriter';
+export * from './persistence/DryRunStorageWriter';
 export * from './persistence/firestore-writer';
 export * from './persistence/validation-data-reader.interface';
 export * from './persistence/csv-validation-reader';
