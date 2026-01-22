@@ -35,3 +35,13 @@ jobs:
         run: |
           npm run ingest
           npm run validate
+
+      - name: Create SA Key
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLAME_27501 }}' > service-account.json
+
+      - name: Deploy Firestore Rules & Indexes
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: npx firebase-tools deploy --only firestore --project flame-27501
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: service-account.json
