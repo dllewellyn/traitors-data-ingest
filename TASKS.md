@@ -2,7 +2,7 @@
 
 ## 1. Firestore Migration
 - [ ] **Database Schema Design**
-  - [ ] Design indexes for common query patterns identified in the OAS.
+  - [x] Design indexes for common query patterns identified in the OAS.
 - [ ] **Persistence Layer Refactoring**
   - [ ] Implement a migration script to upload existing CSV data from `data/` to Firestore.
 - [ ] **Security Rules**
