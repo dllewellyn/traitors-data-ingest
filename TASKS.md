@@ -2,7 +2,6 @@
 
 ## 1. Firestore Security & Validation
 - [ ] **Validation & Integrity**
-  - [ ] Adapt `DataValidator` to work with Firestore documents instead of CSV rows.
   - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
 
 ## 2. CI/CD & Deployment
@@ -26,6 +25,8 @@
 # Completed Work
 
 ## Firestore Security & Validation
+- [x] **Validation & Integrity**
+  - [x] Adapt `DataValidator` to work with Firestore documents instead of CSV rows.
 - [x] **Security Rules**
   - [x] Define `firestore.rules` to restrict access (read-only for public, write-only for service account/ingestion).
 
