@@ -108,3 +108,4 @@ To run the project locally with the Firebase Emulator Suite, follow these steps:
 - **2026-01-22**: Adopt an OpenAPI-first methodology to establish a clear, design-by-contract approach for API development, enabling automated code generation and ensuring consistency between the implementation and its documentation.
 - **2026-01-22**: When making significant architectural changes, update all high-level governance and planning documents (Constitution, Goals, Context Maps) in lockstep with the codebase to maintain clarity and strategic alignment.
 - **2026-01-22**: Regularly audit and remove unused local packages and external dependencies to reduce build complexity, simplify the codebase, and eliminate dead code.
+- **2026-01-22**: Execute an API-first strategy by creating a comprehensive OpenAPI specification that defines all core resources (Series, Candidates), schemas, and endpoints, establishing a clear public contract before beginning implementation.
