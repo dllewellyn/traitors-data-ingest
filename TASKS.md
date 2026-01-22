@@ -1,13 +1,15 @@
 # Task Backlog
 
 ## 1. API Enhancements
-- [ ] **Performance**
-  - [ ] Optimize Firestore queries for low latency.
+- [ ] **Functionality**
+  - [ ] Add pagination to the `/series/{id}/votes` endpoint.
+  - [ ] Add sorting options to the `/series/{id}/candidates` endpoint (e.g., by name, status).
 
 # Completed Work
 
 ## API Enhancements
 - [x] **Performance**
+  - [x] Add pagination to the `/series/{id}/candidates` endpoint to optimize data fetching.
   - [x] Implement caching headers for API responses in Cloud Functions.
 
 ## API Documentation
