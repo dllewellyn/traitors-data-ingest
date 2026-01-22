@@ -1,18 +1,23 @@
-import * as path from "path";
-import { StorageWriter } from "./storage-writer";
-import { LocalStorageWriter } from "./local-storage-writer";
+import { Firestore, getFirestore } from "firebase-admin/firestore";
+import { IStorageWriter } from "./IStorageWriter";
+import { DryRunStorageWriter } from "./DryRunStorageWriter";
+import { FirestoreStorageWriter } from "./firestore-writer";
 
-export function createStorageWriter(): StorageWriter {
-  // If explicitly requested to use local storage (e.g. for local scripts) OR if running in emulator
-  if (process.env.USE_LOCAL_STORAGE === "true" || process.env.FUNCTIONS_EMULATOR === "true") {
-    // In emulator, process.cwd() is usually the functions directory.
-    // We want to write to the root data directory.
-    let baseDir = path.join(process.cwd(), "data");
-    if (process.cwd().endsWith("functions")) {
-      baseDir = path.join(process.cwd(), "../data");
-    }
-    return new LocalStorageWriter(baseDir);
-  } else {
-    throw new Error("GCS Storage is no longer supported. Please use Firestore.");
+export interface StorageWriterOptions {
+  firestore?: Firestore;
+  dryRun?: boolean;
+}
+
+/**
+ * Creates a storage writer instance based on the provided options.
+ * Defaults to FirestoreStorageWriter if dryRun is not true.
+ * @param options Configuration options for the storage writer.
+ */
+export function createStorageWriter(options: StorageWriterOptions = {}): IStorageWriter {
+  if (options.dryRun) {
+    return new DryRunStorageWriter();
   }
+
+  const db = options.firestore || getFirestore();
+  return new FirestoreStorageWriter(db);
 }

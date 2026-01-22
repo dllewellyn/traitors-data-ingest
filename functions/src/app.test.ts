@@ -11,7 +11,6 @@ jest.mock("firebase-admin/firestore", () => ({
 
 jest.mock("@gcp-adl/core", () => ({
   runIngestionProcess: jest.fn().mockResolvedValue(undefined),
-  createStorageWriter: jest.fn(),
 }));
 
 jest.mock("./persistence/firestore", () => ({
