@@ -1,13 +1,15 @@
 # Task Backlog
 
 ## 1. API Enhancements
-- [ ] **API Documentation**
-  - [ ] Set up Swagger UI or Redoc to serve the OpenAPI spec via Firebase Hosting.
 - [ ] **Performance**
   - [ ] Implement caching headers for API responses in Cloud Functions.
   - [ ] Optimize Firestore queries for low latency.
 
 # Completed Work
+
+## API Documentation
+- [x] **API Documentation**
+  - [x] Set up Swagger UI or Redoc to serve the OpenAPI spec via Firebase Hosting.
 
 ## Deprecation & Cleanup
 - [x] **Clean Up Data Files**
