@@ -1,6 +1,25 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Allow public read access to the 'series' collection
+    match /series/{seriesId} {
+      allow read: if true;
+      allow write: if false; // Only admin SDK can write
+    }
+
+    // Allow public read access to the 'candidates' collection
+    match /candidates/{candidateId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Allow public read access to the 'votes' collection (if exposed later, though not in API yet)
+    match /votes/{voteId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Default deny for everything else
     match /{document=**} {
       allow read, write: if false;
     }
