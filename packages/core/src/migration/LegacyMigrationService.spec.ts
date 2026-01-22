@@ -79,4 +79,61 @@ describe("LegacyMigrationService", () => {
 
     await expect(service.migrateSeries(seriesNum, dataDir)).rejects.toThrow();
   });
+
+  it("should throw error if originalRole is invalid", async () => {
+    const seriesNum = 1;
+    const dataDir = "/tmp/data";
+
+    mockReader.read.mockResolvedValueOnce([
+      {
+        id: 1,
+        name: "Test Candidate",
+        age: 25,
+        job: "Tester",
+        location: "Testland",
+        originalRole: "InvalidRole",
+        roundStates: "[]",
+      },
+    ]);
+
+    await expect(service.migrateSeries(seriesNum, dataDir)).rejects.toThrow(
+      "Invalid role"
+    );
+  });
+
+  it("should throw error if roundStates is invalid array", async () => {
+    const seriesNum = 1;
+    const dataDir = "/tmp/data";
+
+    mockReader.read.mockResolvedValueOnce([
+      {
+        id: 1,
+        name: "Test Candidate",
+        age: 25,
+        job: "Tester",
+        location: "Testland",
+        originalRole: "Faithful",
+        roundStates: "null",
+      },
+    ]);
+
+    await expect(service.migrateSeries(seriesNum, dataDir)).rejects.toThrow(
+      "Invalid roundStates"
+    );
+  });
+
+  it("should throw error if progress JSON parsing fails", async () => {
+    const seriesNum = 1;
+    const dataDir = "/tmp/data";
+
+    mockReader.read.mockResolvedValueOnce([]); // No candidates
+    mockReader.read.mockResolvedValueOnce([
+      {
+        name: "Test Candidate",
+        progress: "invalid-json",
+      },
+    ]);
+
+    await expect(service.migrateSeries(seriesNum, dataDir)).rejects.toThrow();
+  });
 });
