@@ -27,5 +27,8 @@ export * from './scrapers/types';
 // Export orchestrator
 export * from './ingestion/orchestrator';
 
+// Export migration service
+export * from './migration/LegacyMigrationService';
+
 // Export generated API types
 export * as Api from './api/generated';
