@@ -154,7 +154,7 @@ describe("Functions API", () => {
   });
 
   describe("GET /api/series/:seriesId/candidates", () => {
-    it("should return candidates for a series", async () => {
+    it("should return candidates for a series with default pagination", async () => {
       getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
       getCandidatesBySeriesNumber.mockResolvedValue([
         { id: 101, name: "Alice", series: 1, originalRole: "Faithful", roundStates: [{ status: "Active" }] }
@@ -165,6 +165,30 @@ describe("Functions API", () => {
       expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
       expect(response.body).toHaveLength(1);
       expect(response.body[0].name).toBe("Alice");
+      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 25, 0);
+    });
+
+    it("should support custom pagination parameters", async () => {
+      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      getCandidatesBySeriesNumber.mockResolvedValue([]);
+
+      const response = await request(app).get("/api/series/1/candidates?limit=10&offset=5");
+      expect(response.status).toBe(200);
+      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 10, 5);
+    });
+
+    it("should return 400 for invalid limit", async () => {
+      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      const response = await request(app).get("/api/series/1/candidates?limit=0");
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Invalid limit" });
+    });
+
+    it("should return 400 for invalid offset", async () => {
+      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      const response = await request(app).get("/api/series/1/candidates?offset=-1");
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Invalid offset" });
     });
 
     it("should return 400 for invalid series ID", async () => {

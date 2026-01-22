@@ -152,6 +152,12 @@ export interface operations {
    */
   getCandidatesBySeries: {
     parameters: {
+      query?: {
+        /** @description The maximum number of candidates to return. */
+        limit?: number;
+        /** @description The number of candidates to skip before starting to collect the result set. */
+        offset?: number;
+      };
       path: {
         seriesId: number;
       };
