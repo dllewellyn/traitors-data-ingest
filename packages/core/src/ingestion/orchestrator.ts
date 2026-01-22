@@ -4,9 +4,12 @@ import { Series3Scraper } from "../scrapers/Series3Scraper";
 import { Series4Scraper } from "../scrapers/Series4Scraper";
 import { WikipediaFetcher } from "../services/WikipediaFetcher";
 import { DataMerger } from "../services/DataMerger";
+import { getFirestore } from "firebase-admin/firestore";
 import { CsvWriter } from "../services/CsvWriter";
 import { createStorageWriter } from "../persistence/storage-writer-factory";
+import { FirestoreStorageWriter } from "../persistence/firestore-writer";
 import { Candidate, Vote } from "../domain/models";
+import { Series } from "../domain/series";
 
 export async function runIngestionProcess(): Promise<void> {
   console.log("Starting ingestion process...");
@@ -15,6 +18,22 @@ export async function runIngestionProcess(): Promise<void> {
   const merger = new DataMerger();
   const storageWriter = createStorageWriter();
   const csvWriter = new CsvWriter(storageWriter);
+
+  const useFirestore = process.env.USE_FIRESTORE === "true";
+  let firestoreWriter: FirestoreStorageWriter | undefined;
+
+  if (useFirestore) {
+    try {
+      const db = getFirestore();
+      firestoreWriter = new FirestoreStorageWriter(db);
+      console.log("Firestore writer initialized.");
+    } catch (error) {
+      console.warn(
+        "Failed to initialize Firestore writer. Ensure firebase-admin is initialized.",
+        error
+      );
+    }
+  }
 
   // URLs for each series
   const urls = [
@@ -53,6 +72,17 @@ export async function runIngestionProcess(): Promise<void> {
 
         console.log(`Processing Series ${seriesNum} votes...`);
         const votes = merger.processVotes(seriesNum, candidates, progress);
+
+        if (firestoreWriter) {
+          console.log(`Writing Series ${seriesNum} to Firestore...`);
+          const series: Series = {
+            id: `TRAITORS_UK_S${seriesNum}`,
+            seriesNumber: seriesNum,
+            candidates,
+            votes,
+          };
+          await firestoreWriter.write(series);
+        }
 
         return { candidates, votes };
       } catch (error) {
