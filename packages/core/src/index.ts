@@ -2,6 +2,7 @@
 export * from './domain/models';
 export * from './domain/series';
 export * from './domain/enums';
+export * from './domain/validation';
 
 // Export utils
 export * from './utils/dataNormalizers';
@@ -13,6 +14,9 @@ export * from './services/CsvReader';
 export * from './services/CsvWriter';
 export * from './services/DataMerger';
 export * from './persistence/firestore-writer';
+export * from './persistence/validation-data-reader.interface';
+export * from './persistence/csv-validation-reader';
+export * from './persistence/firestore-validation-reader';
 export * from './services/DataValidator';
 export * from './services/HtmlParser';
 export * from './services/WikipediaFetcher';

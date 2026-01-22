@@ -1,4 +1,5 @@
-import { DataValidator, CandidateRow, VoteRow } from "./DataValidator";
+import { DataValidator } from "./DataValidator";
+import { CandidateRow, VoteRow } from "../domain/validation";
 import { Role } from "../domain/enums";
 
 describe("DataValidator", () => {
