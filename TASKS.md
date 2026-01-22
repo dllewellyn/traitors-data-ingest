@@ -2,6 +2,13 @@
 
 # Completed Work
 
+## CI/CD
+- [x] **CI/CD Refactoring**
+  - [x] Refactor deployment logic into a dedicated CD workflow (`deploy.yml`).
+- [x] **CI/CD Updates**
+  - [x] Add deployment step for Firestore security rules and indexes.
+  - [x] Update GitHub Actions to include Firestore emulator tests.
+
 ## API Enhancements
 - [x] **Functionality**
   - [x] Add pagination to the `/series/{id}/votes` endpoint.
@@ -19,11 +26,6 @@
   - [x] Remove CSV generation from the ingestion pipeline as data is now written directly to Firestore.
 - [x] **Remove Redundant Persistence Code**
   - [x] Remove `LocalStorageWriter` and `CsvWriter` now that `FirestoreStorageWriter` is fully operational.
-
-## CI/CD
-- [x] **CI/CD Updates**
-  - [x] Add deployment step for Firestore security rules and indexes.
-  - [x] Update GitHub Actions to include Firestore emulator tests.
 
 ## Firestore Security & Validation
 - [x] **Validation & Integrity**
