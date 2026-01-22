@@ -1,5 +1,7 @@
 // Export models
 export * from './domain/models';
+export * from './domain/series';
+export * from './domain/enums';
 
 // Export utils
 export * from './utils/dataNormalizers';
@@ -22,3 +24,6 @@ export * from './scrapers/Series4Scraper';
 
 // Export orchestrator
 export * from './ingestion/orchestrator';
+
+// Export generated API types
+export * as Api from './api/generated';

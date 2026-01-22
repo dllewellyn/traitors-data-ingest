@@ -7,7 +7,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .ts",
-    "generate-api": "openapi-typescript packages/core/api/openapi.yaml --output packages/core/api/generated.ts",
+    "generate-api": "openapi-typescript packages/core/api/openapi.yaml --output packages/core/src/api/generated.ts",
     "prebuild": "npm run generate-api && node scripts/build-packages.js",
     "build": "tsc",
     "ingest": "USE_LOCAL_STORAGE=true ts-node src/scripts/ingest.ts",

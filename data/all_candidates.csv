@@ -82,11 +82,11 @@ series,id,name,age,job,location,originalRole
 4,11,Sam Little,34,Account manager,"North Yorkshire, England",Faithful
 4,12,Jessie Stride,28,Hairstylist,"Hull, England",Faithful
 4,13,Ellie Buckley,33,Psychologist,"London, England",Faithful
-4,14,Faraaz Noor,22,Internal auditor,"Middlesbrough, England",Faithful
-4,15,Jack Butler,29,Personal trainer,"Hatfield Heath, England",Faithful
-4,16,Jade Scott,25,PhD student,"Warwick, England",Faithful
-4,17,James Baker,38,Gardener,"Weymouth, England",Faithful
-4,18,Matthew Hyndman,35,Creative director,"Edinburgh, Scotland",Faithful
+4,14,Matthew Hyndman,35,Creative director,"Edinburgh, Scotland",Faithful
+4,15,Faraaz Noor,22,Internal auditor,"Middlesbrough, England",Faithful
+4,16,Jack Butler,29,Personal trainer,"Hatfield Heath, England",Faithful
+4,17,Jade Scott,25,PhD student,"Warwick, England",Faithful
+4,18,James Baker,38,Gardener,"Weymouth, England",Faithful
 4,19,Rachel Duffy,42,Head of communications,"Newry, Northern Ireland",Traitor
 4,20,Roxy Wilson,32,Recruiter,"Amsterdam, Netherlands",Faithful
 4,21,Stephen Libby,32,Cyber security consultant,"London, England",Traitor

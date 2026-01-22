@@ -10,8 +10,9 @@ import { createStorageWriter } from "../persistence/storage-writer-factory";
 import { FirestoreStorageWriter } from "../persistence/firestore-writer";
 import { Candidate, Vote } from "../domain/models";
 import { Series } from "../domain/series";
+import { Firestore } from "firebase-admin/firestore";
 
-export async function runIngestionProcess(): Promise<void> {
+export async function runIngestionProcess(firestoreInstance?: Firestore): Promise<void> {
   console.log("Starting ingestion process...");
 
   const fetcher = new WikipediaFetcher();
@@ -24,7 +25,7 @@ export async function runIngestionProcess(): Promise<void> {
 
   if (useFirestore) {
     try {
-      const db = getFirestore();
+      const db = firestoreInstance || getFirestore();
       firestoreWriter = new FirestoreStorageWriter(db);
       console.log("Firestore writer initialized.");
     } catch (error) {

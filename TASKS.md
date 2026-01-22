@@ -2,8 +2,8 @@
 
 ## 1. OpenAPI & API Design
 - [ ] **API Implementation**
-  - [ ] Refactor Cloud Functions to use generated types and interfaces.
-  - [ ] Implement query logic in Firebase Functions to fetch data from Firestore.
+  - [x] Refactor Cloud Functions to use generated types and interfaces.
+  - [x] Implement query logic in Firebase Functions to fetch data from Firestore.
 
 ## 2. Firestore Migration
 - [ ] **Database Schema Design**
