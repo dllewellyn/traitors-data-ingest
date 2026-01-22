@@ -1,4 +1,5 @@
 import { Role, Status } from "./enums";
+export { Role, Status };
 
 /**
  * Represents the state of a candidate in a specific round.
