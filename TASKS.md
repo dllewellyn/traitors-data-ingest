@@ -2,7 +2,6 @@
 
 ## 1. CI/CD & Deployment
 - [ ] **CI/CD Updates**
-  - [ ] Update GitHub Actions to include Firestore emulator tests.
   - [ ] Add deployment step for Firestore security rules and indexes.
 
 ## 2. Deprecation & Cleanup
@@ -19,6 +18,10 @@
   - [ ] Optimize Firestore queries for low latency.
 
 # Completed Work
+
+## CI/CD
+- [x] **CI/CD Updates**
+  - [x] Update GitHub Actions to include Firestore emulator tests.
 
 ## Firestore Security & Validation
 - [x] **Validation & Integrity**
