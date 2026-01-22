@@ -1,8 +1,6 @@
 # Task Backlog
 
 ## 1. Firestore Security & Validation
-- [ ] **Security Rules**
-  - [ ] Define `firestore.rules` to restrict access (read-only for public, write-only for service account/ingestion).
 - [ ] **Validation & Integrity**
   - [ ] Adapt `DataValidator` to work with Firestore documents instead of CSV rows.
   - [ ] Implement a "dry run" mode for ingestion to verify data before committing to Firestore.
@@ -26,6 +24,10 @@
   - [ ] Optimize Firestore queries for low latency.
 
 # Completed Work
+
+## Firestore Security & Validation
+- [x] **Security Rules**
+  - [x] Define `firestore.rules` to restrict access (read-only for public, write-only for service account/ingestion).
 
 ## Firestore Migration
 - [x] **Persistence Layer Refactoring**
