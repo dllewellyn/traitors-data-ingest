@@ -10,7 +10,7 @@
     "generate-api": "openapi-typescript packages/core/api/openapi.yaml --output packages/core/src/api/generated.ts",
     "prebuild": "npm run generate-api && node scripts/build-packages.js",
     "build": "tsc",
-    "ingest": "USE_LOCAL_STORAGE=true ts-node src/scripts/ingest.ts",
+    "ingest": "ts-node src/scripts/ingest.ts",
     "ingest:dry-run": "npm run ingest -- --dry-run",
     "ingest:series4": "ts-node scripts/ingest_series4.ts",
     "validate": "ts-node src/cli/validate.ts",
