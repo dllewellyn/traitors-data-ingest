@@ -6,6 +6,13 @@ import { CandidateProgressRow } from "../../src/scrapers/types";
 describe("DataMerger", () => {
   const merger = new DataMerger();
 
+  // Spy on console.warn
+  const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe("mergeCandidates", () => {
     it("should merge arrays of candidates", () => {
       const candidates1: Candidate[] = [
@@ -135,6 +142,52 @@ describe("DataMerger", () => {
 
       const votes = merger.processVotes(1, candidates, progress);
       expect(votes).toHaveLength(0);
+    });
+
+    it("should log warning if voter ID not found", () => {
+      const progress: CandidateProgressRow[] = [
+        {
+          name: "Unknown Person",
+          progress: {
+            1: "Bob Jones",
+          },
+        },
+      ];
+
+      const votes = merger.processVotes(1, candidates, progress);
+      expect(votes).toHaveLength(0);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("Could not find voter ID for 'Unknown Person'")
+      );
+    });
+
+    it("should log warning if vote target ID not found", () => {
+      const progress: CandidateProgressRow[] = [
+        {
+          name: "Alice Smith",
+          progress: {
+            1: "Unknown Target",
+          },
+        },
+      ];
+
+      const votes = merger.processVotes(1, candidates, progress);
+      expect(votes).toHaveLength(0);
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        expect.stringContaining("Could not resolve vote target 'Unknown Target' for voter 'Alice Smith'")
+      );
+    });
+  });
+
+  describe("mergeVotes", () => {
+    it("should merge arrays of votes", () => {
+      const votes1 = [{ series: 1, episode: 1, round: 1, voterId: 1, targetId: 2 }];
+      const votes2 = [{ series: 2, episode: 1, round: 1, voterId: 3, targetId: 4 }];
+
+      const result = merger.mergeVotes([votes1, votes2]);
+      expect(result).toHaveLength(2);
+      expect(result).toContain(votes1[0]);
+      expect(result).toContain(votes2[0]);
     });
   });
 });
