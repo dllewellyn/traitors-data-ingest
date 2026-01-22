@@ -1,9 +1,6 @@
 # Task Backlog
 
 ## 1. OpenAPI & API Design
-- [x] **Automate Code Generation**
-  - [x] Set up `openapi-typescript` or similar tool to generate TypeScript interfaces from the OAS.
-  - [x] Integrate generation into the build pipeline (`npm run generate-api`).
 - [ ] **API Implementation**
   - [ ] Refactor Cloud Functions to use generated types and interfaces.
   - [ ] Implement query logic in Firebase Functions to fetch data from Firestore.
@@ -51,6 +48,9 @@
 # Completed Work
 
 ## OpenAPI & API Design
+- [x] **Automate Code Generation**
+  - [x] Set up `openapi-typescript` or similar tool to generate TypeScript interfaces from the OAS.
+  - [x] Integrate generation into the build pipeline (`npm run generate-api`).
 - [x] **Define OpenAPI Specification**
   - [x] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
   - [x] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
