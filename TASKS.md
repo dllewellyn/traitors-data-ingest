@@ -1,9 +1,9 @@
 # Task Backlog
 
 ## 1. OpenAPI & API Design
-- [ ] **Define OpenAPI Specification**
-  - [ ] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
-  - [ ] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
+- [x] **Define OpenAPI Specification**
+  - [x] Create `packages/core/api/openapi.yaml` defining the schema for Candidates, Votes, and Series.
+  - [x] Define endpoints for querying data (e.g., `GET /series/{id}/candidates`, `GET /candidates/{id}`).
 - [ ] **Automate Code Generation**
   - [ ] Set up `openapi-typescript` or similar tool to generate TypeScript interfaces from the OAS.
   - [ ] Integrate generation into the build pipeline (`npm run generate-api`).
