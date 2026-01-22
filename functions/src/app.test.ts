@@ -101,6 +101,7 @@ describe("Functions API", () => {
 
       const response = await request(app).get("/api/series");
       expect(response.status).toBe(200);
+      expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
       expect(response.body).toHaveLength(2);
       expect(response.body[0].id).toBe(1);
       expect(response.body[0].title).toBe("The Traitors (UK series 1)");
@@ -110,6 +111,7 @@ describe("Functions API", () => {
       getAllSeries.mockRejectedValue(new Error("Database error"));
       const response = await request(app).get("/api/series");
       expect(response.status).toBe(500);
+      expect(response.headers["cache-control"]).toBeUndefined();
       expect(response.body).toEqual({ error: "Internal Server Error" });
     });
   });
@@ -124,6 +126,7 @@ describe("Functions API", () => {
 
       const response = await request(app).get("/api/series/1");
       expect(response.status).toBe(200);
+      expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
       expect(response.body.id).toBe(1);
     });
 
@@ -132,11 +135,13 @@ describe("Functions API", () => {
 
       const response = await request(app).get("/api/series/999");
       expect(response.status).toBe(404);
+      expect(response.headers["cache-control"]).toBeUndefined();
     });
 
     it("should return 400 for invalid series ID", async () => {
       const response = await request(app).get("/api/series/invalid");
       expect(response.status).toBe(400);
+      expect(response.headers["cache-control"]).toBeUndefined();
       expect(response.body).toEqual({ error: "Invalid series ID" });
     });
 
@@ -157,6 +162,7 @@ describe("Functions API", () => {
 
       const response = await request(app).get("/api/series/1/candidates");
       expect(response.status).toBe(200);
+      expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
       expect(response.body).toHaveLength(1);
       expect(response.body[0].name).toBe("Alice");
     });
@@ -164,6 +170,7 @@ describe("Functions API", () => {
     it("should return 400 for invalid series ID", async () => {
       const response = await request(app).get("/api/series/invalid/candidates");
       expect(response.status).toBe(400);
+      expect(response.headers["cache-control"]).toBeUndefined();
       expect(response.body).toEqual({ error: "Invalid series ID" });
     });
 
@@ -171,6 +178,7 @@ describe("Functions API", () => {
       getSeriesByNumber.mockResolvedValue(null);
       const response = await request(app).get("/api/series/999/candidates");
       expect(response.status).toBe(404);
+      expect(response.headers["cache-control"]).toBeUndefined();
       expect(response.body).toEqual({ error: "Series not found" });
     });
 

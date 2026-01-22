@@ -74,6 +74,7 @@ apiRouter.get("/series", async (req: Request, res: Response) => {
   try {
     const seriesList = await getAllSeries();
     const response = seriesList.map(mapSeries);
+    res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
     res.json(response);
   } catch (err) {
     logger.error("Error listing series", err);
@@ -96,6 +97,7 @@ apiRouter.get("/series/:seriesId", async (req: Request, res: Response) => {
       return;
     }
 
+    res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
     res.json(mapSeries(series));
   } catch (err) {
     logger.error(`Error getting series ${req.params.seriesId}`, err);
@@ -120,6 +122,7 @@ apiRouter.get("/series/:seriesId/candidates", async (req: Request, res: Response
 
     const candidatesDomain = await getCandidatesBySeriesNumber(seriesId);
     const candidates = candidatesDomain.map(mapCandidate);
+    res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
     res.json(candidates);
   } catch (err) {
     logger.error(`Error getting candidates for series ${req.params.seriesId}`, err);
