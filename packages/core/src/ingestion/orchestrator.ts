@@ -8,11 +8,18 @@ import { getFirestore } from "firebase-admin/firestore";
 import { CsvWriter } from "../services/CsvWriter";
 import { createStorageWriter } from "../persistence/storage-writer-factory";
 import { FirestoreStorageWriter } from "../persistence/firestore-writer";
+import { DryRunStorageWriter } from "../persistence/DryRunStorageWriter";
+import { IStorageWriter } from "../persistence/IStorageWriter";
 import { Candidate, Vote } from "../domain/models";
 import { Series } from "../domain/series";
 import { Firestore } from "firebase-admin/firestore";
 
-export async function runIngestionProcess(firestoreInstance?: Firestore): Promise<void> {
+export interface IngestionOptions {
+  firestoreInstance?: Firestore;
+  dryRun?: boolean;
+}
+
+export async function runIngestionProcess(options: IngestionOptions = {}): Promise<void> {
   console.log("Starting ingestion process...");
 
   const fetcher = new WikipediaFetcher();
@@ -21,12 +28,15 @@ export async function runIngestionProcess(firestoreInstance?: Firestore): Promis
   const csvWriter = new CsvWriter(storageWriter);
 
   const useFirestore = process.env.USE_FIRESTORE === "true";
-  let firestoreWriter: FirestoreStorageWriter | undefined;
+  let seriesWriter: IStorageWriter | undefined;
 
-  if (useFirestore) {
+  if (options.dryRun) {
+    seriesWriter = new DryRunStorageWriter();
+    console.log("Dry run mode enabled. No data will be written to Firestore.");
+  } else if (useFirestore || options.firestoreInstance) {
     try {
-      const db = firestoreInstance || getFirestore();
-      firestoreWriter = new FirestoreStorageWriter(db);
+      const db = options.firestoreInstance || getFirestore();
+      seriesWriter = new FirestoreStorageWriter(db);
       console.log("Firestore writer initialized.");
     } catch (error) {
       console.warn(
@@ -74,15 +84,19 @@ export async function runIngestionProcess(firestoreInstance?: Firestore): Promis
         console.log(`Processing Series ${seriesNum} votes...`);
         const votes = merger.processVotes(seriesNum, candidates, progress);
 
-        if (firestoreWriter) {
-          console.log(`Writing Series ${seriesNum} to Firestore...`);
+        if (seriesWriter) {
+          console.log(
+            options.dryRun
+              ? `Simulating write for Series ${seriesNum}...`
+              : `Writing Series ${seriesNum} to Firestore...`
+          );
           const series: Series = {
             id: `TRAITORS_UK_S${seriesNum}`,
             seriesNumber: seriesNum,
             candidates,
             votes,
           };
-          await firestoreWriter.write(series);
+          await seriesWriter.write(series);
         }
 
         return { candidates, votes };
