@@ -12,6 +12,7 @@ export * from './utils/typeGuards';
 export * from './services/CsvReader';
 export * from './services/CsvWriter';
 export * from './services/DataMerger';
+export * from './persistence/firestore-writer';
 export * from './services/DataValidator';
 export * from './services/HtmlParser';
 export * from './services/WikipediaFetcher';
@@ -21,6 +22,7 @@ export * from './scrapers/Series1Scraper';
 export * from './scrapers/Series2Scraper';
 export * from './scrapers/Series3Scraper';
 export * from './scrapers/Series4Scraper';
+export * from './scrapers/types';
 
 // Export orchestrator
 export * from './ingestion/orchestrator';
