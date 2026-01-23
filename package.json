@@ -21,12 +21,12 @@
     "ingest:series4": "ts-node scripts/ingest_series4.ts",
     "validate": "ts-node src/cli/validate.ts",
     "e2e": "playwright test",
-    "emulate": "npm run build --prefix functions && firebase emulators:start --project demo-test --import=./firebase-data --export-on-exit",
+    "emulate": "npm run build --prefix traitors-functions && firebase emulators:start --project demo-test --import=./firebase-data --export-on-exit",
     "trigger:local": "curl -X POST http://localhost:5001/demo-test/us-central1/api/api/ingest -H \"X-Auth-Token: LOCAL_DEV_TOKEN\" -H \"Content-Length: 0\"",
     "trigger:local:dry-run": "curl -X POST http://localhost:5001/demo-test/us-central1/api/api/ingest -H \"X-Auth-Token: LOCAL_DEV_TOKEN\" -H \"Content-Type: application/json\" -d '{\"dryRun\": true}'",
     "migrate:firestore:local": "ts-node scripts/migrate-csv-to-firestore.ts --emulator",
     "migrate:firestore:prod": "ts-node scripts/migrate-csv-to-firestore.ts",
-    "postinstall": "npm install --prefix functions"
+    "postinstall": "npm install --prefix traitors-functions"
   },
   "keywords": [],
   "author": "",
