@@ -128,6 +128,19 @@ This repository includes a GitHub Actions workflow (`.github/workflows/audit-dat
 
 You can verify the "Last Updated" status of the dataset by checking the commit history of the `data/` directory or looking for commits by `github-actions[bot]`.
 
+### Monitoring
+
+Structured logging is enabled for Cloud Functions, allowing for advanced filtering and alerting in Google Cloud Console.
+
+To set up alerting for Cloud Function errors:
+
+1.  Ensure you have `gcloud` installed and authenticated.
+2.  Run the setup script:
+    ```bash
+    ./scripts/setup-monitoring.sh [OPTIONAL_NOTIFICATION_CHANNEL_ID]
+    ```
+    This will create an Alert Policy that triggers when a Cloud Function logs an error (Severity >= ERROR).
+
 ## Data Dictionary
 
 ### Candidates (`data/all_candidates.csv`)
