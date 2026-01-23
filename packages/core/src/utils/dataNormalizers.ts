@@ -9,7 +9,7 @@ export const normalizeName = (name: string): string => {
     return "";
   }
   // Remove annotations like [a], [b], etc., and trim whitespace.
-  return name.replace(/\[[a-z]\]/g, "").trim();
+  return name.replace(/\[.*?\]/g, "").replace(/\[.*$/, "").trim();
 };
 
 /**
@@ -45,7 +45,7 @@ export const normalizeGameStatus = (status: string): string => {
     return "";
   }
   // Remove references like [a], [1] and trim
-  const clean = status.replace(/\[.*?\]/g, "").trim();
+  const clean = status.replace(/\[.*?\]/g, "").replace(/\[.*$/, "").trim();
 
   if (/^safe/i.test(clean)) return "Safe";
   if (/^banished/i.test(clean)) return "Banished";

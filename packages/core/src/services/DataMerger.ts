@@ -75,6 +75,10 @@ export class DataMerger {
         const voteTargetName = statusOrVote.trim();
 
         // Skip empty or known status values
+        if (!voteTargetName) {
+          return;
+        }
+
         const knownStatuses = [
           "Traitor",
           "Faithful",
