@@ -8,11 +8,13 @@ export const normalizeName = (name: string): string => {
   if (!name) {
     return "";
   }
-  // Remove annotations like [a], [b], etc., citation markers like ^, and trim whitespace.
+  // Remove annotations like [a], [b], (a), (1), citation markers like ^, and collapse whitespace.
   return name
     .replace(/\[.*?\]/g, "")
+    .replace(/\(.*?\)/g, "")
     .replace(/\[.*$/, "")
     .replace(/\^/g, "")
+    .replace(/\s+/g, " ")
     .trim();
 };
 
