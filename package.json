@@ -20,6 +20,7 @@
     "ingest:manual": "ts-node scripts/manual-ingest.ts",
     "ingest:dry-run": "npm run ingest -- --dry-run",
     "ingest:series4": "ts-node scripts/ingest_series4.ts",
+    "ingest:series-us2": "ts-node scripts/ingest_series_us2.ts",
     "validate": "ts-node src/cli/validate.ts",
     "e2e": "playwright test",
     "emulate": "npm run build --prefix traitors-functions && firebase emulators:start --project demo-test --import=./firebase-data --export-on-exit",

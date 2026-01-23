@@ -2,6 +2,7 @@ import { Series1Scraper } from "../scrapers/Series1Scraper";
 import { Series2Scraper } from "../scrapers/Series2Scraper";
 import { Series3Scraper } from "../scrapers/Series3Scraper";
 import { Series4Scraper } from "../scrapers/Series4Scraper";
+import { SeriesUS2Scraper } from "../scrapers/SeriesUS2Scraper";
 import { WikipediaFetcher, IWikipediaFetcher } from "../services/WikipediaFetcher";
 import { DataMerger } from "../services/DataMerger";
 import { createStorageWriter } from "../persistence/storage-writer-factory";
@@ -16,6 +17,7 @@ export interface IngestionOptions {
   dryRun?: boolean;
   storageWriter?: IStorageWriter;
   series?: number[];
+  seriesIds?: string[];
   fetcher?: IWikipediaFetcher;
   logger?: Logger;
 }
@@ -35,6 +37,13 @@ class ConsoleLogger implements Logger {
   }
 }
 
+interface SeriesConfig {
+  url: string;
+  scraper: any; // Using any to accommodate different scraper classes
+  id: string;
+  seriesNumber: number;
+}
+
 export async function runIngestionProcess(options: IngestionOptions = {}): Promise<void> {
   const logger = options.logger || new ConsoleLogger();
   logger.info("Starting ingestion process...");
@@ -49,8 +58,6 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
     seriesWriter = options.storageWriter;
     logger.info("Using provided storage writer.");
   } else if (options.dryRun || useFirestore || options.firestoreInstance) {
-    // Decide if we should write
-    // We write if dryRun is true, OR if explicitly requested via env var or instance
     try {
       seriesWriter = createStorageWriter({
         dryRun: options.dryRun,
@@ -69,28 +76,53 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
     }
   }
 
-  // URLs for each series
-  const allUrls = [
-    "https://en.wikipedia.org/wiki/The_Traitors_(British_series_1)",
-    "https://en.wikipedia.org/wiki/The_Traitors_(British_series_2)",
-    "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_3",
-    "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_4",
-  ];
-
-  // Instantiate scrapers
-  const allScrapers = [
-    new Series1Scraper(),
-    new Series2Scraper(),
-    new Series3Scraper(),
-    new Series4Scraper(),
+  // Configuration for all series
+  const seriesConfigs: SeriesConfig[] = [
+    {
+      url: "https://en.wikipedia.org/wiki/The_Traitors_(British_series_1)",
+      scraper: new Series1Scraper(),
+      id: "TRAITORS_UK_S1",
+      seriesNumber: 1,
+    },
+    {
+      url: "https://en.wikipedia.org/wiki/The_Traitors_(British_series_2)",
+      scraper: new Series2Scraper(),
+      id: "TRAITORS_UK_S2",
+      seriesNumber: 2,
+    },
+    {
+      url: "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_3",
+      scraper: new Series3Scraper(),
+      id: "TRAITORS_UK_S3",
+      seriesNumber: 3,
+    },
+    {
+      url: "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_4",
+      scraper: new Series4Scraper(),
+      id: "TRAITORS_UK_S4",
+      seriesNumber: 4,
+    },
+    {
+      url: "https://en.wikipedia.org/wiki/The_Traitors_(American_TV_series)_season_2",
+      scraper: new SeriesUS2Scraper(),
+      id: "TRAITORS_US_S2",
+      seriesNumber: 2,
+    },
   ];
 
   // Determine which series to process
-  const targetSeriesIndices = options.series
-    ? options.series.map((s) => s - 1).filter((i) => i >= 0 && i < allUrls.length)
-    : allUrls.map((_, i) => i);
+  const targetSeries = seriesConfigs.filter((config) => {
+    if (options.seriesIds && options.seriesIds.length > 0) {
+      return options.seriesIds.includes(config.id);
+    }
+    if (options.series && options.series.length > 0) {
+      return options.series.includes(config.seriesNumber);
+    }
+    // Default: Process ALL if no filter provided
+    return true;
+  });
 
-  if (targetSeriesIndices.length === 0) {
+  if (targetSeries.length === 0) {
     logger.warn("No valid series selected for processing.");
     return;
   }
@@ -100,33 +132,31 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
 
   // Parallel fetch and parse
   const results = await Promise.all(
-    targetSeriesIndices.map(async (index) => {
-      const url = allUrls[index];
-      const scraper = allScrapers[index];
-      const seriesNum = index + 1;
-      logger.info(`Fetching Series ${seriesNum} from ${url}...`);
+    targetSeries.map(async (config) => {
+      const { url, scraper, id, seriesNumber } = config;
+      logger.info(`Fetching ${id} (Series ${seriesNumber}) from ${url}...`);
 
       try {
         const html = await fetcher.fetch(url);
 
-        logger.info(`Parsing Series ${seriesNum} candidates...`);
+        logger.info(`Parsing ${id} candidates...`);
         const candidates = scraper.parseCandidates(html);
 
-        logger.info(`Parsing Series ${seriesNum} progress...`);
+        logger.info(`Parsing ${id} progress...`);
         const progress = scraper.parseProgress(html);
 
-        logger.info(`Processing Series ${seriesNum} votes...`);
-        const votes = merger.processVotes(seriesNum, candidates, progress);
+        logger.info(`Processing ${id} votes...`);
+        const votes = merger.processVotes(seriesNumber, candidates, progress);
 
         if (seriesWriter) {
           logger.info(
             options.dryRun
-              ? `Simulating write for Series ${seriesNum}...`
-              : `Writing Series ${seriesNum} to Firestore...`
+              ? `Simulating write for ${id}...`
+              : `Writing ${id} to Firestore...`
           );
           const series: Series = {
-            id: `TRAITORS_UK_S${seriesNum}`,
-            seriesNumber: seriesNum,
+            id: id,
+            seriesNumber: seriesNumber,
             candidates,
             votes,
           };
@@ -135,7 +165,7 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
 
         return { candidates, votes };
       } catch (error) {
-        logger.error(`Error processing Series ${seriesNum}:`, error);
+        logger.error(`Error processing ${id}:`, error);
         return { candidates: [], votes: [] };
       }
     })
