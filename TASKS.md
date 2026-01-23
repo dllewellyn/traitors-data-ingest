@@ -1,6 +1,27 @@
 # Task Backlog
 
+## Frontend Application
+- [ ] **Develop a web interface to display The Traitors data.**
+  - [ ] Set up a new frontend project (e.g., using React/Vite).
+  - [ ] Create views to display series, candidates, and votes.
+  - [ ] Integrate with the existing Firestore-backed API.
+
+## Data Expansion
+- [ ] **Expand data coverage to include international series.**
+  - [ ] Research and identify reliable Wikipedia sources for UK Series 3, US Series 3, etc.
+  - [ ] Develop new scrapers or adapt existing ones for different page layouts.
+
+## Operational Excellence
+- [ ] **Set up structured logging and monitoring for Cloud Functions.**
+  - [ ] Integrate with Google Cloud Logging/Monitoring for better observability.
+  - [ ] Create dashboards to track API usage and performance.
+
 # Completed Work
+
+## Testing
+- [x] **Add End-to-End Data Quality Integration Test**
+  - [x] Implement a test that runs the full ingestion process for all series to catch data quality warnings.
+  - [x] Refactor orchestrator to allow injecting a mock fetcher for testing.
 
 ## CI/CD
 - [x] **Fix CI/CD Deployment Credentials Issue**
