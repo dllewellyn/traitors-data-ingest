@@ -55,6 +55,8 @@
   - [x] Investigate and fix "Unknown role 'None'" warning for Jack Marriner-Brown in Series 3.
 - [x] **Fix Series 4 Vote Parsing**
   - [x] Investigate and fix "Could not resolve vote target" errors for Series 4, Episode 12 (Faraaz, Jack, Jade, James, Rachel, Stephen).
+- [x] **Fix Unhandled Episode Info in Status**
+  - [x] Handle statuses like 'Withdrew (Episode 5)' in `normalizeGameStatus` to prevent vote target warnings.
 
 ## Operations & Monitoring
 - [x] **Monitor Ingestion Workflow**

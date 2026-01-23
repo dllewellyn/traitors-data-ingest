@@ -51,7 +51,12 @@ export const normalizeGameStatus = (status: string): string => {
     return "";
   }
   // Remove references like [a], [1] and trim
-  const clean = status.replace(/\[.*?\]/g, "").replace(/\[.*$/, "").trim();
+  // Also remove (Episode X) or other parenthetical notes if present
+  const clean = status
+    .replace(/\[.*?\]/g, "")
+    .replace(/\[.*$/, "")
+    .replace(/\s*\(Episode\s*\d+\)/i, "")
+    .trim();
 
   if (/^safe/i.test(clean)) return "Safe";
   if (/^banished/i.test(clean)) return "Banished";
