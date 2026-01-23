@@ -10,3 +10,13 @@ export interface TableParser<T> {
    */
   parse(html: string): T[];
 }
+
+/**
+ * Defines a shared logger interface to decouple core logic from specific logging implementations.
+ */
+export interface Logger {
+  info(message: string, ...args: any[]): void;
+  warn(message: string, ...args: any[]): void;
+  error(message: string, ...args: any[]): void;
+  debug(message: string, ...args: any[]): void;
+}
