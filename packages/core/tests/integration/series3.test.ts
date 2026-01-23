@@ -8,6 +8,7 @@ describe("Series 3 Scraper Integration", () => {
   const scraper = new Series3Scraper();
 
   it("should parse candidates correctly", async () => {
+    const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
     const html = await fetcher.fetch(url);
     const candidates = scraper.parseCandidates(html);
 
@@ -25,6 +26,14 @@ describe("Series 3 Scraper Integration", () => {
     const linda = candidates.find((c) => c.name === "Linda Rands");
     expect(linda).toBeDefined();
     expect(linda?.originalRole).toBe("Traitor");
+
+    // Verify Jack Marriner-Brown (who had "None" role) is parsed as Faithful without warning
+    const jack = candidates.find((c) => c.name === "Jack Marriner-Brown");
+    expect(jack).toBeDefined();
+    expect(jack?.originalRole).toBe("Faithful");
+
+    expect(consoleWarnSpy).not.toHaveBeenCalled();
+    consoleWarnSpy.mockRestore();
 
     expect(candidates).toMatchSnapshot();
   });
