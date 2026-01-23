@@ -2,6 +2,19 @@
 
 # Completed Work
 
+## CI/CD
+- [x] **Fix CI/CD Deployment Credentials Issue**
+  - [x] Add debugging step to verify service account credentials in the deployment workflow.
+- [x] **Verify CI/CD after functions source rename**
+  - [x] Audit GitHub Actions workflows to ensure they reference the new 'traitors-functions' directory.
+- [x] **Scheduled Ingestion**
+  - [x] Implement a GitHub Actions workflow to run the ingestion script on a daily schedule.
+- [x] **CI/CD Refactoring**
+  - [x] Refactor deployment logic into a dedicated CD workflow (`deploy.yml`).
+- [x] **CI/CD Updates**
+  - [x] Add deployment step for Firestore security rules and indexes.
+  - [x] Update GitHub Actions to include Firestore emulator tests.
+
 ## Data Quality & Parsing
 - [x] **Improve Scraper Robustness**
   - [x] Audit and enhance data normalizers and parsers to handle a wider range of unexpected Wikipedia formatting variations (e.g., different citation styles, unexpected whitespace, etc.).
@@ -19,19 +32,6 @@
 ## Fix Build & Runtime Errors
 - [x] **Fix Series 3 Role Parsing**
   - [x] Investigate and fix "Unknown role 'None'" warning for Jack Marriner-Brown in Series 3.
-
-## CI/CD
-- [x] **Verify CI/CD after functions source rename**
-  - [x] Audit GitHub Actions workflows to ensure they reference the new 'traitors-functions' directory.
-- [x] **Scheduled Ingestion**
-  - [x] Implement a GitHub Actions workflow to run the ingestion script on a daily schedule.
-- [x] **CI/CD Refactoring**
-  - [x] Refactor deployment logic into a dedicated CD workflow (`deploy.yml`).
-- [x] **CI/CD Updates**
-  - [x] Add deployment step for Firestore security rules and indexes.
-  - [x] Update GitHub Actions to include Firestore emulator tests.
-
-## Fix Build & Runtime Errors
 - [x] **Fix Series 4 Vote Parsing**
   - [x] Investigate and fix "Could not resolve vote target" errors for Series 4, Episode 12 (Faraaz, Jack, Jade, James, Rachel, Stephen).
 
