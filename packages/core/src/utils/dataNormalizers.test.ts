@@ -15,6 +15,10 @@ describe("Data Normalizers", () => {
       expect(normalizeName("James[a] Kirk[b]")).toBe("James Kirk");
     });
 
+    it("should handle citation markers like ^", () => {
+      expect(normalizeName("Traitor^[102][a]")).toBe("Traitor");
+    });
+
     it("should handle names with no annotations", () => {
       expect(normalizeName("Clark Kent")).toBe("Clark Kent");
     });
