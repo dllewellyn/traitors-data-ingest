@@ -1,9 +1,5 @@
 # Task Backlog
 
-## CI/CD
-- [ ] **Verify CI/CD after functions source rename**
-  - [ ] Audit GitHub Actions workflows to ensure they reference the new 'traitors-functions' directory.
-
 ## Fix Build & Runtime Errors
 - [ ] **Fix Series 3 Role Parsing**
   - [ ] Investigate and fix "Unknown role 'None'" warning for Jack Marriner-Brown in Series 3.
@@ -11,6 +7,17 @@
   - [ ] Investigate `Series1CandidateParser` warnings seen in tests ("Unknown Role", "Withdrew (Episode 2)").
 
 # Completed Work
+
+## CI/CD
+- [x] **Verify CI/CD after functions source rename**
+  - [x] Audit GitHub Actions workflows to ensure they reference the new 'traitors-functions' directory.
+- [x] **Scheduled Ingestion**
+  - [x] Implement a GitHub Actions workflow to run the ingestion script on a daily schedule.
+- [x] **CI/CD Refactoring**
+  - [x] Refactor deployment logic into a dedicated CD workflow (`deploy.yml`).
+- [x] **CI/CD Updates**
+  - [x] Add deployment step for Firestore security rules and indexes.
+  - [x] Update GitHub Actions to include Firestore emulator tests.
 
 ## Fix Build & Runtime Errors
 - [x] **Fix Series 4 Vote Parsing**
@@ -21,15 +28,6 @@
   - [x] Add monitoring and alerting to the scheduled ingestion workflow to notify on failures.
 - [x] **Manual Ingestion Workflow**
   - [x] Create a manually triggerable GitHub Actions workflow that allows specifying which series to ingest for backfills or corrections.
-
-## CI/CD
-- [x] **Scheduled Ingestion**
-  - [x] Implement a GitHub Actions workflow to run the ingestion script on a daily schedule.
-- [x] **CI/CD Refactoring**
-  - [x] Refactor deployment logic into a dedicated CD workflow (`deploy.yml`).
-- [x] **CI/CD Updates**
-  - [x] Add deployment step for Firestore security rules and indexes.
-  - [x] Update GitHub Actions to include Firestore emulator tests.
 
 ## API Enhancements
 - [x] **Functionality**
