@@ -1,5 +1,9 @@
 # Task Backlog
 
+## CI/CD
+- [ ] **Verify CI/CD after functions source rename**
+  - [ ] Audit GitHub Actions workflows to ensure they reference the new 'traitors-functions' directory.
+
 ## Fix Build & Runtime Errors
 - [ ] **Fix Series 4 Vote Parsing**
   - [ ] Investigate and fix "Could not resolve vote target" errors for Series 4, Episode 12 (Faraaz, Jack, Jade, James, Rachel, Stephen).
@@ -80,6 +84,8 @@
 - [x] **Initialize Firestore**
   - [x] Run `firebase_init` to enable Firestore in the project.
   - [x] Configure Firestore emulator in `firebase.json`.
+- [x] **Clarify Functions Source in Config**
+  - [x] Renamed functions codebase source from 'functions' to 'traitors-functions' in firebase.json.
 
 ## Architectural Pivot to OpenAPI & Firestore
 - [x] Redefined project goals towards an API-first, Firestore-backed architecture.
