@@ -2,7 +2,7 @@ import { Series1Scraper } from "../scrapers/Series1Scraper";
 import { Series2Scraper } from "../scrapers/Series2Scraper";
 import { Series3Scraper } from "../scrapers/Series3Scraper";
 import { Series4Scraper } from "../scrapers/Series4Scraper";
-import { WikipediaFetcher } from "../services/WikipediaFetcher";
+import { WikipediaFetcher, IWikipediaFetcher } from "../services/WikipediaFetcher";
 import { DataMerger } from "../services/DataMerger";
 import { createStorageWriter } from "../persistence/storage-writer-factory";
 import { IStorageWriter } from "../persistence/IStorageWriter";
@@ -15,12 +15,13 @@ export interface IngestionOptions {
   dryRun?: boolean;
   storageWriter?: IStorageWriter;
   series?: number[];
+  fetcher?: IWikipediaFetcher;
 }
 
 export async function runIngestionProcess(options: IngestionOptions = {}): Promise<void> {
   console.log("Starting ingestion process...");
 
-  const fetcher = new WikipediaFetcher();
+  const fetcher = options.fetcher || new WikipediaFetcher();
   const merger = new DataMerger();
 
   const useFirestore = process.env.USE_FIRESTORE === "true";
