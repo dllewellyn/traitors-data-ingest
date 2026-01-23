@@ -1,7 +1,7 @@
 {
   "functions": [
     {
-      "source": "functions",
+      "source": "traitors-functions",
       "codebase": "traitors-data",
       "disallowLegacyRuntimeConfig": true,
       "ignore": [
