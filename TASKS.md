@@ -1,12 +1,10 @@
 # Task Backlog
 
-## Operations & Monitoring
-- [ ] **Monitor Ingestion Workflow**
-  - [ ] Add monitoring and alerting to the scheduled ingestion workflow to notify on failures.
-
 # Completed Work
 
 ## Operations & Monitoring
+- [x] **Monitor Ingestion Workflow**
+  - [x] Add monitoring and alerting to the scheduled ingestion workflow to notify on failures.
 - [x] **Manual Ingestion Workflow**
   - [x] Create a manually triggerable GitHub Actions workflow that allows specifying which series to ingest for backfills or corrections.
 
