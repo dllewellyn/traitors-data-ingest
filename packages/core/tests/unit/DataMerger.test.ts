@@ -2,6 +2,7 @@ import { DataMerger } from "../../src/services/DataMerger";
 import { Candidate } from "../../src/domain/models";
 import { Role, Status } from "../../src/domain/enums";
 import { CandidateProgressRow } from "../../src/scrapers/types";
+import { normalizeGameStatus } from "../../src/utils/dataNormalizers";
 
 describe("DataMerger", () => {
   const merger = new DataMerger();
@@ -176,6 +177,22 @@ describe("DataMerger", () => {
       expect(consoleWarnSpy).toHaveBeenCalledWith(
         expect.stringContaining("Could not resolve vote target 'Unknown Target' for voter 'Alice Smith'")
       );
+    });
+
+    it("should handle status with episode info if normalized", () => {
+      const rawStatus = "Withdrew (Episode 5)";
+      const progress: CandidateProgressRow[] = [
+        {
+          name: "Alice Smith",
+          progress: {
+            1: normalizeGameStatus(rawStatus),
+          },
+        },
+      ];
+
+      const votes = merger.processVotes(1, candidates, progress);
+      expect(votes).toHaveLength(0);
+      expect(consoleWarnSpy).not.toHaveBeenCalled();
     });
   });
 
