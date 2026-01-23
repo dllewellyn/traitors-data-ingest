@@ -26,6 +26,31 @@ describe("Data Normalizers", () => {
     it("should return an empty string if the name is empty", () => {
       expect(normalizeName("")).toBe("");
     });
+
+    // New tests for enhanced robustness
+    it("should remove nested/adjacent citations", () => {
+      expect(normalizeName("Name [a][b]")).toBe("Name");
+    });
+
+    it("should remove parenthetical citations", () => {
+      expect(normalizeName("Name (a)")).toBe("Name");
+    });
+
+    it("should handle complex whitespace", () => {
+      expect(normalizeName("  Name  With  Spaces  ")).toBe("Name With Spaces");
+    });
+
+    it("should remove numeric citations", () => {
+      expect(normalizeName("Name [1]")).toBe("Name");
+    });
+
+    it("should remove trailing noise like ^", () => {
+      expect(normalizeName("Name^")).toBe("Name");
+    });
+
+    it("should handle combined noise", () => {
+      expect(normalizeName("  Name [a] (1) ^  ")).toBe("Name");
+    });
   });
 
   describe("normalizeDate", () => {
