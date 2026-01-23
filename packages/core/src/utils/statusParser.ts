@@ -47,6 +47,9 @@ export const parseFinishText = (
     case "Eliminated":
       status = Status.Eliminated;
       break;
+    case "Withdrew":
+      status = Status.Withdrew;
+      break;
     default:
       return null;
   }

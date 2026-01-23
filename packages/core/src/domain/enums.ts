@@ -26,6 +26,8 @@ export enum Status {
   Winner = "Winner",
   /** The candidate was a runner-up in the game. */
   RunnerUp = "RunnerUp",
+  /** The candidate withdrew from the game. */
+  Withdrew = "Withdrew",
 }
 
 /**
