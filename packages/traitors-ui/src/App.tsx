@@ -1,4 +1,8 @@
-import { Typography, Container } from '@mui/material';
+import { Routes, Route } from 'react-router-dom';
+import { Container, Typography } from '@mui/material';
+import SeriesListView from './views/SeriesListView';
+import CandidateListView from './views/CandidateListView';
+import VotesListView from './views/VotesListView';
 
 function App() {
   return (
@@ -6,9 +10,11 @@ function App() {
       <Typography variant="h1" component="h1" gutterBottom>
         The Traitors
       </Typography>
-      <Typography variant="body1">
-        Frontend UI for The Traitors dataset.
-      </Typography>
+      <Routes>
+        <Route path="/" element={<SeriesListView />} />
+        <Route path="/series/:seriesId" element={<CandidateListView />} />
+        <Route path="/series/:seriesId/votes" element={<VotesListView />} />
+      </Routes>
     </Container>
   );
 }

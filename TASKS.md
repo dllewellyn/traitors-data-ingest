@@ -3,8 +3,8 @@
 ## Frontend Application
 - [ ] **Develop a web interface to display The Traitors data.**
   - [x] Set up a new frontend project (e.g., using React/Vite).
-  - [ ] Create views to display series, candidates, and votes.
-  - [ ] Integrate with the existing Firestore-backed API.
+  - [x] Create views to display series, candidates, and votes.
+  - [x] Integrate with the existing Firestore-backed API.
 
 ## Data Expansion
 - [ ] **Expand data coverage to include international series.**
