@@ -6,6 +6,10 @@
 
 # Completed Work
 
+## Dependency Updates
+- [x] **Update lodash to 4.17.23**
+  - [x] Bump `lodash` version in `traitors-functions/package-lock.json`.
+
 ## Fix Build & Runtime Errors
 - [x] **Fix Series 3 Role Parsing**
   - [x] Investigate and fix "Unknown role 'None'" warning for Jack Marriner-Brown in Series 3.
