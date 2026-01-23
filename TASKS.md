@@ -1,8 +1,16 @@
 # Task Backlog
 
+## Operations & Monitoring
+- [ ] **Monitor Ingestion Workflow**
+  - [ ] Add monitoring and alerting to the scheduled ingestion workflow to notify on failures.
+- [ ] **Manual Ingestion Workflow**
+  - [ ] Create a manually triggerable GitHub Actions workflow that allows specifying which series to ingest for backfills or corrections.
+
 # Completed Work
 
 ## CI/CD
+- [x] **Scheduled Ingestion**
+  - [x] Implement a GitHub Actions workflow to run the ingestion script on a daily schedule.
 - [x] **CI/CD Refactoring**
   - [x] Refactor deployment logic into a dedicated CD workflow (`deploy.yml`).
 - [x] **CI/CD Updates**
