@@ -127,4 +127,48 @@ describe("Ingestion Orchestrator", () => {
     // Should still process other series
     expect(mockFetch).toHaveBeenCalledTimes(4);
   });
+
+  it("should use provided storageWriter when provided in options", async () => {
+    const mockWrite = jest.fn();
+    const mockStorageWriter = { write: mockWrite };
+
+    await runIngestionProcess({ storageWriter: mockStorageWriter });
+
+    expect(DryRunStorageWriter).not.toHaveBeenCalled();
+    expect(FirestoreStorageWriter).not.toHaveBeenCalled();
+    expect(mockWrite).toHaveBeenCalledTimes(4);
+  });
+
+  it("should filter series based on series option", async () => {
+    const mockWrite = jest.fn();
+    const mockStorageWriter = { write: mockWrite };
+
+    await runIngestionProcess({
+        storageWriter: mockStorageWriter,
+        series: [1, 3]
+    });
+
+    // Should only fetch and write for Series 1 and Series 3
+    // Fetcher is mocked to return generic HTML, so logic proceeds to write
+    expect(mockWrite).toHaveBeenCalledTimes(2);
+    // Series IDs are TRAITORS_UK_S1, TRAITORS_UK_S2, etc.
+    // Check call arguments to confirm series numbers
+    expect(mockWrite).toHaveBeenCalledWith(expect.objectContaining({ seriesNumber: 1 }));
+    expect(mockWrite).toHaveBeenCalledWith(expect.objectContaining({ seriesNumber: 3 }));
+    expect(mockWrite).not.toHaveBeenCalledWith(expect.objectContaining({ seriesNumber: 2 }));
+    expect(mockWrite).not.toHaveBeenCalledWith(expect.objectContaining({ seriesNumber: 4 }));
+  });
+
+  it("should handle invalid series numbers gracefully", async () => {
+    const mockWrite = jest.fn();
+    const mockStorageWriter = { write: mockWrite };
+
+    await runIngestionProcess({
+        storageWriter: mockStorageWriter,
+        series: [99] // Invalid series number
+    });
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith("No valid series selected for processing.");
+    expect(mockWrite).not.toHaveBeenCalled();
+  });
 });
