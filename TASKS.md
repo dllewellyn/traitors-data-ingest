@@ -18,16 +18,9 @@
 
 # Completed Work
 
-## Code Quality
-- [x] **Refactor Cloud Functions for Code Style & Readability**
-  - [x] Apply consistent formatting and linting fixes across the API codebase (`app.ts`, `app.test.ts`, `persistence/firestore.ts`).
-
-## Testing
-- [x] **Add End-to-End Data Quality Integration Test**
-  - [x] Implement a test that runs the full ingestion process for all series to catch data quality warnings.
-  - [x] Refactor orchestrator to allow injecting a mock fetcher for testing.
-
 ## CI/CD
+- [x] **Improve Dependency Management in Deployment**
+  - [x] Package local 'core' dependency during deployment to ensure a consistent build.
 - [x] **Fix CI/CD Deployment Credentials Issue**
   - [x] Add debugging step to verify service account credentials in the deployment workflow.
 - [x] **Verify CI/CD after functions source rename**
@@ -39,6 +32,15 @@
 - [x] **CI/CD Updates**
   - [x] Add deployment step for Firestore security rules and indexes.
   - [x] Update GitHub Actions to include Firestore emulator tests.
+
+## Code Quality
+- [x] **Refactor Cloud Functions for Code Style & Readability**
+  - [x] Apply consistent formatting and linting fixes across the API codebase (`app.ts`, `app.test.ts`, `persistence/firestore.ts`).
+
+## Testing
+- [x] **Add End-to-End Data Quality Integration Test**
+  - [x] Implement a test that runs the full ingestion process for all series to catch data quality warnings.
+  - [x] Refactor orchestrator to allow injecting a mock fetcher for testing.
 
 ## Data Quality & Parsing
 - [x] **Improve Scraper Robustness**
