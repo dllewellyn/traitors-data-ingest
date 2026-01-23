@@ -1,12 +1,14 @@
 # Task Backlog
 
 ## Fix Build & Runtime Errors
-- [ ] **Fix Series 3 Role Parsing**
-  - [ ] Investigate and fix "Unknown role 'None'" warning for Jack Marriner-Brown in Series 3.
 - [ ] **Fix Series 1 Test Warnings**
   - [ ] Investigate `Series1CandidateParser` warnings seen in tests ("Unknown Role", "Withdrew (Episode 2)").
 
 # Completed Work
+
+## Fix Build & Runtime Errors
+- [x] **Fix Series 3 Role Parsing**
+  - [x] Investigate and fix "Unknown role 'None'" warning for Jack Marriner-Brown in Series 3.
 
 ## CI/CD
 - [x] **Verify CI/CD after functions source rename**
