@@ -16,6 +16,7 @@
     - `src/services/`: Utility services (Fetcher, HTML Parser, CSV utilities).
     - `src/persistence/`: Data writers (Firestore, CSV, GCS).
     - `api/`: OpenAPI Specification (`openapi.yaml`) and generated types.
+- `packages/traitors-ui/`: React-based frontend application for displaying Traitors data.
 - `packages/state/`, `packages/gemini/`, `packages/jules/`, `packages/github/`: Integration packages for external agents and tools.
 
 ### Firebase Functions
