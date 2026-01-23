@@ -43,6 +43,7 @@ export class FirestoreStorageWriter implements IStorageWriter {
       const ref = this.db.collection("candidates").doc(docId);
       batch.set(ref, {
         ...candidate,
+        name_lowercase: candidate.name.toLowerCase(),
         seriesId: series.id, // Explicitly link to string ID
       });
     }

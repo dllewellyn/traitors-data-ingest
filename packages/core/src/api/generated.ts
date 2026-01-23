@@ -33,6 +33,13 @@ export interface paths {
      */
     get: operations["getVotesBySeries"];
   };
+  "/candidates/search": {
+    /**
+     * Search for candidates by name
+     * @description Returns a list of candidates whose names match the search query.
+     */
+    get: operations["searchCandidates"];
+  };
   "/candidates/{candidateId}": {
     /**
      * Get a specific candidate
@@ -211,6 +218,30 @@ export interface operations {
       };
       /** @description Series not found. */
       404: {
+        content: never;
+      };
+    };
+  };
+  /**
+   * Search for candidates by name
+   * @description Returns a list of candidates whose names match the search query.
+   */
+  searchCandidates: {
+    parameters: {
+      query: {
+        /** @description The name of the candidate to search for. */
+        name: string;
+      };
+    };
+    responses: {
+      /** @description A successful response with an array of matching candidates. */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Candidate"][];
+        };
+      };
+      /** @description Invalid request, name parameter is missing. */
+      400: {
         content: never;
       };
     };

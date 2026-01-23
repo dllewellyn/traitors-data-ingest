@@ -23,6 +23,8 @@ export interface Candidate {
   id: number;
   /** The name of the candidate. */
   name: string;
+  /** The name of the candidate in lowercase for search. */
+  name_lowercase?: string;
   /** The age of the candidate. */
   age: number;
   /** The job of the candidate. */

@@ -18,11 +18,12 @@ jest.mock("./persistence/firestore", () => ({
   getSeriesByNumber: jest.fn(),
   getCandidatesBySeriesNumber: jest.fn(),
   getVotes: jest.fn(),
+  searchCandidatesByName: jest.fn(),
 }));
 
 // Import app after mocks
 import app from "./app";
-const { getAllSeries, getSeriesByNumber, getCandidatesBySeriesNumber, getVotes } = require("./persistence/firestore");
+const { getAllSeries, getSeriesByNumber, getCandidatesBySeriesNumber, getVotes, searchCandidatesByName } = require("./persistence/firestore");
 
 describe("Functions API", () => {
   beforeEach(() => {
@@ -286,6 +287,33 @@ describe("Functions API", () => {
       getVotes.mockRejectedValue(new Error("Database error"));
 
       const response = await request(app).get("/api/series/1/votes");
+      expect(response.status).toBe(500);
+      expect(response.body).toEqual({ error: "Internal Server Error" });
+    });
+  });
+
+  describe("GET /candidates/search", () => {
+    it("should return matching candidates", async () => {
+      searchCandidatesByName.mockResolvedValue([
+        { id: 101, name: "Alice", series: 1, originalRole: "Faithful", roundStates: [{ status: "Active" }] }
+      ]);
+
+      const response = await request(app).get("/candidates/search?name=Alice");
+      expect(response.status).toBe(200);
+      expect(response.body).toHaveLength(1);
+      expect(response.body[0].name).toBe("Alice");
+      expect(searchCandidatesByName).toHaveBeenCalledWith("Alice");
+    });
+
+    it("should return 400 if name parameter is missing", async () => {
+      const response = await request(app).get("/candidates/search");
+      expect(response.status).toBe(400);
+      expect(response.body).toEqual({ error: "Missing name parameter" });
+    });
+
+    it("should handle errors", async () => {
+      searchCandidatesByName.mockRejectedValue(new Error("Database error"));
+      const response = await request(app).get("/candidates/search?name=Error");
       expect(response.status).toBe(500);
       expect(response.body).toEqual({ error: "Internal Server Error" });
     });

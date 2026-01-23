@@ -89,3 +89,16 @@ export const getVotes = async (
 
   return snapshot.docs.map((doc) => doc.data() as Vote);
 };
+
+export const searchCandidatesByName = async (name: string): Promise<Candidate[]> => {
+  const db = getDb();
+  const searchTerm = name.toLowerCase();
+
+  const snapshot = await db.collection("candidates")
+    .where("name_lowercase", ">=", searchTerm)
+    .where("name_lowercase", "<=", searchTerm + "\uf8ff")
+    .orderBy("name_lowercase")
+    .get();
+
+  return snapshot.docs.map((doc) => doc.data() as Candidate);
+};

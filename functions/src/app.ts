@@ -3,7 +3,7 @@ import * as logger from "firebase-functions/logger";
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
 import {runIngestionProcess, Api, Series, Candidate, Vote} from "@gcp-adl/core";
-import {getAllSeries, getSeriesByNumber, getCandidatesBySeriesNumber, getVotes} from "./persistence/firestore";
+import {getAllSeries, getSeriesByNumber, getCandidatesBySeriesNumber, getVotes, searchCandidatesByName} from "./persistence/firestore";
 
 // Initialize Firebase Admin once
 initializeApp();
@@ -216,6 +216,25 @@ apiRouter.get("/series/:seriesId/candidates", async (req: Request, res: Response
     res.json(candidates);
   } catch (err) {
     logger.error(`Error getting candidates for series ${req.params.seriesId}`, err);
+    res.status(500).send({error: "Internal Server Error"});
+  }
+});
+
+// GET /candidates/search
+apiRouter.get("/candidates/search", async (req: Request, res: Response) => {
+  try {
+    const name = req.query.name as string;
+    if (!name) {
+      res.status(400).send({error: "Missing name parameter"});
+      return;
+    }
+
+    const candidatesDomain = await searchCandidatesByName(name);
+    const candidates = candidatesDomain.map(mapCandidate);
+    res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
+    res.json(candidates);
+  } catch (err) {
+    logger.error("Error searching candidates", err);
     res.status(500).send({error: "Internal Server Error"});
   }
 });

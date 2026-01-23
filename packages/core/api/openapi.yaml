@@ -127,6 +127,29 @@ paths:
                   $ref: "#/components/schemas/Vote"
         "404":
           description: Series not found.
+  /candidates/search:
+    get:
+      summary: Search for candidates by name
+      description: Returns a list of candidates whose names match the search query.
+      operationId: searchCandidates
+      parameters:
+        - name: name
+          in: query
+          required: true
+          description: The name of the candidate to search for.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: A successful response with an array of matching candidates.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Candidate"
+        "400":
+          description: Invalid request, name parameter is missing.
   /candidates/{candidateId}:
     get:
       summary: Get a specific candidate
