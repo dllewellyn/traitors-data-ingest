@@ -1,5 +1,13 @@
 # Task Backlog
 
+## Fix Build & Runtime Errors
+- [ ] **Fix Series 4 Vote Parsing**
+  - [ ] Investigate and fix "Could not resolve vote target" errors for Series 4, Episode 12 (Faraaz, Jack, Jade, James, Rachel, Stephen).
+- [ ] **Fix Series 3 Role Parsing**
+  - [ ] Investigate and fix "Unknown role 'None'" warning for Jack Marriner-Brown in Series 3.
+- [ ] **Fix Series 1 Test Warnings**
+  - [ ] Investigate `Series1CandidateParser` warnings seen in tests ("Unknown Role", "Withdrew (Episode 2)").
+
 # Completed Work
 
 ## Operations & Monitoring
