@@ -1,10 +1,10 @@
 # Task Backlog
 
-## Fix Build & Runtime Errors
-- [ ] **Fix Series 1 Test Warnings**
-  - [ ] Investigate `Series1CandidateParser` warnings seen in tests ("Unknown Role", "Withdrew (Episode 2)").
-
 # Completed Work
+
+## Fix Build & Runtime Errors
+- [x] **Fix Series 1 Test Warnings**
+  - [x] Investigate `Series1CandidateParser` warnings seen in tests ("Unknown Role", "Withdrew (Episode 2)").
 
 ## Dependency Updates
 - [x] **Update lodash to 4.17.23**
