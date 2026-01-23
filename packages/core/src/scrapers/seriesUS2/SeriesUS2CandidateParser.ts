@@ -5,7 +5,15 @@ import { Role } from "../../domain/enums";
 import { normalizeName } from "../../utils/dataNormalizers";
 import { parseFinishText } from "../../utils/statusParser";
 
+/**
+ * Parses the "Contestants" table from the US Series 2 Wikipedia page.
+ */
 export class SeriesUS2CandidateParser implements TableParser<Candidate> {
+  /**
+   * Parses the HTML content to extract candidate information.
+   * @param html The HTML string to parse.
+   * @returns An array of Candidate objects.
+   */
   parse(html: string): Candidate[] {
     const $ = cheerio.load(html);
     const candidates: Candidate[] = [];

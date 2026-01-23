@@ -10,6 +10,11 @@ import {
  * Parses the HTML from the US Series 2 Wikipedia page to extract candidate progress data.
  */
 export class SeriesUS2ProgressParser implements TableParser<CandidateProgressRow> {
+  /**
+   * Parses the "Elimination history" table to extract voting and progress data.
+   * @param html The HTML string to parse.
+   * @returns An array of CandidateProgressRow objects.
+   */
   parse(html: string): CandidateProgressRow[] {
     const $ = cheerio.load(html);
     const rows: CandidateProgressRow[] = [];
