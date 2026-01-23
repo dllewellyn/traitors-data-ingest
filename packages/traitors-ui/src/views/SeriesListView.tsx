@@ -4,6 +4,14 @@ import { Typography, List, ListItem, ListItemText, Paper } from '@mui/material';
 import { getSeries } from '../apiClient';
 import type { Series } from '../apiClient';
 
+/**
+ * SeriesListView component.
+ *
+ * Displays a list of all available series. Each series is a link that navigates
+ * to the detailed candidate view for that series.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function SeriesListView() {
   const [seriesList, setSeriesList] = useState<Series[]>([]);
   const [loading, setLoading] = useState(true);

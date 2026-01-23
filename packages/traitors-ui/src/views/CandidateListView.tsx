@@ -14,6 +14,14 @@ import {
 import { getCandidates } from '../apiClient';
 import type { Candidate } from '../apiClient';
 
+/**
+ * CandidateListView component.
+ *
+ * Displays a table of candidates for a specific series identified by the URL parameter `seriesId`.
+ * Fetches candidate data from the API and renders their name, role, and outcome.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function CandidateListView() {
   const { seriesId } = useParams<{ seriesId: string }>();
   const [candidates, setCandidates] = useState<Candidate[]>([]);
