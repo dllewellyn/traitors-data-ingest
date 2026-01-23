@@ -29,6 +29,14 @@ jobs:
       - name: Build packages
         run: npm run build
 
+      - name: Package Core Dependency
+        run: |
+          cd packages/core
+          npm pack
+          mv gcp-adl-core-*.tgz ../../traitors-functions/lib-core.tgz
+          cd ../../traitors-functions
+          npm install ./lib-core.tgz
+
       - name: Create SA Key
         run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLAME_27501 }}' > service-account.json
 
