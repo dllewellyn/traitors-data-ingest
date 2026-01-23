@@ -9,7 +9,7 @@ To run the project locally with the Firebase Emulator Suite, follow these steps:
     ```bash
     npm install
     ```
-    This will also install dependencies for the `functions` directory via the `postinstall` hook.
+    This will also install dependencies for the `traitors-functions` directory via the `postinstall` hook.
 3.  **Start Emulators**:
     ```bash
     npm run emulate
@@ -90,10 +90,10 @@ To run the project locally with the Firebase Emulator Suite, follow these steps:
 - **2026-01-19**: Before deploying to Firebase production, establish a complete local testing infrastructure using Firebase Emulator Suite to validate functions, hosting, and integrations without incurring costs or affecting production.
 - **2026-01-19**: Implement manual trigger endpoints (e.g., `/api/ingest`) for data operations to enable on-demand testing and debugging during development, separate from automated scheduled workflows.
 - **2026-01-19**: Treat Firebase emulator testing as a mandatory gate—no deployment to production should occur without successful local emulator validation of all functions and hosting configurations.
-- **2026-01-19**: Establish a local emulator workflow for Firebase Functions by decoupling the Express app into a dedicated directory (`functions/`) with its own dependency tree, while using root-level scripts (`npm run emulate`) and `firebase.json` rewrites to integrate it seamlessly with Hosting.
-- **2026-01-19**: Abstract complex multi-step development environment setup commands (like building dependencies and starting emulators with specific flags) into single, declarative NPM scripts (e.g., `"emulate": "npm run build --prefix functions && firebase emulators:start..."`). This ensures consistency, reduces cognitive load for developers, and minimizes "it works on my machine" errors caused by missed steps.
-- **2026-01-20**: Finalized the Local Testing Workflow by enforcing a strict directory structure (`functions/` for backend, `data/` for hosting), validating Node.js 20.x compatibility for Firebase Runtime, and confirming hot-reload capabilities via `npm run build` triggering emulator updates.
-- **2026-01-20**: Managed project dependencies by removing unused root-level packages (Express, Nodemon) and ensuring `postinstall` hooks automatically install nested `functions` dependencies to maintain a ready-to-code environment.
+- **2026-01-19**: Establish a local emulator workflow for Firebase Functions by decoupling the Express app into a dedicated directory (`traitors-functions/`) with its own dependency tree, while using root-level scripts (`npm run emulate`) and `firebase.json` rewrites to integrate it seamlessly with Hosting.
+- **2026-01-19**: Abstract complex multi-step development environment setup commands (like building dependencies and starting emulators with specific flags) into single, declarative NPM scripts (e.g., `"emulate": "npm run build --prefix traitors-functions && firebase emulators:start..."`). This ensures consistency, reduces cognitive load for developers, and minimizes "it works on my machine" errors caused by missed steps.
+- **2026-01-20**: Finalized the Local Testing Workflow by enforcing a strict directory structure (`traitors-functions/` for backend, `data/` for hosting), validating Node.js 20.x compatibility for Firebase Runtime, and confirming hot-reload capabilities via `npm run build` triggering emulator updates.
+- **2026-01-20**: Managed project dependencies by removing unused root-level packages (Express, Nodemon) and ensuring `postinstall` hooks automatically install nested `traitors-functions` dependencies to maintain a ready-to-code environment.
 - **2026-01-20**: Refactored core ingestion logic into a shared package (` @gcp-adl/core`) to enable reuse across CLI tools and Cloud Functions without code duplication, enforcing a cleaner separation of concerns.
 - **2026-01-21**: For long-running background tasks initiated via HTTP triggers (e.g., data ingestion), return a `202 Accepted` status immediately and execute the task asynchronously to prevent client timeouts and improve API responsiveness.
 - **2026-01-21**: Utilize platform-native logging libraries (e.g., `firebase-functions/logger`) in serverless functions to ensure proper log routing, severity levels, and integration with cloud monitoring tools.
@@ -117,7 +117,7 @@ To run the project locally with the Firebase Emulator Suite, follow these steps:
 - **2026-01-22**: When unit testing database repositories, mock the database client and batch objects to verify interactions and logic without requiring a live database connection, ensuring fast and isolated tests.
 - **2026-01-22**: Define aggregate root models (e.g., a `Series` object containing `Candidates` and `Votes`) to encapsulate related data and provide a clean, unified interface for high-level operations like persistence.
 - **2026-01-22**: Use environment variables as feature flags to conditionally enable major infrastructure changes (like a new database writer), allowing for gradual rollout and isolated testing of different system configurations.
-- **2026-01-22**: Implement the Repository Pattern by creating a dedicated persistence layer (`functions/src/persistence/firestore.ts`) to encapsulate all database query logic, decoupling the API handlers from the underlying Firestore implementation.
+- **2026-01-22**: Implement the Repository Pattern by creating a dedicated persistence layer (`traitors-functions/src/persistence/firestore.ts`) to encapsulate all database query logic, decoupling the API handlers from the underlying Firestore implementation.
 - **2026-01-22**: Use dedicated mapper functions to transform internal domain models into public API Data Transfer Objects (DTOs), decoupling the public API contract from the internal database schema.
 - **2026-01-22**: When implementing API endpoints, perform robust validation of path parameters and user-provided inputs, returning specific HTTP error codes (e.g., 400 Bad Request) to provide clear feedback to clients.
 - **2026-01-22**: Enhance testability by using Dependency Injection; for example, passing a Firestore instance to core logic (`runIngestionProcess`) allows it to be easily mocked or replaced in different environments.
