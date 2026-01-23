@@ -1,9 +1,11 @@
-import { getFirestore } from "firebase-admin/firestore";
-import { Series, Candidate, Vote } from "@gcp-adl/core";
+import {getFirestore} from "firebase-admin/firestore";
+import {Series, Candidate, Vote} from "@gcp-adl/core";
 
 const getDb = () => getFirestore();
 
-export const getSeriesByNumber = async (seriesNumber: number): Promise<Series | null> => {
+export const getSeriesByNumber = async (
+  seriesNumber: number
+): Promise<Series | null> => {
   const db = getDb();
   // Document ID pattern: TRAITORS_UK_S1, TRAITORS_UK_S2
   const id = `TRAITORS_UK_S${seriesNumber}`;
@@ -20,14 +22,14 @@ export const getAllSeries = async (): Promise<Series[]> => {
   const db = getDb();
   const snapshot = await db.collection("series").orderBy("seriesNumber").get();
 
-  return snapshot.docs.map(doc => doc.data() as Series);
+  return snapshot.docs.map((doc) => doc.data() as Series);
 };
 
 export const getCandidatesBySeriesNumber = async (
   seriesNumber: number,
   limit: number,
   offset: number,
-  sortBy: string = "name",
+  sortBy = "name",
   sortOrder: "asc" | "desc" = "asc"
 ): Promise<Candidate[]> => {
   const db = getDb();
@@ -37,7 +39,8 @@ export const getCandidatesBySeriesNumber = async (
     .where("seriesId", "==", seriesId);
 
   // Apply sorting
-  // Currently only 'name' is supported effectively via Firestore indexes
+  // Currently only 'name' is supported effectively via
+  // Firestore indexes
   if (sortBy === "name") {
     query = query.orderBy("name", sortOrder);
   } else {
@@ -62,7 +65,8 @@ export const getVotes = async (
 ): Promise<Vote[]> => {
   const db = getDb();
   // We use seriesId in the domain object, which is an integer (e.g., 1, 2)
-  // But in Firestore, it seems we might be querying by the integer series number
+  // But in Firestore, it seems we might be querying by the integer series
+  // number
   // The 'candidates' query uses `seriesId` string "TRAITORS_UK_S<N>"?
   // Wait, let's check getCandidatesBySeriesNumber implementation:
   // const seriesId = `TRAITORS_UK_S${seriesNumber}`;
@@ -73,9 +77,12 @@ export const getVotes = async (
   // Based on Candidate domain: series: number.
   // Based on Candidate Firestore Query: seriesId is used as string.
 
-  // Let's assume consistent storage with candidates for now, but Vote domain has 'series: number'.
-  // However, persistence/firestore-writer.ts would be the source of truth for how it is written.
-  // Since I can't check that easily without reading more files, I will follow the pattern.
+  // Let's assume consistent storage with candidates for now,
+  // but Vote domain has 'series: number'.
+  // However, persistence/firestore-writer.ts would be the source of truth
+  // for how it is written.
+  // Since I can't check that easily without reading more files,
+  // I will follow the pattern.
   // If `getVotes` is to be like `getCandidatesBySeriesNumber`.
 
   const seriesId = `TRAITORS_UK_S${seriesNumber}`;
@@ -89,3 +96,4 @@ export const getVotes = async (
 
   return snapshot.docs.map((doc) => doc.data() as Vote);
 };
+

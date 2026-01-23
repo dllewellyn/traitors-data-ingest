@@ -1,6 +1,16 @@
 import request from "supertest";
+import app from "./app";
+import {
+  getAllSeries,
+  getSeriesByNumber,
+  getCandidatesBySeriesNumber,
+  getVotes,
+} from "./persistence/firestore";
+import {runIngestionProcess} from "@gcp-adl/core";
 
 // Mocks must be declared before importing the module that uses them
+// (Note: jest.mock is hoisted, so placement doesn't strictly matter for
+// execution, but good for readability)
 jest.mock("firebase-admin/app", () => ({
   initializeApp: jest.fn(),
 }));
@@ -19,10 +29,6 @@ jest.mock("./persistence/firestore", () => ({
   getCandidatesBySeriesNumber: jest.fn(),
   getVotes: jest.fn(),
 }));
-
-// Import app after mocks
-import app from "./app";
-const { getAllSeries, getSeriesByNumber, getCandidatesBySeriesNumber, getVotes } = require("./persistence/firestore");
 
 describe("Functions API", () => {
   beforeEach(() => {
@@ -60,25 +66,24 @@ describe("Functions API", () => {
       expect(response.body).toEqual({error: "Unauthorized"});
     });
 
-    it("should accept requests with valid token and trigger ingestion", async () => {
-      const { runIngestionProcess } = require("@gcp-adl/core");
+    it("should accept requests with valid token and trigger ingestion",
+      async () => {
+        const response = await request(app)
+          .post("/api/ingest")
+          .set("X-Auth-Token", "LOCAL_DEV_TOKEN");
 
-      const response = await request(app)
-        .post("/api/ingest")
-        .set("X-Auth-Token", "LOCAL_DEV_TOKEN");
+        expect(response.status).toBe(202);
+        expect(response.body).toEqual({
+          status: "ingestion_started",
+        });
 
-      expect(response.status).toBe(202);
-      expect(response.body).toEqual({
-        status: "ingestion_started",
+        expect(runIngestionProcess).toHaveBeenCalled();
       });
 
-      expect(runIngestionProcess).toHaveBeenCalled();
-    });
-
     it("should handle ingestion failure gracefully (log error)", async () => {
-      const { runIngestionProcess } = require("@gcp-adl/core");
       // Simulate rejection
-      runIngestionProcess.mockRejectedValue(new Error("Ingestion error"));
+      (runIngestionProcess as jest.Mock)
+        .mockRejectedValue(new Error("Ingestion error"));
 
       // NOTE: Because the route does not await the promise,
       // the error is caught in the background.
@@ -95,44 +100,47 @@ describe("Functions API", () => {
 
   describe("GET /api/series", () => {
     it("should return list of series", async () => {
-      getAllSeries.mockResolvedValue([
-        { seriesNumber: 1, candidates: [], votes: [] },
-        { seriesNumber: 2, candidates: [], votes: [] }
+      (getAllSeries as jest.Mock).mockResolvedValue([
+        {seriesNumber: 1, candidates: [], votes: []},
+        {seriesNumber: 2, candidates: [], votes: []},
       ]);
 
       const response = await request(app).get("/api/series");
       expect(response.status).toBe(200);
-      expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
+      expect(response.headers["cache-control"])
+        .toBe("public, max-age=86400, s-maxage=86400");
       expect(response.body).toHaveLength(2);
       expect(response.body[0].id).toBe(1);
       expect(response.body[0].title).toBe("The Traitors (UK series 1)");
     });
 
     it("should handle errors when fetching all series", async () => {
-      getAllSeries.mockRejectedValue(new Error("Database error"));
+      (getAllSeries as jest.Mock)
+        .mockRejectedValue(new Error("Database error"));
       const response = await request(app).get("/api/series");
       expect(response.status).toBe(500);
       expect(response.headers["cache-control"]).toBeUndefined();
-      expect(response.body).toEqual({ error: "Internal Server Error" });
+      expect(response.body).toEqual({error: "Internal Server Error"});
     });
   });
 
   describe("GET /api/series/:seriesId", () => {
     it("should return a specific series", async () => {
-      getSeriesByNumber.mockResolvedValue({
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({
         seriesNumber: 1,
         candidates: [],
-        votes: []
+        votes: [],
       });
 
       const response = await request(app).get("/api/series/1");
       expect(response.status).toBe(200);
-      expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
+      expect(response.headers["cache-control"])
+        .toBe("public, max-age=86400, s-maxage=86400");
       expect(response.body.id).toBe(1);
     });
 
     it("should return 404 if series not found", async () => {
-      getSeriesByNumber.mockResolvedValue(null);
+      (getSeriesByNumber as jest.Mock).mockResolvedValue(null);
 
       const response = await request(app).get("/api/series/999");
       expect(response.status).toBe(404);
@@ -143,100 +151,118 @@ describe("Functions API", () => {
       const response = await request(app).get("/api/series/invalid");
       expect(response.status).toBe(400);
       expect(response.headers["cache-control"]).toBeUndefined();
-      expect(response.body).toEqual({ error: "Invalid series ID" });
+      expect(response.body).toEqual({error: "Invalid series ID"});
     });
 
     it("should handle errors when fetching a series", async () => {
-      getSeriesByNumber.mockRejectedValue(new Error("Database error"));
+      (getSeriesByNumber as jest.Mock)
+        .mockRejectedValue(new Error("Database error"));
       const response = await request(app).get("/api/series/1");
       expect(response.status).toBe(500);
-      expect(response.body).toEqual({ error: "Internal Server Error" });
+      expect(response.body).toEqual({error: "Internal Server Error"});
     });
   });
 
   describe("GET /api/series/:seriesId/candidates", () => {
-    it("should return candidates for a series with default pagination", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      getCandidatesBySeriesNumber.mockResolvedValue([
-        { id: 101, name: "Alice", series: 1, originalRole: "Faithful", roundStates: [{ status: "Active" }] }
-      ]);
+    it("should return candidates for a series with default pagination",
+      async () => {
+        (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+        (getCandidatesBySeriesNumber as jest.Mock).mockResolvedValue([
+          {
+            id: 101,
+            name: "Alice",
+            series: 1,
+            originalRole: "Faithful",
+            roundStates: [{status: "Active"}],
+          },
+        ]);
 
-      const response = await request(app).get("/api/series/1/candidates");
-      expect(response.status).toBe(200);
-      expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
-      expect(response.body).toHaveLength(1);
-      expect(response.body[0].name).toBe("Alice");
-      // Expect default sort parameters "name", "asc"
-      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 25, 0, "name", "asc");
-    });
+        const response = await request(app).get("/api/series/1/candidates");
+        expect(response.status).toBe(200);
+        expect(response.headers["cache-control"])
+          .toBe("public, max-age=86400, s-maxage=86400");
+        expect(response.body).toHaveLength(1);
+        expect(response.body[0].name).toBe("Alice");
+        // Expect default sort parameters "name", "asc"
+        expect(getCandidatesBySeriesNumber)
+          .toHaveBeenCalledWith(1, 25, 0, "name", "asc");
+      });
 
     it("should support custom pagination parameters", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      getCandidatesBySeriesNumber.mockResolvedValue([]);
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+      (getCandidatesBySeriesNumber as jest.Mock).mockResolvedValue([]);
 
-      const response = await request(app).get("/api/series/1/candidates?limit=10&offset=5");
+      const response = await request(app)
+        .get("/api/series/1/candidates?limit=10&offset=5");
       expect(response.status).toBe(200);
-      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 10, 5, "name", "asc");
+      expect(getCandidatesBySeriesNumber)
+        .toHaveBeenCalledWith(1, 10, 5, "name", "asc");
     });
 
     it("should support sorting by name desc", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      getCandidatesBySeriesNumber.mockResolvedValue([]);
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+      (getCandidatesBySeriesNumber as jest.Mock).mockResolvedValue([]);
 
-      const response = await request(app).get("/api/series/1/candidates?sortBy=name&sortOrder=desc");
+      const response = await request(app)
+        .get("/api/series/1/candidates?sortBy=name&sortOrder=desc");
       expect(response.status).toBe(200);
-      expect(getCandidatesBySeriesNumber).toHaveBeenCalledWith(1, 25, 0, "name", "desc");
+      expect(getCandidatesBySeriesNumber)
+        .toHaveBeenCalledWith(1, 25, 0, "name", "desc");
     });
 
     it("should return 400 for invalid limit", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      const response = await request(app).get("/api/series/1/candidates?limit=0");
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+      const response = await request(app)
+        .get("/api/series/1/candidates?limit=0");
       expect(response.status).toBe(400);
-      expect(response.body).toEqual({ error: "Invalid limit" });
+      expect(response.body).toEqual({error: "Invalid limit"});
     });
 
     it("should return 400 for invalid offset", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      const response = await request(app).get("/api/series/1/candidates?offset=-1");
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+      const response = await request(app)
+        .get("/api/series/1/candidates?offset=-1");
       expect(response.status).toBe(400);
-      expect(response.body).toEqual({ error: "Invalid offset" });
+      expect(response.body).toEqual({error: "Invalid offset"});
     });
 
     it("should return 400 for invalid series ID", async () => {
       const response = await request(app).get("/api/series/invalid/candidates");
       expect(response.status).toBe(400);
       expect(response.headers["cache-control"]).toBeUndefined();
-      expect(response.body).toEqual({ error: "Invalid series ID" });
+      expect(response.body).toEqual({error: "Invalid series ID"});
     });
 
     it("should return 404 if series not found", async () => {
-      getSeriesByNumber.mockResolvedValue(null);
+      (getSeriesByNumber as jest.Mock).mockResolvedValue(null);
       const response = await request(app).get("/api/series/999/candidates");
       expect(response.status).toBe(404);
       expect(response.headers["cache-control"]).toBeUndefined();
-      expect(response.body).toEqual({ error: "Series not found" });
+      expect(response.body).toEqual({error: "Series not found"});
     });
 
     it("should handle errors when fetching candidates", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      getCandidatesBySeriesNumber.mockRejectedValue(new Error("Database error"));
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+      (getCandidatesBySeriesNumber as jest.Mock)
+        .mockRejectedValue(new Error("Database error"));
 
       const response = await request(app).get("/api/series/1/candidates");
       expect(response.status).toBe(500);
-      expect(response.body).toEqual({ error: "Internal Server Error" });
+      expect(response.body).toEqual({error: "Internal Server Error"});
     });
   });
 
   describe("GET /api/series/:seriesId/votes", () => {
     it("should return votes for a series with default pagination", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      getVotes.mockResolvedValue([
-        { series: 1, episode: 1, voterId: 101, targetId: 102, round: 1 }
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+      (getVotes as jest.Mock).mockResolvedValue([
+        {series: 1, episode: 1, voterId: 101, targetId: 102, round: 1},
       ]);
 
       const response = await request(app).get("/api/series/1/votes");
       expect(response.status).toBe(200);
-      expect(response.headers["cache-control"]).toBe("public, max-age=86400, s-maxage=86400");
+      expect(response.headers["cache-control"])
+        .toBe("public, max-age=86400, s-maxage=86400");
       expect(response.body).toHaveLength(1);
       expect(response.body[0].voterId).toBe(101);
       expect(response.body[0].votedForId).toBe(102);
@@ -244,50 +270,51 @@ describe("Functions API", () => {
     });
 
     it("should support custom pagination parameters", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      getVotes.mockResolvedValue([]);
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+      (getVotes as jest.Mock).mockResolvedValue([]);
 
-      const response = await request(app).get("/api/series/1/votes?limit=10&offset=5");
+      const response = await request(app)
+        .get("/api/series/1/votes?limit=10&offset=5");
       expect(response.status).toBe(200);
       expect(getVotes).toHaveBeenCalledWith(1, 10, 5);
     });
 
     it("should return 400 for invalid limit", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
       const response = await request(app).get("/api/series/1/votes?limit=0");
       expect(response.status).toBe(400);
-      expect(response.body).toEqual({ error: "Invalid limit" });
+      expect(response.body).toEqual({error: "Invalid limit"});
     });
 
     it("should return 400 for invalid offset", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
       const response = await request(app).get("/api/series/1/votes?offset=-1");
       expect(response.status).toBe(400);
-      expect(response.body).toEqual({ error: "Invalid offset" });
+      expect(response.body).toEqual({error: "Invalid offset"});
     });
 
     it("should return 400 for invalid series ID", async () => {
       const response = await request(app).get("/api/series/invalid/votes");
       expect(response.status).toBe(400);
       expect(response.headers["cache-control"]).toBeUndefined();
-      expect(response.body).toEqual({ error: "Invalid series ID" });
+      expect(response.body).toEqual({error: "Invalid series ID"});
     });
 
     it("should return 404 if series not found", async () => {
-      getSeriesByNumber.mockResolvedValue(null);
+      (getSeriesByNumber as jest.Mock).mockResolvedValue(null);
       const response = await request(app).get("/api/series/999/votes");
       expect(response.status).toBe(404);
       expect(response.headers["cache-control"]).toBeUndefined();
-      expect(response.body).toEqual({ error: "Series not found" });
+      expect(response.body).toEqual({error: "Series not found"});
     });
 
     it("should handle errors when fetching votes", async () => {
-      getSeriesByNumber.mockResolvedValue({ seriesNumber: 1 });
-      getVotes.mockRejectedValue(new Error("Database error"));
+      (getSeriesByNumber as jest.Mock).mockResolvedValue({seriesNumber: 1});
+      (getVotes as jest.Mock).mockRejectedValue(new Error("Database error"));
 
       const response = await request(app).get("/api/series/1/votes");
       expect(response.status).toBe(500);
-      expect(response.body).toEqual({ error: "Internal Server Error" });
+      expect(response.body).toEqual({error: "Internal Server Error"});
     });
   });
 });
