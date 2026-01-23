@@ -186,5 +186,122 @@ describe("Series US 2 Parsers", () => {
       // Episode 2 should be missing/undefined
       expect(result[0].progress[2]).toBeUndefined();
     });
+
+    it("should handle pending rowspans correctly when moving to next row", () => {
+      const html = `
+        <html>
+          <body>
+            <h2><span id="Elimination_history">Elimination history</span></h2>
+            <table>
+              <tbody>
+                <tr><th>Name</th><th>1</th><th>2</th></tr>
+                <tr>
+                  <th scope="row">Alice</th>
+                  <td rowspan="2">Safe</td>
+                  <td>Banished</td>
+                </tr>
+                <tr>
+                  <!-- Alice's rowspan covers col 1 -->
+                  <th scope="row">Bob</th>
+                  <td>Winner</td>
+                </tr>
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `;
+      // This test is similar to the rowspan one but explicitly targets the logic
+      // where pendingSpans are checked at the start of a column loop.
+      const result = parser.parse(html);
+      expect(result).toHaveLength(2);
+      expect(result[1].name).toBe("Bob");
+      expect(result[1].progress[1]).toBe("Safe");
+    });
+
+    it("should skip column if pending rowspan has remaining rows", () => {
+       const html = `
+        <html>
+          <body>
+            <h2><span id="Elimination_history">Elimination history</span></h2>
+            <table>
+              <tbody>
+                <tr><th>Name</th><th>1</th></tr>
+                <tr>
+                  <th scope="row">Alice</th>
+                  <td rowspan="3">Safe</td>
+                </tr>
+                <tr><th scope="row">Bob</th></tr>
+                <tr><th scope="row">Charlie</th></tr>
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `;
+      const result = parser.parse(html);
+      expect(result).toHaveLength(3);
+      expect(result[1].name).toBe("Bob");
+      expect(result[1].progress[1]).toBe("Safe");
+      expect(result[2].name).toBe("Charlie");
+      expect(result[2].progress[1]).toBe("Safe");
+    });
+
+    it("should handle rows where name cell fallback is needed (no th[scope=row])", () => {
+      const html = `
+        <html>
+          <body>
+            <h2><span id="Elimination_history">Elimination history</span></h2>
+            <table>
+              <tbody>
+                <tr><th>Name</th><th>1</th></tr>
+                <tr>
+                  <!-- No scope="row" -->
+                  <th>Alice</th>
+                  <td>Safe</td>
+                </tr>
+              </tbody>
+            </table>
+          </body>
+        </html>
+      `;
+      const result = parser.parse(html);
+      expect(result).toHaveLength(1);
+      expect(result[0].name).toBe("Alice");
+      expect(result[0].progress[1]).toBe("Safe");
+    });
+
+    it("should ignore metadata rows even if rowspan is active", () => {
+        const html = `
+         <html>
+           <body>
+             <h2><span id="Elimination_history">Elimination history</span></h2>
+             <table>
+               <tbody>
+                 <tr><th>Name</th><th>1</th><th>2</th></tr>
+                 <tr>
+                   <th scope="row">Alice</th>
+                   <td rowspan="2">Safe</td>
+                   <td>Banished</td>
+                 </tr>
+                 <tr>
+                   <!-- Metadata row, but column 1 is covered by Alice's rowspan -->
+                   <th scope="row">Traitors' Decision</th>
+                   <td>Murder</td>
+                 </tr>
+               </tbody>
+             </table>
+           </body>
+         </html>
+       `;
+       // Logic:
+       // Row 1 (Alice): Col 1 (Ep1) = Safe (rowspan 2), Col 2 (Ep2) = Banished.
+       // Row 2 (Decision): Col 1 is pending (Safe). Logic checks pendingSpans.
+       // Since it is NOT a candidate row, it should NOT add 'Safe' to any progress map.
+       // The parser logic `if (epNum && isCandidateRow)` inside the pending block handles this.
+
+       const result = parser.parse(html);
+       expect(result).toHaveLength(1);
+       expect(result[0].name).toBe("Alice");
+       // Ensure no random "Traitors' Decision" row appeared
+     });
   });
 });
