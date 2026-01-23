@@ -1,0 +1,39 @@
+# .github/workflows/ingest.yml
+name: Scheduled Data Ingestion
+
+on:
+  workflow_dispatch: # Allow manual triggering
+  schedule:
+    - cron: '0 8 * * *' # Run daily at 8:00 AM UTC
+
+jobs:
+  ingest-data:
+    name: Fetch and Persist Wikipedia Data
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write' # Required for Workload Identity Federation
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Authenticate to Google Cloud
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
+
+      - name: Run Ingestion Script
+        run: npm run ingest:ci
+        env:
+          NODE_ENV: production

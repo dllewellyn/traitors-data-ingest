@@ -13,6 +13,8 @@ import { Firestore } from "firebase-admin/firestore";
 export interface IngestionOptions {
   firestoreInstance?: Firestore;
   dryRun?: boolean;
+  storageWriter?: IStorageWriter;
+  series?: number[];
 }
 
 export async function runIngestionProcess(options: IngestionOptions = {}): Promise<void> {
@@ -24,9 +26,12 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
   const useFirestore = process.env.USE_FIRESTORE === "true";
   let seriesWriter: IStorageWriter | undefined;
 
-  // Decide if we should write
-  // We write if dryRun is true, OR if explicitly requested via env var or instance
-  if (options.dryRun || useFirestore || options.firestoreInstance) {
+  if (options.storageWriter) {
+    seriesWriter = options.storageWriter;
+    console.log("Using provided storage writer.");
+  } else if (options.dryRun || useFirestore || options.firestoreInstance) {
+    // Decide if we should write
+    // We write if dryRun is true, OR if explicitly requested via env var or instance
     try {
       seriesWriter = createStorageWriter({
         dryRun: options.dryRun,
@@ -46,7 +51,7 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
   }
 
   // URLs for each series
-  const urls = [
+  const allUrls = [
     "https://en.wikipedia.org/wiki/The_Traitors_(British_series_1)",
     "https://en.wikipedia.org/wiki/The_Traitors_(British_series_2)",
     "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_3",
@@ -54,21 +59,32 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
   ];
 
   // Instantiate scrapers
-  const scrapers = [
+  const allScrapers = [
     new Series1Scraper(),
     new Series2Scraper(),
     new Series3Scraper(),
     new Series4Scraper(),
   ];
 
+  // Determine which series to process
+  const targetSeriesIndices = options.series
+    ? options.series.map((s) => s - 1).filter((i) => i >= 0 && i < allUrls.length)
+    : allUrls.map((_, i) => i);
+
+  if (targetSeriesIndices.length === 0) {
+    console.warn("No valid series selected for processing.");
+    return;
+  }
+
   const allCandidates: Candidate[] = [];
   const allVotes: Vote[] = [];
 
   // Parallel fetch and parse
   const results = await Promise.all(
-    urls.map(async (url, index) => {
+    targetSeriesIndices.map(async (index) => {
+      const url = allUrls[index];
+      const scraper = allScrapers[index];
       const seriesNum = index + 1;
-      const scraper = scrapers[index];
       console.log(`Fetching Series ${seriesNum} from ${url}...`);
 
       try {
