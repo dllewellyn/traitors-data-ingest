@@ -1,9 +1,10 @@
 # Task Backlog
 
-- [ ] **Improve Scraper Robustness**
-  - [ ] Audit and enhance data normalizers and parsers to handle a wider range of unexpected Wikipedia formatting variations (e.g., different citation styles, unexpected whitespace, etc.).
-
 # Completed Work
+
+## Data Quality & Parsing
+- [x] **Improve Scraper Robustness**
+  - [x] Audit and enhance data normalizers and parsers to handle a wider range of unexpected Wikipedia formatting variations (e.g., different citation styles, unexpected whitespace, etc.).
 
 ## Fix Build & Runtime Errors
 - [x] **Fix Series 2 Name Parsing**
