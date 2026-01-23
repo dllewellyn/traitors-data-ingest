@@ -1,8 +1,17 @@
 import { Series1CandidateParser } from "./Series1CandidateParser";
-import { Role } from "../../domain/enums";
+import { Role, Status } from "../../domain/enums";
 
 describe("Series1CandidateParser", () => {
   const parser = new Series1CandidateParser();
+  let consoleWarnSpy: jest.SpyInstance;
+
+  beforeEach(() => {
+    consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation();
+  });
+
+  afterEach(() => {
+    consoleWarnSpy.mockRestore();
+  });
 
   it("should parse a standard row correctly", () => {
     const html = `
@@ -192,6 +201,9 @@ describe("Series1CandidateParser", () => {
     const result = parser.parse(html);
 
     expect(result).toHaveLength(0);
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      "Could not find the contestants table."
+    );
   });
 
   it("should skip a row with an unknown role", () => {
@@ -226,9 +238,12 @@ describe("Series1CandidateParser", () => {
     const result = parser.parse(html);
 
     expect(result).toHaveLength(0);
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      "Skipping row with unknown role: Unknown Role"
+    );
   });
 
-  it("should skip a row with an unhandled status", () => {
+  it("should handle a Withdrew status", () => {
     const html = `
       <html>
         <body>
@@ -244,7 +259,7 @@ describe("Series1CandidateParser", () => {
                 <th>Finish</th>
               </tr>
               <tr>
-                <td>More Bad Data</td>
+                <td>Valid Candidate</td>
                 <td>40</td>
                 <td>Another Place</td>
                 <td>Another Job</td>
@@ -259,6 +274,13 @@ describe("Series1CandidateParser", () => {
 
     const result = parser.parse(html);
 
-    expect(result).toHaveLength(0);
+    expect(result).toHaveLength(1);
+    expect(result[0].roundStates).toEqual([
+      {
+        episode: 2,
+        role: Role.Faithful,
+        status: Status.Withdrew,
+      },
+    ]);
   });
 });
