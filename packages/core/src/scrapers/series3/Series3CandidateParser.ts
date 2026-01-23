@@ -48,7 +48,7 @@ export class Series3CandidateParser implements TableParser<Candidate> {
         let originalRole: Role;
         if (affiliationText === "Traitor") {
           originalRole = Role.Traitor;
-        } else if (affiliationText === "Faithful") {
+        } else if (affiliationText === "Faithful" || affiliationText === "None") {
           originalRole = Role.Faithful;
         } else {
           // Handle "None" or other roles by defaulting to Faithful
