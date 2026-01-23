@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Series US 2 Scraper Integration should parse candidates correctly 1`] = `
+Array [
+  Object {
+    "age": 41,
+    "id": 0,
+    "job": "The Real World",
+    "location": "Fullerton, California",
+    "name": "Johnny \\"Bananas\\" Devenanzio",
+    "originalRole": "Faithful",
+    "roundStates": Array [
+      Object {
+        "episode": 2,
+        "role": "Faithful",
+        "status": "Murdered",
+      },
+    ],
+    "series": 2,
+  },
+  Object {
+    "age": 40,
+    "id": 1,
+    "job": "Survivor: Cook Islands",
+    "location": "Los Angeles, California",
+    "name": "Parvati Shallow",
+    "originalRole": "Traitor",
+    "roundStates": Array [
+      Object {
+        "episode": 8,
+        "role": "Traitor",
+        "status": "Banished",
+      },
+    ],
+    "series": 2,
+  },
+  Object {
+    "age": 40,
+    "id": 2,
+    "job": "Big Brother 10",
+    "location": "Dearborn, Michigan",
+    "name": "Dan Gheesling",
+    "originalRole": "Traitor",
+    "roundStates": Array [
+      Object {
+        "episode": 6,
+        "role": "Traitor",
+        "status": "Banished",
+      },
+    ],
+    "series": 2,
+  },
+  Object {
+    "age": 49,
+    "id": 3,
+    "job": "The Real Housewives of Atlanta[d]",
+    "location": "Atlanta, Georgia",
+    "name": "Phaedra Parks",
+    "originalRole": "Traitor",
+    "roundStates": Array [
+      Object {
+        "episode": 10,
+        "role": "Traitor",
+        "status": "Banished",
+      },
+    ],
+    "series": 2,
+  },
+  Object {
+    "age": 49,
+    "id": 4,
+    "job": "Survivor: Pearl Islands",
+    "location": "Fayetteville, North Carolina",
+    "name": "Sandra Diaz-Twine",
+    "originalRole": "Faithful",
+    "roundStates": Array [
+      Object {
+        "episode": 11,
+        "role": "Faithful",
+        "status": "Banished",
+      },
+    ],
+    "series": 2,
+  },
+  Object {
+    "age": 43,
+    "id": 5,
+    "job": "The Real World: Paris",
+    "location": "Boston, Massachusetts",
+    "name": "CT Tamburello",
+    "originalRole": "Faithful",
+    "roundStates": Array [
+      Object {
+        "episode": 11,
+        "role": "Faithful",
+        "status": "Winner",
+      },
+    ],
+    "series": 2,
+  },
+  Object {
+    "age": 43,
+    "id": 6,
+    "job": "The Real World: Las Vegas",
+    "location": "New Orleans, Louisiana",
+    "name": "Trishelle Cannatella",
+    "originalRole": "Faithful",
+    "roundStates": Array [
+      Object {
+        "episode": 11,
+        "role": "Faithful",
+        "status": "Winner",
+      },
+    ],
+    "series": 2,
+  },
+]
+`;
+
+exports[`Series US 2 Scraper Integration should parse progress/votes correctly 1`] = `
+Array [
+  Object {
+    "name": "CT",
+    "progress": Object {
+      "1": "Safe",
+      "10": "Safe",
+      "11": "Winner",
+      "12": "",
+      "2": "Safe",
+      "3": "Safe",
+      "4": "Safe",
+      "5": "Safe",
+      "6": "Safe",
+      "7": "Safe",
+      "8": "Safe",
+      "9": "Safe",
+    },
+  },
+  Object {
+    "name": "Trishelle",
+    "progress": Object {
+      "1": "Safe",
+      "10": "Safe",
+      "11": "Winner",
+      "12": "",
+      "2": "Safe",
+      "3": "Safe",
+      "4": "Safe",
+      "5": "Safe",
+      "6": "Safe",
+      "7": "Safe",
+      "8": "Safe",
+      "9": "Safe",
+    },
+  },
+  Object {
+    "name": "Sandra",
+    "progress": Object {
+      "1": "Safe",
+      "10": "Safe",
+      "11": "Banished",
+      "12": "",
+      "2": "Safe",
+      "3": "Safe",
+      "4": "Safe",
+      "5": "Safe",
+      "6": "Safe",
+      "7": "Safe",
+      "8": "Safe",
+      "9": "Safe",
+    },
+  },
+  Object {
+    "name": "Parvati",
+    "progress": Object {
+      "1": "Safe",
+      "10": "Eliminated",
+      "11": "Eliminated",
+      "12": "Eliminated",
+      "2": "Safe",
+      "3": "Safe",
+      "4": "Safe",
+      "5": "Safe",
+      "6": "Safe",
+      "7": "Safe",
+      "8": "Banished",
+      "9": "Eliminated",
+    },
+  },
+]
+`;

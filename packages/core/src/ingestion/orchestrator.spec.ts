@@ -7,6 +7,7 @@ import { Series1Scraper } from "../scrapers/Series1Scraper";
 import { Series2Scraper } from "../scrapers/Series2Scraper";
 import { Series3Scraper } from "../scrapers/Series3Scraper";
 import { Series4Scraper } from "../scrapers/Series4Scraper";
+import { SeriesUS2Scraper } from "../scrapers/SeriesUS2Scraper";
 import * as writerFactory from "../persistence/storage-writer-factory";
 import { Logger } from "../types";
 
@@ -19,6 +20,7 @@ jest.mock("../scrapers/Series1Scraper");
 jest.mock("../scrapers/Series2Scraper");
 jest.mock("../scrapers/Series3Scraper");
 jest.mock("../scrapers/Series4Scraper");
+jest.mock("../scrapers/SeriesUS2Scraper");
 jest.mock("firebase-admin/firestore", () => ({
   getFirestore: jest.fn(),
 }));
@@ -57,6 +59,10 @@ describe("Ingestion Orchestrator", () => {
         parseCandidates: jest.fn().mockReturnValue([]),
         parseProgress: jest.fn().mockReturnValue([]),
     }));
+    (SeriesUS2Scraper as jest.Mock).mockImplementation(() => ({
+        parseCandidates: jest.fn().mockReturnValue([]),
+        parseProgress: jest.fn().mockReturnValue([]),
+    }));
     (DataMerger as jest.Mock).mockImplementation(() => ({
         processVotes: jest.fn().mockReturnValue([]),
     }));
@@ -76,8 +82,8 @@ describe("Ingestion Orchestrator", () => {
 
     expect(DryRunStorageWriter).toHaveBeenCalled();
     expect(FirestoreStorageWriter).not.toHaveBeenCalled();
-    // We process 4 series, so write should be called 4 times
-    expect(mockDryRunWrite).toHaveBeenCalledTimes(4);
+    // We process 5 series (UK S1-4 + US S2), so write should be called 5 times
+    expect(mockDryRunWrite).toHaveBeenCalledTimes(5);
   });
 
   it("should use FirestoreStorageWriter when firestoreInstance is provided", async () => {
@@ -91,7 +97,7 @@ describe("Ingestion Orchestrator", () => {
 
     expect(FirestoreStorageWriter).toHaveBeenCalledWith(mockFirestore);
     expect(DryRunStorageWriter).not.toHaveBeenCalled();
-    expect(mockFirestoreWrite).toHaveBeenCalledTimes(4);
+    expect(mockFirestoreWrite).toHaveBeenCalledTimes(5);
   });
 
   it("should handle initialization error for Firestore writer", async () => {
@@ -124,11 +130,11 @@ describe("Ingestion Orchestrator", () => {
     await runIngestionProcess({ dryRun: true, logger: mockLogger });
 
     expect(mockLogger.error).toHaveBeenCalledWith(
-      expect.stringContaining("Error processing Series 1"),
+      expect.stringContaining("Error processing TRAITORS_UK_S1"),
       expect.any(Error)
     );
-    // Should still process other series
-    expect(mockFetch).toHaveBeenCalledTimes(4);
+    // Should still process other series (4 others out of 5)
+    expect(mockFetch).toHaveBeenCalledTimes(5);
   });
 
   it("should use provided storageWriter when provided in options", async () => {
@@ -139,7 +145,7 @@ describe("Ingestion Orchestrator", () => {
 
     expect(DryRunStorageWriter).not.toHaveBeenCalled();
     expect(FirestoreStorageWriter).not.toHaveBeenCalled();
-    expect(mockWrite).toHaveBeenCalledTimes(4);
+    expect(mockWrite).toHaveBeenCalledTimes(5);
   });
 
   it("should filter series based on series option", async () => {
