@@ -19,8 +19,8 @@
 - `packages/state/`, `packages/gemini/`, `packages/jules/`, `packages/github/`: Integration packages for external agents and tools.
 
 ### Firebase Functions
-- `functions/src/index.ts`: Entry point for Firebase Cloud Functions.
-- `functions/src/app.ts`: Express.js application serving the API.
+- `traitors-functions/src/index.ts`: Entry point for Firebase Cloud Functions.
+- `traitors-functions/src/app.ts`: Express.js application serving the API.
 
 ### Data & Scripts
 - `data/`: Local cache of scraped CSV files (historical/audit purposes).
