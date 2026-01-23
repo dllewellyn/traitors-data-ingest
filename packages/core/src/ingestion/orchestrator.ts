@@ -9,6 +9,7 @@ import { IStorageWriter } from "../persistence/IStorageWriter";
 import { Candidate, Vote } from "../domain/models";
 import { Series } from "../domain/series";
 import { Firestore } from "firebase-admin/firestore";
+import { Logger } from "../types";
 
 export interface IngestionOptions {
   firestoreInstance?: Firestore;
@@ -16,10 +17,31 @@ export interface IngestionOptions {
   storageWriter?: IStorageWriter;
   series?: number[];
   fetcher?: IWikipediaFetcher;
+  logger?: Logger;
+}
+
+class ConsoleLogger implements Logger {
+  info(message: string, ...args: unknown[]): void {
+    // eslint-disable-next-line no-console
+    console.log(message, ...args);
+  }
+  warn(message: string, ...args: unknown[]): void {
+    // eslint-disable-next-line no-console
+    console.warn(message, ...args);
+  }
+  error(message: string, ...args: unknown[]): void {
+    // eslint-disable-next-line no-console
+    console.error(message, ...args);
+  }
+  debug(message: string, ...args: unknown[]): void {
+    // eslint-disable-next-line no-console
+    console.debug(message, ...args);
+  }
 }
 
 export async function runIngestionProcess(options: IngestionOptions = {}): Promise<void> {
-  console.log("Starting ingestion process...");
+  const logger = options.logger || new ConsoleLogger();
+  logger.info("Starting ingestion process...");
 
   const fetcher = options.fetcher || new WikipediaFetcher();
   const merger = new DataMerger();
@@ -29,7 +51,7 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
 
   if (options.storageWriter) {
     seriesWriter = options.storageWriter;
-    console.log("Using provided storage writer.");
+    logger.info("Using provided storage writer.");
   } else if (options.dryRun || useFirestore || options.firestoreInstance) {
     // Decide if we should write
     // We write if dryRun is true, OR if explicitly requested via env var or instance
@@ -38,13 +60,13 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
         dryRun: options.dryRun,
         firestore: options.firestoreInstance,
       });
-      console.log(
+      logger.info(
         options.dryRun
           ? "Dry run mode enabled. No data will be written to Firestore."
           : "Firestore writer initialized."
       );
     } catch (error) {
-      console.warn(
+      logger.warn(
         "Failed to initialize Firestore writer. Ensure firebase-admin is initialized.",
         error
       );
@@ -73,7 +95,7 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
     : allUrls.map((_, i) => i);
 
   if (targetSeriesIndices.length === 0) {
-    console.warn("No valid series selected for processing.");
+    logger.warn("No valid series selected for processing.");
     return;
   }
 
@@ -86,22 +108,22 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
       const url = allUrls[index];
       const scraper = allScrapers[index];
       const seriesNum = index + 1;
-      console.log(`Fetching Series ${seriesNum} from ${url}...`);
+      logger.info(`Fetching Series ${seriesNum} from ${url}...`);
 
       try {
         const html = await fetcher.fetch(url);
 
-        console.log(`Parsing Series ${seriesNum} candidates...`);
+        logger.info(`Parsing Series ${seriesNum} candidates...`);
         const candidates = scraper.parseCandidates(html);
 
-        console.log(`Parsing Series ${seriesNum} progress...`);
+        logger.info(`Parsing Series ${seriesNum} progress...`);
         const progress = scraper.parseProgress(html);
 
-        console.log(`Processing Series ${seriesNum} votes...`);
+        logger.info(`Processing Series ${seriesNum} votes...`);
         const votes = merger.processVotes(seriesNum, candidates, progress);
 
         if (seriesWriter) {
-          console.log(
+          logger.info(
             options.dryRun
               ? `Simulating write for Series ${seriesNum}...`
               : `Writing Series ${seriesNum} to Firestore...`
@@ -117,7 +139,7 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
 
         return { candidates, votes };
       } catch (error) {
-        console.error(`Error processing Series ${seriesNum}:`, error);
+        logger.error(`Error processing Series ${seriesNum}:`, error);
         return { candidates: [], votes: [] };
       }
     })
@@ -129,8 +151,8 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
     allVotes.push(...res.votes);
   });
 
-  console.log(`Total Candidates: ${allCandidates.length}`);
-  console.log(`Total Votes: ${allVotes.length}`);
+  logger.info(`Total Candidates: ${allCandidates.length}`);
+  logger.info(`Total Votes: ${allVotes.length}`);
 
-  console.log("Ingestion process finished.");
+  logger.info("Ingestion process finished.");
 }

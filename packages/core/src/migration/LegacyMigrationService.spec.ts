@@ -2,7 +2,6 @@ import { LegacyMigrationService } from "./LegacyMigrationService";
 import { CsvReader } from "../services/CsvReader";
 import { DataMerger } from "../services/DataMerger";
 import { FirestoreStorageWriter } from "../persistence/firestore-writer";
-import { Role } from "../domain/enums";
 
 describe("LegacyMigrationService", () => {
   let service: LegacyMigrationService;
@@ -13,13 +12,13 @@ describe("LegacyMigrationService", () => {
   beforeEach(() => {
     mockReader = {
       read: jest.fn(),
-    } as any;
+    } as unknown as jest.Mocked<CsvReader>;
     mockMerger = {
       processVotes: jest.fn(),
-    } as any;
+    } as unknown as jest.Mocked<DataMerger>;
     mockWriter = {
       write: jest.fn(),
-    } as any;
+    } as unknown as jest.Mocked<FirestoreStorageWriter>;
 
     service = new LegacyMigrationService(mockReader, mockMerger, mockWriter);
   });

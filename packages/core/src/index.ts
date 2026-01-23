@@ -35,5 +35,8 @@ export * from './ingestion/orchestrator';
 // Export migration service
 export * from './migration/LegacyMigrationService';
 
+// Export types
+export * from './types';
+
 // Export generated API types
 export * as Api from './api/generated';

@@ -8,6 +8,8 @@ import { Series2Scraper } from "../scrapers/Series2Scraper";
 import { Series3Scraper } from "../scrapers/Series3Scraper";
 import { Series4Scraper } from "../scrapers/Series4Scraper";
 import * as writerFactory from "../persistence/storage-writer-factory";
+import { Logger } from "../types";
+import { Firestore } from "firebase-admin/firestore";
 
 // Mock dependencies
 jest.mock("../services/WikipediaFetcher");
@@ -21,6 +23,14 @@ jest.mock("../scrapers/Series4Scraper");
 jest.mock("firebase-admin/firestore", () => ({
   getFirestore: jest.fn(),
 }));
+
+// Mock Logger
+const mockLogger: Logger = {
+  info: jest.fn(),
+  warn: jest.fn(),
+  error: jest.fn(),
+  debug: jest.fn(),
+};
 
 // Spy on console methods
 const consoleWarnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
@@ -76,7 +86,7 @@ describe("Ingestion Orchestrator", () => {
     (FirestoreStorageWriter as jest.Mock).mockImplementation(() => ({
       write: mockFirestoreWrite,
     }));
-    const mockFirestore = {} as any;
+    const mockFirestore = {} as Firestore;
 
     await runIngestionProcess({ firestoreInstance: mockFirestore });
 
@@ -87,22 +97,15 @@ describe("Ingestion Orchestrator", () => {
 
   it("should handle initialization error for Firestore writer", async () => {
     // Mock createStorageWriter to throw error
-    // Note: We need to spy on the factory directly if it's not mocked at the module level
-    // In the previous plan, we removed the module-level mock for storage-writer-factory
-    // So here we are using the real factory, which imports FirestoreStorageWriter.
-    // However, FirestoreStorageWriter is mocked.
-    // If we want to simulate an error during initialization inside `runIngestionProcess`,
-    // we need `createStorageWriter` to fail.
-
-    // We can spy on `createStorageWriter` if we imported it as a module
     const createWriterSpy = jest.spyOn(writerFactory, "createStorageWriter");
     createWriterSpy.mockImplementation(() => {
       throw new Error("Init failed");
     });
 
-    await runIngestionProcess({ firestoreInstance: {} as any });
+    // Provide mockLogger to verify it captures the warning
+    await runIngestionProcess({ firestoreInstance: {} as Firestore, logger: mockLogger });
 
-    expect(consoleWarnSpy).toHaveBeenCalledWith(
+    expect(mockLogger.warn).toHaveBeenCalledWith(
       expect.stringContaining("Failed to initialize Firestore writer"),
       expect.any(Error)
     );
@@ -118,9 +121,10 @@ describe("Ingestion Orchestrator", () => {
       fetch: mockFetch,
     }));
 
-    await runIngestionProcess({ dryRun: true });
+    // Use mockLogger
+    await runIngestionProcess({ dryRun: true, logger: mockLogger });
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
+    expect(mockLogger.error).toHaveBeenCalledWith(
       expect.stringContaining("Error processing Series 1"),
       expect.any(Error)
     );
@@ -163,12 +167,32 @@ describe("Ingestion Orchestrator", () => {
     const mockWrite = jest.fn();
     const mockStorageWriter = { write: mockWrite };
 
+    // Use mockLogger
     await runIngestionProcess({
         storageWriter: mockStorageWriter,
-        series: [99] // Invalid series number
+        series: [99], // Invalid series number
+        logger: mockLogger
     });
 
-    expect(consoleWarnSpy).toHaveBeenCalledWith("No valid series selected for processing.");
+    expect(mockLogger.warn).toHaveBeenCalledWith("No valid series selected for processing.");
     expect(mockWrite).not.toHaveBeenCalled();
+  });
+
+  it("should use provided logger for logging", async () => {
+    await runIngestionProcess({ logger: mockLogger, dryRun: true });
+
+    expect(mockLogger.info).toHaveBeenCalledWith("Starting ingestion process...");
+    expect(mockLogger.info).toHaveBeenCalledWith("Ingestion process finished.");
+  });
+
+  it("should fall back to ConsoleLogger when no logger is provided", async () => {
+    // Spy on console.log
+    const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+
+    await runIngestionProcess({ dryRun: true });
+
+    expect(consoleLogSpy).toHaveBeenCalledWith("Starting ingestion process...");
+
+    consoleLogSpy.mockRestore();
   });
 });

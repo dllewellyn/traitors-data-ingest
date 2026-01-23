@@ -67,7 +67,7 @@ describe("CsvReader", () => {
   });
 
   it("should return an empty array if file not found (ENOENT)", async () => {
-    const error: any = new Error("File not found");
+    const error: Error & { code?: string } = new Error("File not found");
     error.code = "ENOENT";
     mockReadFile.mockRejectedValue(error);
 

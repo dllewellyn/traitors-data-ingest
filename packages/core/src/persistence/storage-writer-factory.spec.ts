@@ -1,7 +1,7 @@
 import { createStorageWriter } from "./storage-writer-factory";
 import { DryRunStorageWriter } from "./DryRunStorageWriter";
 import { FirestoreStorageWriter } from "./firestore-writer";
-import { getFirestore } from "firebase-admin/firestore";
+import { getFirestore, Firestore } from "firebase-admin/firestore";
 
 jest.mock("./DryRunStorageWriter");
 jest.mock("./firestore-writer");
@@ -22,7 +22,7 @@ describe("storage-writer-factory", () => {
   });
 
   it("should return FirestoreStorageWriter when firestoreInstance is provided", () => {
-    const mockFirestore = {} as any;
+    const mockFirestore = {} as Firestore;
     const writer = createStorageWriter({ firestore: mockFirestore });
     expect(writer).toBeInstanceOf(FirestoreStorageWriter);
     expect(FirestoreStorageWriter).toHaveBeenCalledWith(mockFirestore);
