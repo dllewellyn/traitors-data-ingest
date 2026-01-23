@@ -1,0 +1,50 @@
+name: Manual Data Ingestion
+
+on:
+  workflow_dispatch:
+    inputs:
+      series:
+        description: 'Series IDs (comma-separated, e.g., "1,2"). Leave blank for all.'
+        required: false
+        default: ''
+        type: string
+      dryRun:
+        description: 'Run in dry-run mode (validate but do not write to Firestore)'
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+  ingest-manual:
+    name: Manual Ingestion
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write' # Required for Workload Identity Federation
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Authenticate to Google Cloud
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: '${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ secrets.GCP_SERVICE_ACCOUNT }}'
+
+      - name: Run Manual Ingestion
+        run: |
+          npm run ingest:manual -- \
+            --series="${{ github.event.inputs.series }}" \
+            --dry-run=${{ github.event.inputs.dryRun }}
+        env:
+          NODE_ENV: production
