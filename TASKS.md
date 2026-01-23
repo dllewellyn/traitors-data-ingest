@@ -1,6 +1,16 @@
 # Task Backlog
 
+## Data Quality & Integrity
+- [ ] **Fix Recruited Traitor Original Roles (Series 1)**
+  - **Issue**: Kieran Tompsett is likely listed as `originalRole: Traitor` for the same reason.
+  - **Action**: Audit Series 1 data and apply similar fixes.
+
 # Completed Work
+
+## Data Quality & Parsing
+- [x] **Fix Recruited Traitor Original Roles (Series 2)**
+  - [x] Created regression test `packages/core/tests/integration/series2_recruitment.test.ts`.
+  - [x] Updated `Series2CandidateParser` to detect recruitment footnotes (`[a]`, `[b]`, `[c]`) and correctly assign `originalRole: Faithful`.
 
 ## CI/CD
 - [x] **Fix CI/CD Deployment Credentials Issue**

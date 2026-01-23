@@ -44,13 +44,19 @@ export class Series2CandidateParser implements TableParser<Candidate> {
         const age = parseInt($(columns[1]).text().trim(), 10);
         const hometown = $(columns[2]).text().trim();
         const occupation = $(columns[3]).text().trim();
+        // Get raw affiliation to check for recruitment notes
+        const rawAffiliation = $(columns[4]).text().trim();
         // Normalize affiliation text
-        const affiliationText = normalizeName($(columns[4]).text().trim());
+        const affiliationText = normalizeName(rawAffiliation);
         const finishText = $(columns[5]).text().trim();
 
         let originalRole: Role;
+
+        // Series 2 specific: Check for footnotes [a], [b], [c] which indicate recruitment
+        const isRecruited = /\[[abc]\]/.test(rawAffiliation);
+
         if (affiliationText === "Traitor") {
-          originalRole = Role.Traitor;
+          originalRole = isRecruited ? Role.Faithful : Role.Traitor;
         } else if (affiliationText === "Faithful") {
           originalRole = Role.Faithful;
         } else {
