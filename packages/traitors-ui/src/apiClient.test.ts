@@ -1,4 +1,4 @@
-import { getSeries, getCandidates } from './apiClient';
+import { getSeries, getCandidates, getVotes } from './apiClient';
 
 // Mock fetch globally
 global.fetch = jest.fn();
@@ -49,6 +49,28 @@ describe('apiClient', () => {
       });
 
       await expect(getCandidates('1')).rejects.toThrow('Failed to fetch candidates');
+    });
+  });
+
+  describe('getVotes', () => {
+    it('should fetch votes successfully', async () => {
+      const mockVotes = [{ id: 1, episode: 1, voterId: 101, votedForId: 102, seriesId: 1 }];
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: true,
+        json: async () => mockVotes,
+      });
+
+      const result = await getVotes('1');
+      expect(global.fetch).toHaveBeenCalledWith('/api/series/1/votes');
+      expect(result).toEqual(mockVotes);
+    });
+
+    it('should throw an error when fetch fails', async () => {
+      (global.fetch as jest.Mock).mockResolvedValue({
+        ok: false,
+      });
+
+      await expect(getVotes('1')).rejects.toThrow('Failed to fetch votes');
     });
   });
 });

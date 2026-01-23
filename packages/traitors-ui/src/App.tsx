@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
 import SeriesListView from './views/SeriesListView';
 import CandidateListView from './views/CandidateListView';
+import VotesListView from './views/VotesListView';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SeriesListView />} />
         <Route path="/series/:seriesId" element={<CandidateListView />} />
+        <Route path="/series/:seriesId/votes" element={<VotesListView />} />
       </Routes>
     </Container>
   );

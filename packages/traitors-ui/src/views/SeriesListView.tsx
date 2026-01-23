@@ -40,10 +40,22 @@ export default function SeriesListView() {
       </Typography>
       <List>
         {seriesList.map((series) => (
-          <ListItem key={series.id} component={Link} to={`/series/${series.id}`}>
+          <ListItem key={series.id}>
             <ListItemText
-              primary={series.title}
-              secondary={`Year: ${series.year}`}
+              primary={
+                <Link to={`/series/${series.id}`} style={{ marginRight: '16px' }}>
+                  {series.title}
+                </Link>
+              }
+              secondary={
+                <>
+                  <span>Year: {series.year}</span>
+                  <br />
+                  <Link to={`/series/${series.id}/votes`} style={{ fontSize: '0.9em' }}>
+                    View Votes
+                  </Link>
+                </>
+              }
             />
           </ListItem>
         ))}
