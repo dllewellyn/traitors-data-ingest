@@ -1,11 +1,5 @@
 # Task Backlog
 
-## Frontend Application
-- [ ] **Develop a web interface to display The Traitors data.**
-  - [x] Set up a new frontend project (e.g., using React/Vite).
-  - [x] Create views to display series, candidates, and votes.
-  - [x] Integrate with the existing Firestore-backed API.
-
 ## Data Expansion
 - [ ] **Expand data coverage to include international series.**
   - [ ] Research and identify reliable Wikipedia sources for UK Series 3, US Series 3, etc.
@@ -17,6 +11,12 @@
   - [ ] Create dashboards to track API usage and performance.
 
 # Completed Work
+
+## Frontend Application
+- [x] **Develop a web interface to display The Traitors data.**
+  - [x] Set up a new frontend project (e.g., using React/Vite).
+  - [x] Create views to display series, candidates, and votes.
+  - [x] Integrate with the existing Firestore-backed API.
 
 ## CI/CD
 - [x] **Improve Dependency Management in Deployment**
