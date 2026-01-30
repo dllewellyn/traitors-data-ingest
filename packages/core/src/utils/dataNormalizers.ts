@@ -67,6 +67,8 @@ export const normalizeGameStatus = (status: string): string => {
   if (/^runner-up/i.test(clean)) return "RunnerUp";
   if (/^eliminated/i.test(clean)) return "Eliminated";
   if (/^no\s*vote/i.test(clean)) return "Safe"; // No vote means they were present/safe
+  if (/^exiled/i.test(clean)) return "Safe"; // Exiled typically means temporarily removed but safe/still in game
+  if (/^not\s*in\s*game/i.test(clean)) return ""; // Not in game yet
 
   return clean;
 };
