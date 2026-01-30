@@ -11,7 +11,7 @@ import { IStorageWriter } from "../persistence/IStorageWriter";
 import { Candidate, Vote } from "../domain/models";
 import { Series } from "../domain/series";
 import { Firestore } from "firebase-admin/firestore";
-import { Logger } from "../types";
+import { ILogger } from "../types";
 
 export interface IngestionOptions {
   firestoreInstance?: Firestore;
@@ -20,10 +20,13 @@ export interface IngestionOptions {
   series?: number[];
   seriesIds?: string[];
   fetcher?: IWikipediaFetcher;
-  logger?: Logger;
+  logger?: ILogger;
 }
 
-class ConsoleLogger implements Logger {
+class ConsoleLogger implements ILogger {
+  log(message: string, ...args: any[]): void {
+    console.log(message, ...args);
+  }
   info(message: string, ...args: any[]): void {
     console.log(message, ...args);
   }
