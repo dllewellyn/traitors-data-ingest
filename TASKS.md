@@ -1,16 +1,16 @@
 # Task Backlog
 
-## Data Expansion
-- [ ] **Expand data coverage to include international series.**
-  - [ ] Research and identify reliable Wikipedia sources for UK Series 3, US Series 3, etc.
-  - [ ] Develop new scrapers or adapt existing ones for different page layouts.
-
 ## Operational Excellence
 - [ ] **Set up structured logging and monitoring for Cloud Functions.**
   - [ ] Integrate with Google Cloud Logging/Monitoring for better observability.
   - [ ] Create dashboards to track API usage and performance.
 
 # Completed Work
+
+## Data Expansion
+- [x] **Expand data coverage to include international series.**
+  - [x] Research and identify reliable Wikipedia sources for UK Series 3, US Series 3, etc.
+  - [x] Develop new scrapers or adapt existing ones for different page layouts.
 
 ## Frontend Application
 - [x] **Develop a web interface to display The Traitors data.**
