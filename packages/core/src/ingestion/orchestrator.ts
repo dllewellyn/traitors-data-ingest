@@ -3,6 +3,7 @@ import { Series2Scraper } from "../scrapers/Series2Scraper";
 import { Series3Scraper } from "../scrapers/Series3Scraper";
 import { Series4Scraper } from "../scrapers/Series4Scraper";
 import { SeriesUS2Scraper } from "../scrapers/SeriesUS2Scraper";
+import { SeriesUS3Scraper } from "../scrapers/SeriesUS3Scraper";
 import { WikipediaFetcher, IWikipediaFetcher } from "../services/WikipediaFetcher";
 import { DataMerger } from "../services/DataMerger";
 import { createStorageWriter } from "../persistence/storage-writer-factory";
@@ -107,6 +108,12 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
       scraper: new SeriesUS2Scraper(),
       id: "TRAITORS_US_S2",
       seriesNumber: 2,
+    },
+    {
+      url: "https://en.wikipedia.org/wiki/The_Traitors_(American_TV_series)_season_3",
+      scraper: new SeriesUS3Scraper(),
+      id: "TRAITORS_US_S3",
+      seriesNumber: 3,
     },
   ];
 
