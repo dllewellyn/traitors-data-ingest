@@ -24,6 +24,16 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+app.use((req, res, next) => {
+  logger.info({
+    message: "Request received",
+    method: req.method,
+    url: req.originalUrl,
+    ip: req.ip,
+  });
+  next();
+});
+
 // --- Mappers ---
 
 // eslint-disable-next-line new-cap
