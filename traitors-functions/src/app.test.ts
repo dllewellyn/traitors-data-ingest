@@ -7,6 +7,7 @@ import {
   getVotes,
 } from "./persistence/firestore";
 import {runIngestionProcess} from "@gcp-adl/core";
+import * as logger from "firebase-functions/logger";
 
 // Mocks must be declared before importing the module that uses them
 // (Note: jest.mock is hoisted, so placement doesn't strictly matter for
@@ -17,6 +18,12 @@ jest.mock("firebase-admin/app", () => ({
 
 jest.mock("firebase-admin/firestore", () => ({
   getFirestore: jest.fn(),
+}));
+
+jest.mock("firebase-functions/logger", () => ({
+  info: jest.fn(),
+  error: jest.fn(),
+  warn: jest.fn(),
 }));
 
 jest.mock("@gcp-adl/core", () => ({
@@ -31,6 +38,20 @@ jest.mock("./persistence/firestore", () => ({
 }));
 
 describe("Functions API", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe("Logging Middleware", () => {
+    it("should log incoming requests", async () => {
+      await request(app).get("/api/health");
+      expect(logger.info).toHaveBeenCalledWith(expect.objectContaining({
+        message: "Request received",
+        method: "GET",
+        url: "/api/health",
+      }));
+    });
+  });
   beforeEach(() => {
     jest.clearAllMocks();
   });
