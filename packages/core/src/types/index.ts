@@ -14,7 +14,8 @@ export interface TableParser<T> {
 /**
  * Defines a shared logger interface to decouple core logic from specific logging implementations.
  */
-export interface Logger {
+export interface ILogger {
+  log(message: string, ...args: any[]): void;
   info(message: string, ...args: any[]): void;
   warn(message: string, ...args: any[]): void;
   error(message: string, ...args: any[]): void;

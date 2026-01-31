@@ -1,20 +1,9 @@
 import { runIngestionProcess } from "../src/ingestion/orchestrator";
 import { FileBasedFetcher } from "./mocks/FileBasedFetcher";
 import { IStorageWriter } from "../src/persistence/IStorageWriter";
+import { ILogger } from "../src/types";
 
 describe("Clean Run Integration Test", () => {
-  let warnSpy: jest.SpyInstance;
-
-  beforeEach(() => {
-    // Spy on console.warn and suppress output to keep test clean.
-    // We will inspect calls if the test fails.
-    warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
-  });
-
-  afterEach(() => {
-    warnSpy.mockRestore();
-  });
-
   it("should run the full ingestion process for all series without any data quality warnings", async () => {
     const fileFetcher = new FileBasedFetcher();
 
@@ -23,21 +12,33 @@ describe("Clean Run Integration Test", () => {
       write: jest.fn().mockResolvedValue(undefined),
     };
 
+    // We don't explicitly type as ILogger here so that TypeScript knows
+    // these are jest.Mock functions and allows access to .mock property.
+    // They are still compatible with ILogger interface.
+    const mockLogger = {
+      log: jest.fn(),
+      info: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      debug: jest.fn(),
+    };
+
     await runIngestionProcess({
       fetcher: fileFetcher,
       storageWriter: mockWriter,
+      logger: mockLogger,
       // implicit: series defaults to all series (1-4)
     });
 
     // If there are warnings, print them so we can see what happened before failing
-    if (warnSpy.mock.calls.length > 0) {
+    if (mockLogger.warn.mock.calls.length > 0) {
       console.log("\n!!! CAPTURED WARNINGS START !!!\n");
-      warnSpy.mock.calls.forEach((args, index) => {
+      mockLogger.warn.mock.calls.forEach((args: any[], index: number) => {
         console.log(`Warning ${index + 1}:`, ...args);
       });
       console.log("\n!!! CAPTURED WARNINGS END !!!\n");
     }
 
-    expect(warnSpy).not.toHaveBeenCalled();
+    expect(mockLogger.warn).not.toHaveBeenCalled();
   }, 30000); // Increase timeout as processing all series might take time
 });
