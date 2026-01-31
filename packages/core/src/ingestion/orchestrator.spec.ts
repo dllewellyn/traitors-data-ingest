@@ -10,7 +10,7 @@ import { Series4Scraper } from "../scrapers/Series4Scraper";
 import { SeriesUS2Scraper } from "../scrapers/SeriesUS2Scraper";
 import { SeriesUS3Scraper } from "../scrapers/SeriesUS3Scraper";
 import * as writerFactory from "../persistence/storage-writer-factory";
-import { Logger } from "../types";
+import { ILogger } from "../types";
 
 // Mock dependencies
 jest.mock("../services/WikipediaFetcher");
@@ -28,7 +28,8 @@ jest.mock("firebase-admin/firestore", () => ({
 }));
 
 // Mock Logger
-const mockLogger: Logger = {
+const mockLogger: ILogger = {
+  log: jest.fn(),
   info: jest.fn(),
   warn: jest.fn(),
   error: jest.fn(),
