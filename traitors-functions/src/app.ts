@@ -1,5 +1,5 @@
 import express, {Request, Response, NextFunction} from "express";
-import * as logger from "firebase-functions/logger";
+import {logger} from "./utils/logger";
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
 import {
@@ -31,6 +31,7 @@ app.use((req, res, next) => {
     method: req.method,
     url: req.originalUrl,
     ip: req.ip,
+    userAgent: req.get("User-Agent"),
   });
   res.on("finish", () => {
     const duration = Date.now() - start;
@@ -285,6 +286,21 @@ app.use("/", apiRouter);
 // The original code had /status on root.
 app.get("/status", (req: Request, res: Response) => {
   res.status(200).json({status: "ok"});
+});
+
+// Global Error Handler
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  // We must define next for Express to recognize this as an error handler
+  void next;
+  logger.error({
+    message: "Unhandled error",
+    error: err,
+    stack: err.stack,
+  });
+  if (!res.headersSent) {
+    res.status(500).send({error: "Internal Server Error"});
+  }
 });
 
 export default app;
