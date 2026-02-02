@@ -12,6 +12,7 @@ import { Candidate, Vote } from "../domain/models";
 import { Series } from "../domain/series";
 import { Firestore } from "firebase-admin/firestore";
 import { ILogger } from "../types";
+import { ConsoleLogger } from "../utils/ConsoleLogger";
 
 export interface IngestionOptions {
   firestoreInstance?: Firestore;
@@ -21,24 +22,6 @@ export interface IngestionOptions {
   seriesIds?: string[];
   fetcher?: IWikipediaFetcher;
   logger?: ILogger;
-}
-
-class ConsoleLogger implements ILogger {
-  log(message: string, ...args: any[]): void {
-    console.log(message, ...args);
-  }
-  info(message: string, ...args: any[]): void {
-    console.log(message, ...args);
-  }
-  warn(message: string, ...args: any[]): void {
-    console.warn(message, ...args);
-  }
-  error(message: string, ...args: any[]): void {
-    console.error(message, ...args);
-  }
-  debug(message: string, ...args: any[]): void {
-    console.debug(message, ...args);
-  }
 }
 
 interface SeriesConfig {
@@ -53,7 +36,7 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
   logger.info("Starting ingestion process...");
 
   const fetcher = options.fetcher || new WikipediaFetcher();
-  const merger = new DataMerger();
+  const merger = new DataMerger(logger);
 
   const useFirestore = process.env.USE_FIRESTORE === "true";
   let seriesWriter: IStorageWriter | undefined;
@@ -84,37 +67,37 @@ export async function runIngestionProcess(options: IngestionOptions = {}): Promi
   const seriesConfigs: SeriesConfig[] = [
     {
       url: "https://en.wikipedia.org/wiki/The_Traitors_(British_series_1)",
-      scraper: new Series1Scraper(),
+      scraper: new Series1Scraper(logger),
       id: "TRAITORS_UK_S1",
       seriesNumber: 1,
     },
     {
       url: "https://en.wikipedia.org/wiki/The_Traitors_(British_series_2)",
-      scraper: new Series2Scraper(),
+      scraper: new Series2Scraper(logger),
       id: "TRAITORS_UK_S2",
       seriesNumber: 2,
     },
     {
       url: "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_3",
-      scraper: new Series3Scraper(),
+      scraper: new Series3Scraper(logger),
       id: "TRAITORS_UK_S3",
       seriesNumber: 3,
     },
     {
       url: "https://en.wikipedia.org/wiki/The_Traitors_(British_TV_series)_series_4",
-      scraper: new Series4Scraper(),
+      scraper: new Series4Scraper(logger),
       id: "TRAITORS_UK_S4",
       seriesNumber: 4,
     },
     {
       url: "https://en.wikipedia.org/wiki/The_Traitors_(American_TV_series)_season_2",
-      scraper: new SeriesUS2Scraper(),
+      scraper: new SeriesUS2Scraper(logger),
       id: "TRAITORS_US_S2",
       seriesNumber: 2,
     },
     {
       url: "https://en.wikipedia.org/wiki/The_Traitors_(American_TV_series)_season_3",
-      scraper: new SeriesUS3Scraper(),
+      scraper: new SeriesUS3Scraper(logger),
       id: "TRAITORS_US_S3",
       seriesNumber: 3,
     },

@@ -200,13 +200,13 @@ describe("Ingestion Orchestrator", () => {
   });
 
   it("should fall back to ConsoleLogger when no logger is provided", async () => {
-    // Spy on console.log
-    const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    // Spy on console.info
+    const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation(() => {});
 
     await runIngestionProcess({ dryRun: true });
 
-    expect(consoleLogSpy).toHaveBeenCalledWith("Starting ingestion process...");
+    expect(consoleInfoSpy).toHaveBeenCalledWith("Starting ingestion process...");
 
-    consoleLogSpy.mockRestore();
+    consoleInfoSpy.mockRestore();
   });
 });

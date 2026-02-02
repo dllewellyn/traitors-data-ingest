@@ -1,14 +1,17 @@
 import * as cheerio from "cheerio";
-import { TableParser } from "../../types";
+import { TableParser, ILogger } from "../../types";
 import { Candidate, RoundState } from "../../domain/models";
 import { Role } from "../../domain/enums";
 import { normalizeName } from "../../utils/dataNormalizers";
 import { parseFinishText } from "../../utils/statusParser";
+import { ConsoleLogger } from "../../utils/ConsoleLogger";
 
 /**
  * Parses the HTML from the Series 2 Wikipedia page to extract candidate data.
  */
 export class Series2CandidateParser implements TableParser<Candidate> {
+  constructor(private logger: ILogger = new ConsoleLogger()) {}
+
   /**
    * Parses the HTML content and returns an array of candidates.
    * @param html The HTML string to parse.
@@ -22,7 +25,7 @@ export class Series2CandidateParser implements TableParser<Candidate> {
     const table = contestantsHeading.nextAll("table").first();
 
     if (table.length === 0) {
-      console.warn("Could not find the contestants table.");
+      this.logger.warn("Could not find the contestants table.");
       return [];
     }
 
@@ -60,9 +63,11 @@ export class Series2CandidateParser implements TableParser<Candidate> {
           // If a Faithful becomes a Traitor, Wikipedia usually lists "Faithful" then "Traitor" or notes it.
           // In the grep output for Harry, it says "Traitor".
           // Let's assume standard roles. If unknown, log warn.
-          console.warn(
-            `Row ${i}: Unknown role '${affiliationText}' for ${name}. Defaulting to Faithful.`
-          );
+          this.logger.warn("Unknown role. Defaulting to Faithful.", {
+            rowIndex: i,
+            affiliationText,
+            name,
+          });
           originalRole = Role.Faithful;
         }
 

@@ -239,7 +239,8 @@ describe("Series1CandidateParser", () => {
 
     expect(result).toHaveLength(0);
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      "Skipping row with unknown role: Unknown Role"
+      "Skipping row with unknown role",
+      expect.objectContaining({ affiliationText: "Unknown Role" })
     );
   });
 

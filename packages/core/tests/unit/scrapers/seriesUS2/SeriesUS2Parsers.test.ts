@@ -64,7 +64,11 @@ describe("Series US 2 Parsers", () => {
       expect(result).toHaveLength(1);
       expect(result[0].originalRole).toBe(Role.Faithful);
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Unknown role 'Mystery' for Unknown Person")
+        "Unknown role. Defaulting to Faithful.",
+        expect.objectContaining({
+          affiliationText: "Mystery",
+          name: "Unknown Person",
+        })
       );
     });
   });

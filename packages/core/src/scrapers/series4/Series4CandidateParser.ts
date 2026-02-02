@@ -1,11 +1,14 @@
 import * as cheerio from "cheerio";
-import { TableParser } from "../../types";
+import { TableParser, ILogger } from "../../types";
 import { Candidate, RoundState } from "../../domain/models";
 import { Role } from "../../domain/enums";
 import { normalizeName } from "../../utils/dataNormalizers";
 import { parseFinishText } from "../../utils/statusParser";
+import { ConsoleLogger } from "../../utils/ConsoleLogger";
 
 export class Series4CandidateParser implements TableParser<Candidate> {
+  constructor(private logger: ILogger = new ConsoleLogger()) {}
+
   parse(html: string): Candidate[] {
     const $ = cheerio.load(html);
     const candidates: Candidate[] = [];
@@ -14,7 +17,7 @@ export class Series4CandidateParser implements TableParser<Candidate> {
     const table = contestantsHeading.nextAll("table").first();
 
     if (table.length === 0) {
-      console.warn("Could not find the contestants table.");
+      this.logger.warn("Could not find the contestants table.");
       return [];
     }
 
@@ -45,9 +48,11 @@ export class Series4CandidateParser implements TableParser<Candidate> {
           originalRole = Role.Faithful;
         } else {
           // Handle "None" or other roles by defaulting to Faithful
-          console.warn(
-            `Row ${i}: Unknown role '${affiliationText}' for ${name}. Defaulting to Faithful.`
-          );
+          this.logger.warn("Unknown role. Defaulting to Faithful.", {
+            rowIndex: i,
+            affiliationText,
+            name,
+          });
           originalRole = Role.Faithful;
         }
 

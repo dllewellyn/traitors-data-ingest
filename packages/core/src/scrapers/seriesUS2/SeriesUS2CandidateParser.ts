@@ -1,14 +1,17 @@
 import * as cheerio from "cheerio";
-import { TableParser } from "../../types";
+import { TableParser, ILogger } from "../../types";
 import { Candidate, RoundState } from "../../domain/models";
 import { Role } from "../../domain/enums";
 import { normalizeName } from "../../utils/dataNormalizers";
 import { parseFinishText } from "../../utils/statusParser";
+import { ConsoleLogger } from "../../utils/ConsoleLogger";
 
 /**
  * Parses the "Contestants" table from the US Series 2 Wikipedia page.
  */
 export class SeriesUS2CandidateParser implements TableParser<Candidate> {
+  constructor(private logger: ILogger = new ConsoleLogger()) {}
+
   /**
    * Parses the HTML content to extract candidate information.
    * @param html The HTML string to parse.
@@ -23,7 +26,7 @@ export class SeriesUS2CandidateParser implements TableParser<Candidate> {
     const table = contestantsHeading.nextAll("table").first();
 
     if (table.length === 0) {
-      console.warn("Could not find the contestants table.");
+      this.logger.warn("Could not find the contestants table.");
       return [];
     }
 
@@ -52,9 +55,11 @@ export class SeriesUS2CandidateParser implements TableParser<Candidate> {
         } else if (affiliationText === "Faithful") {
           originalRole = Role.Faithful;
         } else {
-          console.warn(
-            `Row ${i}: Unknown role '${affiliationText}' for ${name}. Defaulting to Faithful.`
-          );
+          this.logger.warn("Unknown role. Defaulting to Faithful.", {
+            rowIndex: i,
+            affiliationText,
+            name,
+          });
           originalRole = Role.Faithful;
         }
 
