@@ -157,9 +157,10 @@ describe("DataMerger", () => {
 
       const votes = merger.processVotes(1, candidates, progress);
       expect(votes).toHaveLength(0);
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Could not find voter ID for 'Unknown Person'")
-      );
+      expect(consoleWarnSpy).toHaveBeenCalledWith("Could not find voter ID", {
+        series: 1,
+        voterName: "Unknown Person",
+      });
     });
 
     it("should log warning if vote target ID not found", () => {
@@ -175,7 +176,13 @@ describe("DataMerger", () => {
       const votes = merger.processVotes(1, candidates, progress);
       expect(votes).toHaveLength(0);
       expect(consoleWarnSpy).toHaveBeenCalledWith(
-        expect.stringContaining("Could not resolve vote target 'Unknown Target' for voter 'Alice Smith'")
+        "Could not resolve vote target",
+        {
+          series: 1,
+          voteTargetName: "Unknown Target",
+          voterName: "Alice Smith",
+          episode: 1,
+        }
       );
     });
 

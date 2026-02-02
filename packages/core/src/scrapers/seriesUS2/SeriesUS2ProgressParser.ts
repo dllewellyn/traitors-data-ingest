@@ -1,15 +1,18 @@
 import * as cheerio from "cheerio";
-import { TableParser } from "../../types";
+import { TableParser, ILogger } from "../../types";
 import { CandidateProgressRow } from "../types";
 import {
   normalizeName,
   normalizeGameStatus,
 } from "../../utils/dataNormalizers";
+import { ConsoleLogger } from "../../utils/ConsoleLogger";
 
 /**
  * Parses the HTML from the US Series 2 Wikipedia page to extract candidate progress data.
  */
 export class SeriesUS2ProgressParser implements TableParser<CandidateProgressRow> {
+  constructor(private logger: ILogger = new ConsoleLogger()) {}
+
   /**
    * Parses the "Elimination history" table to extract voting and progress data.
    * @param html The HTML string to parse.
@@ -24,7 +27,7 @@ export class SeriesUS2ProgressParser implements TableParser<CandidateProgressRow
     const table = heading.nextAll("table").first();
 
     if (table.length === 0) {
-      console.warn("Could not find the Elimination history table.");
+      this.logger.warn("Could not find the Elimination history table.");
       return [];
     }
 
@@ -74,7 +77,7 @@ export class SeriesUS2ProgressParser implements TableParser<CandidateProgressRow
     });
 
     if (Object.keys(columnMap).length === 0) {
-      console.warn("Could not find episode headers.");
+      this.logger.warn("Could not find episode headers.");
       return [];
     }
 

@@ -1,14 +1,17 @@
 import * as cheerio from "cheerio";
-import { TableParser } from "../../types";
+import { TableParser, ILogger } from "../../types";
 import { Candidate, RoundState } from "../../domain/models";
 import { Role } from "../../domain/enums";
 import { normalizeName } from "../../utils/dataNormalizers";
 import { parseFinishText } from "../../utils/statusParser";
+import { ConsoleLogger } from "../../utils/ConsoleLogger";
 
 /**
  * Parses the HTML from the Series 1 Wikipedia page to extract candidate data.
  */
 export class Series1CandidateParser implements TableParser<Candidate> {
+  constructor(private logger: ILogger = new ConsoleLogger()) {}
+
   /**
    * Parses the HTML content and returns an array of candidates.
    * @param html The HTML string to parse.
@@ -22,7 +25,7 @@ export class Series1CandidateParser implements TableParser<Candidate> {
     const table = contestantsHeading.nextAll("table").first();
 
     if (table.length === 0) {
-      console.warn("Could not find the contestants table.");
+      this.logger.warn("Could not find the contestants table.");
       return [];
     }
 
@@ -32,7 +35,7 @@ export class Series1CandidateParser implements TableParser<Candidate> {
       .each((i, row) => {
         const columns = $(row).find("th, td");
         if (columns.length < 6) {
-          console.warn(`Skipping malformed row: ${$(row).text()}`);
+          this.logger.warn("Skipping malformed row", { rowText: $(row).text() });
           return;
         }
 
@@ -50,13 +53,13 @@ export class Series1CandidateParser implements TableParser<Candidate> {
         } else if (affiliationText === "Faithful") {
           originalRole = Role.Faithful;
         } else {
-          console.warn(`Skipping row with unknown role: ${affiliationText}`);
+          this.logger.warn("Skipping row with unknown role", { affiliationText });
           return;
         }
 
         const parsedFinish = parseFinishText(finishText);
         if (!parsedFinish && finishText) {
-          console.warn(`Skipping row with unhandled status: ${finishText}`);
+          this.logger.warn("Skipping row with unhandled status", { finishText });
           return;
         }
 

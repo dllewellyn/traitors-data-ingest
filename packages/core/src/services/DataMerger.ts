@@ -1,10 +1,14 @@
 import { Candidate, Vote } from "../domain/models";
 import { CandidateProgressRow } from "../scrapers/types";
+import { ILogger } from "../types";
+import { ConsoleLogger } from "../utils/ConsoleLogger";
 
 /**
  * Service for merging data from multiple series.
  */
 export class DataMerger {
+  constructor(private logger: ILogger = new ConsoleLogger()) {}
+
   /**
    * Merges multiple arrays of candidates into a single array.
    * @param datasets An array of candidate arrays.
@@ -64,9 +68,7 @@ export class DataMerger {
       }
 
       if (voterId === undefined) {
-        console.warn(
-          `Series ${series}: Could not find voter ID for '${voterName}'`
-        );
+        this.logger.warn("Could not find voter ID", { series, voterName });
         return;
       }
 
@@ -115,9 +117,12 @@ export class DataMerger {
             episode,
           });
         } else {
-          console.warn(
-            `Series ${series}: Could not resolve vote target '${voteTargetName}' for voter '${voterName}' in episode ${episode}.`
-          );
+          this.logger.warn("Could not resolve vote target", {
+            series,
+            voteTargetName,
+            voterName,
+            episode,
+          });
         }
       });
     });
