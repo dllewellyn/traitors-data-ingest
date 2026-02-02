@@ -25,11 +25,22 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
+  const start = Date.now();
   logger.info({
     message: "Request received",
     method: req.method,
     url: req.originalUrl,
     ip: req.ip,
+  });
+  res.on("finish", () => {
+    const duration = Date.now() - start;
+    logger.info({
+      message: "Request processed",
+      method: req.method,
+      url: req.originalUrl,
+      status: res.statusCode,
+      durationMs: duration,
+    });
   });
   next();
 });
@@ -104,14 +115,14 @@ const authMiddleware = (
 };
 
 apiRouter.post("/ingest", authMiddleware, (req: Request, res: Response) => {
-  logger.info("Ingestion triggered manually");
+  logger.info({message: "Ingestion triggered manually"});
   const dryRun = !!(req.body && req.body.dryRun);
   runIngestionProcess({firestoreInstance: getFirestore(), dryRun, logger})
     .then(() => {
-      logger.info("Ingestion completed successfully");
+      logger.info({message: "Ingestion completed successfully"});
     })
     .catch((err) => {
-      logger.error("Ingestion failed", err);
+      logger.error({message: "Ingestion failed", error: err});
     });
   res.status(202).send({status: "ingestion_started"});
 });
@@ -124,7 +135,7 @@ apiRouter.get("/series", async (req: Request, res: Response) => {
     res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
     res.json(response);
   } catch (err) {
-    logger.error("Error listing series", err);
+    logger.error({message: "Error listing series", error: err});
     res.status(500).send({error: "Internal Server Error"});
   }
 });
@@ -168,10 +179,10 @@ apiRouter.get("/series/:seriesId/votes",
       res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
       res.json(votes);
     } catch (err) {
-      logger.error(
-        `Error getting votes for series ${req.params.seriesId}`,
-        err
-      );
+      logger.error({
+        message: `Error getting votes for series ${req.params.seriesId}`,
+        error: err,
+      });
       res.status(500).send({error: "Internal Server Error"});
     }
   });
@@ -194,7 +205,10 @@ apiRouter.get("/series/:seriesId", async (req: Request, res: Response) => {
     res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
     res.json(mapSeries(series));
   } catch (err) {
-    logger.error(`Error getting series ${req.params.seriesId}`, err);
+    logger.error({
+      message: `Error getting series ${req.params.seriesId}`,
+      error: err,
+    });
     res.status(500).send({error: "Internal Server Error"});
   }
 });
@@ -255,9 +269,10 @@ apiRouter.get("/series/:seriesId/candidates",
       res.set("Cache-Control", "public, max-age=86400, s-maxage=86400");
       res.json(candidates);
     } catch (err) {
-      logger.error(
-        `Error getting candidates for series ${req.params.seriesId}`, err
-      );
+      logger.error({
+        message: `Error getting candidates for series ${req.params.seriesId}`,
+        error: err,
+      });
       res.status(500).send({error: "Internal Server Error"});
     }
   });
