@@ -4,28 +4,33 @@ set -e
 # setup-monitoring.sh
 #
 # This script sets up Google Cloud Monitoring Alert Policies for the Cloud Functions.
-# It requires the `gcloud` CLI to be installed and authenticated with a project selected.
+# It is designed to be idempotent and suitable for CI/CD execution.
 #
 # Usage: ./scripts/setup-monitoring.sh [NOTIFICATION_CHANNEL_ID]
 
-PROJECT_ID=$(gcloud config get-value project)
+PROJECT_ID=$(gcloud config get-value project 2>/dev/null || echo $GCP_PROJECT)
 NOTIFICATION_CHANNEL_ID=$1
 
 if [ -z "$PROJECT_ID" ]; then
   echo "Error: No Google Cloud project selected."
-  echo "Run 'gcloud config set project <PROJECT_ID>' first."
+  echo "Set GCP_PROJECT environment variable or run 'gcloud config set project <PROJECT_ID>'."
   exit 1
 fi
 
 echo "Setting up monitoring for project: $PROJECT_ID"
 
+POLICY_DISPLAY_NAME="Cloud Functions Errors"
+
+# Check if policy already exists
+EXISTING_POLICY=$(gcloud alpha monitoring policies list --format="value(name)" --filter="displayName=\"$POLICY_DISPLAY_NAME\"" --limit=1)
+
 # Define the policy structure in a temporary file
 POLICY_FILE=$(mktemp)
 
-# Start JSON construction
+# Construct JSON content
 cat <<EOF > "$POLICY_FILE"
 {
-  "displayName": "Cloud Functions Errors",
+  "displayName": "$POLICY_DISPLAY_NAME",
   "documentation": {
     "content": "Alerts when a Cloud Function logs an error.",
     "mimeType": "text/markdown"
@@ -43,17 +48,10 @@ EOF
 
 # Add notification channels if provided
 if [ -n "$NOTIFICATION_CHANNEL_ID" ]; then
-  # We need to append the notification channels to the JSON
-  # Using jq would be cleaner, but we avoid dependencies.
-  # We'll just edit the file end or use strict formatting.
-
-  # Remove the last closing brace and append channels
-  # (Simplistic approach assuming the format above)
-
-  # Actually, let's just rewrite the whole file with the channel included if present
+  # Rewrite file to include notification channels
   cat <<EOF > "$POLICY_FILE"
 {
-  "displayName": "Cloud Functions Errors",
+  "displayName": "$POLICY_DISPLAY_NAME",
   "documentation": {
     "content": "Alerts when a Cloud Function logs an error.",
     "mimeType": "text/markdown"
@@ -73,17 +71,19 @@ if [ -n "$NOTIFICATION_CHANNEL_ID" ]; then
 }
 EOF
 else
-  # Close the JSON object
+  # Close the JSON object if no channel
   echo "}" >> "$POLICY_FILE"
 fi
 
-echo "Creating Alert Policy from definition..."
-cat "$POLICY_FILE"
-
-# Execute the command
-gcloud alpha monitoring policies create --policy-from-file="$POLICY_FILE"
+if [ -n "$EXISTING_POLICY" ]; then
+  echo "Updating existing Alert Policy: $EXISTING_POLICY..."
+  gcloud alpha monitoring policies update "$EXISTING_POLICY" --policy-from-file="$POLICY_FILE"
+else
+  echo "Creating new Alert Policy..."
+  gcloud alpha monitoring policies create --policy-from-file="$POLICY_FILE"
+fi
 
 # Cleanup
 rm "$POLICY_FILE"
 
-echo "Alert Policy setup initiated."
+echo "Alert Policy setup completed."
