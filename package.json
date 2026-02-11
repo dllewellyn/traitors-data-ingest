@@ -72,7 +72,7 @@
   "dependencies": {
     "@gcp-adl/core": "file:packages/core",
     "@types/yargs": "^17.0.35",
-    "axios": "^1.7.2",
+    "axios": "^1.13.5",
     "cheerio": "^1.0.0-rc.12",
     "csv-parse": "^6.1.0",
     "csv-stringify": "^6.5.0",
